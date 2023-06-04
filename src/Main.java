@@ -1,7 +1,7 @@
 package src;
 
 import src.util.Button;
-import src.game.Level;
+import src.game.level.Level;
 import src.game.level.Level1;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -48,19 +48,14 @@ public class Main extends PApplet {
 
     public void draw() {
         background(background);
-
         if (currentPage == mainmenu) {
             playButton.update(mouseX, mouseY, mousePressed);
             playButton.display(this);
             settingsButton.update(mouseX, mouseY, mousePressed);
             settingsButton.display(this);
-
             if (playButton.isClicked()) {
-                System.out.println("playButton pressed");
                 goToGame();
-            }
-            if (settingsButton.isClicked()) {
-                System.out.println("settingsButton pressed");
+            } else if (settingsButton.isClicked()) {
                 goToSettings();
             }
         } else if (currentPage == settings) {
@@ -99,10 +94,8 @@ public class Main extends PApplet {
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (adventureButton.isClicked()) {
-            System.out.println("adventureButton pressed");
             goToAdventureMenu();
         } else if (versusButton.isClicked()) {
-            System.out.println("versusButton pressed");
         }
     }
 
@@ -129,20 +122,26 @@ public class Main extends PApplet {
         Button backButton = new Button(50, 50, 100, 50, "Back");
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
-        if (backButton.isClicked()) {
-            goToPreviousPage();
-        }
+        boolean levelSelected = false;
+        int opt = -1;
         for (int i = 0; i < jumlahLevel; i++) {
             Button levelButton = new Button(300, 300 + (100 * i), 100, 50, "Level " + (i + 1));
             levelButton.display(this);
             levelButton.update(mouseX, mouseY, mousePressed);
 
             if (levelButton.isClicked()) {
-                if(i == 0){
-                    levels[i].setup();
-                }
-                System.out.println("Level " + i + 1);
+                levelSelected = true;
+                opt = i;
             }
         }
+        if (backButton.isClicked()) {
+            goToPreviousPage();
+        } else if (levelSelected && opt != -1) {
+            String[] levStrings = { "Level" + opt };
+            PApplet.runSketch(levStrings, levels[opt]);
+            surface.setVisible(false);
+        }
     }
+    
+    
 }

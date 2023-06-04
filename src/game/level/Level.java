@@ -1,16 +1,16 @@
-package src.game;
+package src.game.level;
 
 import processing.core.PApplet;
 
-public abstract class Level {
-    private PApplet parent;
+public abstract class Level extends PApplet {
+    protected PApplet parent;
 
     public Level(PApplet parent) {
         this.parent = parent;
     }
 
-    public PApplet getParent() {
-        return parent;
+    public void settings() {
+        size(1280, 720);
     }
 
     public abstract void setup();
