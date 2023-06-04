@@ -1,6 +1,6 @@
 @echo off
 
-javac -d output -cp "lib/*" src/*.java src/interface/*.java
+javac -d output -cp "lib/*" src/*.java src/util/*.java
 
 cd output
 
