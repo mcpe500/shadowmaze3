@@ -9,11 +9,12 @@ public abstract class Level extends PApplet {
         this.parent = parent;
     }
 
-    public void settings() {
-        size(1280, 720);
-    }
-
     public abstract void setup();
 
     public abstract void draw();
+
+    @Override
+    public void settings() {
+        parent.size(1280, 720);
+    }
 }

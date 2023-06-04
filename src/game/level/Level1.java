@@ -17,7 +17,7 @@ public class Level1 extends Level {
     }
 
     public void draw() {
-        // text("Level 1 ", 100, 100, 100, 100);
+        text("Level 1 ", 100, 100, 100, 100);
         for (int i = 0; i < this.map.length; i++) {
             for (int j = 0; j < this.map[i].length; j++) {
                 if (map[i][j] != null) {
@@ -27,4 +27,8 @@ public class Level1 extends Level {
         }
     }
 
+    @Override
+    public void settings() {
+        parent.size(1280, 720);
+    }
 }

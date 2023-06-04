@@ -136,12 +136,20 @@ public class Main extends PApplet {
         }
         if (backButton.isClicked()) {
             goToPreviousPage();
-        } else if (levelSelected && opt != -1) {
-            String[] levStrings = { "Level" + opt };
-            PApplet.runSketch(levStrings, levels[opt]);
-            surface.setVisible(false);
+        } else if (levelSelected && opt == 0) {
+            goToLevel1();
+            // String[] levStrings = { "Level" + opt };
+            // PApplet.runSketch(levStrings, levels[opt]);
+            // surface.setVisible(false);
         }
     }
-    
-    
+
+    public void goToLevel1() {
+        levels[0].settings();
+        levels[0].setup();
+        String[] levStrings = { "Level1" };
+        PApplet.runSketch(levStrings, levels[0]);
+        surface.setVisible(false);
+    }
+
 }
