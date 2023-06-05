@@ -19,7 +19,7 @@ public abstract class Tile {
         this.y = y;
     }
 
-    public void display() {
+    public void draw(PApplet parent) {
         parent.image(image, x, y, width, height);
     }
 }

@@ -11,6 +11,12 @@ public class Main extends PApplet {
     private PImage background;
     private Button playButton;
     private Button settingsButton;
+    private Button backButton;
+    private Button level1Button;
+    private Button level2Button;
+    private Button level3Button;
+    private Button level4Button;
+    private Button level5Button;
 
     private final int mainmenu = 0;
     private final int settings = 1;
@@ -21,8 +27,6 @@ public class Main extends PApplet {
 
     private int currentPage;
     private int previousPage;
-
-    private Level[] levels;
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -41,6 +45,12 @@ public class Main extends PApplet {
         playButton.setImage(loadImage("../assets/sprites/start_button.png"));
         settingsButton = new Button(200, 200, 200, 100, "Settings");
         settingsButton.setImage(loadImage("../assets/sprites/settings_button.png"));
+        backButton = new Button(50, 50, 100, 50, "Back");
+        level1Button = new Button(100, 100, 100, 50, "Level 1");
+        level2Button = new Button(100, 200, 100, 50, "Level 2");
+        level3Button = new Button(100, 300, 100, 50, "Level 3");
+        level4Button = new Button(100, 400, 100, 50, "Level 4");
+        level5Button = new Button(100, 500, 100, 50, "Level 5");
 
         currentPage = mainmenu;
         previousPage = mainmenu;
@@ -68,7 +78,6 @@ public class Main extends PApplet {
     }
 
     public void displaySettings() {
-        Button backButton = new Button(50, 50, 100, 50, "Back");
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
 
@@ -78,7 +87,6 @@ public class Main extends PApplet {
     }
 
     public void displayGameMenu() {
-        Button backButton = new Button(50, 50, 100, 50, "Back");
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
         Button adventureButton = new Button(300, 300, 100, 50, "Adventure");
@@ -89,7 +97,6 @@ public class Main extends PApplet {
         versusButton.setImage(loadImage("../assets/sprites/versus_button.png"));
         versusButton.display(this);
         versusButton.update(mouseX, mouseY, mousePressed);
-        // adventureButton.setImage(loadImage("../assets/sprites/adventure_button.png"));
 
         if (backButton.isClicked()) {
             goToPreviousPage();
@@ -117,38 +124,30 @@ public class Main extends PApplet {
     }
 
     public void displayAdventureMenu() {
-        levels = new Level[jumlahLevel];
-        levels[0] = new Level1(this);
-        Button backButton = new Button(50, 50, 100, 50, "Back");
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
-        boolean levelSelected = false;
-        int opt = -1;
-        for (int i = 0; i < jumlahLevel; i++) {
-            Button levelButton = new Button(300, 300 + (100 * i), 100, 50, "Level " + (i + 1));
-            levelButton.display(this);
-            levelButton.update(mouseX, mouseY, mousePressed);
-
-            if (levelButton.isClicked()) {
-                levelSelected = true;
-                opt = i;
-            }
-        }
+        level1Button.display(this);
+        level1Button.update(mouseX, mouseY, mousePressed);
+        level2Button.display(this);
+        level2Button.update(mouseX, mouseY, mousePressed);
+        level3Button.display(this);
+        level3Button.update(mouseX, mouseY, mousePressed);
+        level4Button.display(this);
+        level4Button.update(mouseX, mouseY, mousePressed);
+        level5Button.display(this);
+        level5Button.update(mouseX, mouseY, mousePressed);
         if (backButton.isClicked()) {
             goToPreviousPage();
-        } else if (levelSelected && opt == 0) {
+        } else if (level1Button.isClicked()) {
+            System.out.println("Level 1");
             goToLevel1();
-            // String[] levStrings = { "Level" + opt };
-            // PApplet.runSketch(levStrings, levels[opt]);
-            // surface.setVisible(false);
+            level1Button.setEnabled(false);
         }
     }
 
     public void goToLevel1() {
-        levels[0].settings();
-        levels[0].setup();
         String[] levStrings = { "Level1" };
-        PApplet.runSketch(levStrings, levels[0]);
+        PApplet.runSketch(levStrings, new Level1(this));
         surface.setVisible(false);
     }
 
