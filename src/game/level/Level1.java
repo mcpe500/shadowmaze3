@@ -23,7 +23,6 @@ public class Level1 extends PApplet {
     public void setup() {
         String[][] strMap = MapLoader.loadMap(parent, "../assets/maps/map1.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
-
     }
 
     public void draw() {
@@ -37,5 +36,15 @@ public class Level1 extends PApplet {
         }
         player.display(this);
         player.playerController(this);
+    }
+
+    @Override
+    public void keyPressed() {
+        player.keyPressed(key);
+    }
+
+    @Override
+    public void keyReleased() {
+        player.keyReleased(key);
     }
 }

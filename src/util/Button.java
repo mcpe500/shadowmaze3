@@ -5,15 +5,15 @@ import processing.core.PImage;
 
 public class Button {
 
-    private int x, y; // Position of the button
-    private int width, height; // Dimensions of the button
-    private PImage image; // Image for the button
-    private String label; // Label text for the button
-    private int baseColor; // Base color of the button
-    private int highlightColor; // Color when the button is highlighted
-    private boolean isOver; // Flag to indicate if the mouse is over the button
-    private boolean isPressed; // Flag to indicate if the button is pressed
-    private boolean isEnabled; // Flag to indicate if the button is enabled
+    private int x, y;
+    private int width, height;
+    private PImage image;
+    private String label;
+    private int baseColor;
+    private int highlightColor;
+    private boolean isOver;
+    private boolean isPressed;
+    private boolean isEnabled;
 
     public Button(int x, int y, int width, int height, String label) {
         this.x = x;

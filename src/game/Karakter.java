@@ -44,12 +44,10 @@ public abstract class Karakter implements Movable {
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0) {
-            // Karakter telah mati
-            // Lakukan tindakan yang sesuai, seperti menghapus karakter dari permainan
         }
     }
 
     public void display(PApplet applet) {
-        applet.rect(x, y, 50, 50);
+        applet.rect(x, y, 32, 32);
     }
 }

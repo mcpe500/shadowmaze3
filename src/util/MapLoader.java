@@ -26,10 +26,10 @@ public class MapLoader {
                 } else if (arrMap[i][j].equals("1")) {
                     tileMap[i][j] = new Wall(parent, bSize, bSize, bX, bY);
                 }
-                bX += bSize; // Increment the x position for the next block
+                bX += bSize;
             }
-            bX = 0; // Reset the x position for the next row
-            bY += bSize; // Increment the y position for the next row
+            bX = 0;
+            bY += bSize;
         }
         return tileMap;
     }
