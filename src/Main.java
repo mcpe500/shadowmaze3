@@ -3,6 +3,10 @@ package src;
 import src.util.Button;
 import src.game.level.Level;
 import src.game.level.Level1;
+import src.game.level.Level2;
+import src.game.level.Level3;
+import src.game.level.Level4;
+import src.game.level.Level5;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -142,12 +146,52 @@ public class Main extends PApplet {
             System.out.println("Level 1");
             goToLevel1();
             level1Button.setEnabled(false);
+        } else if (level2Button.isClicked()) {
+            System.out.println("Level 2");
+            goToLevel2();
+            level2Button.setEnabled(false);
+        } else if (level3Button.isClicked()) {
+            System.out.println("Level 3");
+            goToLevel3();
+            level3Button.setEnabled(false);
+        } else if (level4Button.isClicked()) {
+            System.out.println("Level 4");
+            goToLevel4();
+            level4Button.setEnabled(false);
+        } else if (level5Button.isClicked()) {
+            System.out.println("Level 5");
+            goToLevel5();
+            level5Button.setEnabled(false);
         }
     }
 
     public void goToLevel1() {
         String[] levStrings = { "Level1" };
         PApplet.runSketch(levStrings, new Level1(this));
+        surface.setVisible(false);
+    }
+
+    public void goToLevel2() {
+        String[] levStrings = { "Level2" };
+        PApplet.runSketch(levStrings, new Level2(this));
+        surface.setVisible(false);
+    }
+
+    public void goToLevel3() {
+        String[] levStrings = { "Level3" };
+        PApplet.runSketch(levStrings, new Level3(this));
+        surface.setVisible(false);
+    }
+
+    public void goToLevel4() {
+        String[] levStrings = { "Level4" };
+        PApplet.runSketch(levStrings, new Level4(this));
+        surface.setVisible(false);
+    }
+
+    public void goToLevel5() {
+        String[] levStrings = { "Level5" };
+        PApplet.runSketch(levStrings, new Level5(this));
         surface.setVisible(false);
     }
 

@@ -77,18 +77,18 @@ public class Wall extends Tile implements Collidable {
                 if (xOverlap < yOverlap) {
                     if (playerX < x) {
                         player.setX((int) (x - player.getWidth()));
-                        player.stopRight();
+                        // player.stopRight();
                     } else {
                         player.setX((int) (x + width));
-                        player.stopLeft();
+                        // player.stopLeft();
                     }
                 } else {
                     if (playerY < y) {
                         player.setY((int) (y - player.getHeight()));
-                        player.stopDown();
+                        // player.stopDown();
                     } else {
                         player.setY((int) (y + height));
-                        player.stopUp();
+                        // player.stopUp();
                     }
                 }
             }

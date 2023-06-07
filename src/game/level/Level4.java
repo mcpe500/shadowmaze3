@@ -6,13 +6,13 @@ import src.game.Tile.Wall;
 import src.util.MapLoader;
 import processing.core.PApplet;
 
-public class Level1 extends PApplet {
+public class Level4 extends PApplet {
     private Tile[][] map;
     private PApplet parent;
     private Player player;
     private int width, height;
 
-    public Level1(PApplet parent) {
+    public Level4(PApplet parent) {
         width = 1280;
         height = 720;
         this.parent = parent;
@@ -25,7 +25,7 @@ public class Level1 extends PApplet {
     }
 
     public void setup() {
-        String[][] strMap = MapLoader.loadMap(parent, "../assets/maps/map1.txt");
+        String[][] strMap = MapLoader.loadMap(parent, "../assets/maps/map4.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
     }
 
