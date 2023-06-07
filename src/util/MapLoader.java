@@ -19,16 +19,22 @@ public class MapLoader {
 
     public static Tile[][] tileMap(PApplet parent, String[][] arrMap, int bSize, int bX, int bY) {
         Tile[][] tileMap = new Tile[arrMap.length][arrMap[0].length];
+        int savebX = bX;
         for (int i = 0; i < arrMap.length; i++) {
             for (int j = 0; j < arrMap[0].length; j++) {
-                if (arrMap[i][j].equals("0")) {
-                    tileMap[i][j] = new Stonefloor(parent, bSize, bSize, bX, bY);
-                } else if (arrMap[i][j].equals("1")) {
-                    tileMap[i][j] = new Wall(parent, bSize, bSize, bX, bY);
+                switch (arrMap[i][j]) {
+                    case "0":
+                        tileMap[i][j] = new Stonefloor(parent, bSize, bSize, bX, bY);
+                        break;
+                    case "1":
+                        tileMap[i][j] = new Wall(parent, bSize, bSize, bX, bY);
+                        break;
+                    default:
+                        break;
                 }
                 bX += bSize;
             }
-            bX = 0;
+            bX = savebX;
             bY += bSize;
         }
         return tileMap;
