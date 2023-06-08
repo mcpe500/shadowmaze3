@@ -57,6 +57,16 @@ public class Level2 extends PApplet {
         player.display(this);
         player.playerController(this);
 
+        // Circle overlay
+        int radius = 200;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (Math.pow((j+cameraX-player.getX()), 2)+Math.pow((i+cameraY-player.getY()), 2) >= Math.pow(radius, 2)) {
+                    set(j, i, color(0, 0, 0));
+                }
+            }
+        }
+
         // Reset the transformations
         popMatrix();
     }
