@@ -105,4 +105,5 @@ public class Player extends Karakter implements Collidable {
             c.onCollision(this);
         }
     }
+
 }

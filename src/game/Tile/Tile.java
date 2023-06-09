@@ -22,4 +22,8 @@ public abstract class Tile {
     public void draw(PApplet parent) {
         parent.image(image, x, y, width, height);
     }
+
+    public void setImage(PImage image) {
+        this.image = image;
+    }
 }

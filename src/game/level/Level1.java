@@ -1,6 +1,8 @@
 package src.game.level;
 
 import src.game.Player;
+import src.game.Tile.Beartrap;
+import src.game.Tile.Lava;
 import src.game.Tile.Tile;
 import src.game.Tile.Wall;
 import src.util.MapLoader;
@@ -16,7 +18,7 @@ public class Level1 extends PApplet {
         width = 1280;
         height = 720;
         this.parent = parent;
-        player = new Player(170, 170, 2, 100, 10, 16, 16);
+        player = new Player(170, 170, 5, 100, 10, 16, 16);
     }
 
     @Override
@@ -50,6 +52,12 @@ public class Level1 extends PApplet {
                     if (this.map[i][j] instanceof Wall) {
                         Wall wall = (Wall) this.map[i][j];
                         wall.onCollision(player);
+                    } else if (this.map[i][j] instanceof Beartrap) {
+                        Beartrap beartrap = (Beartrap) this.map[i][j];
+                        beartrap.onCollision(player);
+                    } else if (this.map[i][j] instanceof Lava) {
+                        Lava lava = (Lava) this.map[i][j];
+                        lava.onCollision(player);
                     }
                 }
             }
@@ -61,7 +69,8 @@ public class Level1 extends PApplet {
         int radius = 200;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (Math.pow((j+cameraX-player.getX()), 2)+Math.pow((i+cameraY-player.getY()), 2) >= Math.pow(radius, 2)) {
+                double distance = Math.pow((j+cameraX-player.getX()), 2)+Math.pow((i+cameraY-player.getY()), 2);
+                if (distance >= Math.pow(radius, 2)) {
                     set(j, i, color(0, 0, 0));
                 }
             }
