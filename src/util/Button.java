@@ -24,6 +24,7 @@ public class Button {
         this.label = label;
         this.baseColor = 200;
         this.highlightColor = 255;
+        this.alpha = 255;
         this.isPressed = false;
         this.isEnabled = true;
     }
