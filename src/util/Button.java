@@ -11,6 +11,7 @@ public class Button {
     private String label;
     private int baseColor;
     private int highlightColor;
+    private int alpha;
     private boolean isOver;
     private boolean isPressed;
     private boolean isEnabled;
@@ -31,9 +32,10 @@ public class Button {
         this.image = image;
     }
 
-    public void setColor(int baseColor, int highlightColor) {
+    public void setColor(int baseColor, int highlightColor, int alpha) {
         this.baseColor = baseColor;
         this.highlightColor = highlightColor;
+        this.alpha = alpha;
     }
 
     public void setEnabled(boolean isEnabled) {
@@ -43,9 +45,9 @@ public class Button {
     public void display(PApplet sketch) {
         if (isEnabled) {
             if (isOver) {
-                sketch.fill(highlightColor);
+                sketch.fill(highlightColor, alpha);
             } else {
-                sketch.fill(baseColor);
+                sketch.fill(baseColor, alpha);
             }
         } else {
             sketch.fill(100);

@@ -54,23 +54,22 @@ public class Main extends PApplet {
     public void setup() {
         background = loadImage("../assets/sprites/SL_menu.png");
         background.resize(1280, 720);
-        playButton = new Button(100, 100, 100, 100, "Start");
-        settingsButton = new Button(200, 200, 200, 100, "Settings");
-        backButton = new Button(50, 50, 100, 50, "Back");
-        level1Button = new Button(100, 100, 100, 50, "Level 1");
-        level2Button = new Button(100, 200, 100, 50, "Level 2");
-        level3Button = new Button(100, 300, 100, 50, "Level 3");
-        level4Button = new Button(100, 400, 100, 50, "Level 4");
-        level5Button = new Button(100, 500, 100, 50, "Level 5");
+        playButton = new Button(280, 300, 250, 100,  "Start");
         playButton.setImage(loadImage("../assets/buttons/start_button.png"));
+        settingsButton = new Button(280, 460, 250, 110, "Settings");
         settingsButton.setImage(loadImage("../assets/buttons/settings_button.png"));
-        backButton.setImage(loadImage("../assets/buttons/back_button.png"));
-        level1Button.setImage(loadImage("../assets/buttons/level1.png"));
-        level2Button.setImage(loadImage("../assets/buttons/level2.png"));
-        level3Button.setImage(loadImage("../assets/buttons/level3.png"));
-        level4Button.setImage(loadImage("../assets/buttons/level4.png"));
-        level5Button.setImage(loadImage("../assets/buttons/level5.png"));
-
+        backButton = new Button(50, 50, 100, 50,  "Back");
+        backButton.setImage(loadImage("assets/buttons/back_button.png"));
+        level1Button = new Button(100, 400, 150, 80, "Level 1");
+        level1Button.setImage(loadImage("assets/buttons/level1.png"));
+        level2Button = new Button(300, 400, 150, 80,  "Level 2");
+        level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
+        level3Button = new Button(500, 400, 150, 80, "Level 3");
+        level3Button.setImage(loadImage("assets/buttons/level3_locked.png"));
+        level4Button = new Button(700, 400, 150, 80,  "Level 4");
+        level4Button.setImage(loadImage("assets/buttons/level4_locked.png"));
+        level5Button = new Button(900, 400, 150, 80, "Level 5");
+        level5Button.setImage(loadImage("assets/buttons/level5_locked.png"));
     }
 
     public void draw() {
@@ -106,11 +105,11 @@ public class Main extends PApplet {
     public void displayGameMenu() {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
-        Button adventureButton = new Button(300, 300, 100, 50, "Adventure");
+        Button adventureButton = new Button(515, 280, 250, 100,  "Adventure");
         adventureButton.setImage(loadImage("../assets/buttons/adventure_button.png"));
         adventureButton.display(this);
         adventureButton.update(mouseX, mouseY, mousePressed);
-        Button versusButton = new Button(300, 400, 100, 50, "Versus");
+        Button versusButton = new Button(515, 430, 250, 100,  "Versus");
         versusButton.setImage(loadImage("../assets/buttons/versus_button.png"));
         versusButton.display(this);
         versusButton.update(mouseX, mouseY, mousePressed);
