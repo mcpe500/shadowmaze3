@@ -38,6 +38,15 @@ public class Main extends PApplet {
         PApplet.runSketch(main, app);
     }
 
+    public Main() {
+        this.currentPage = mainmenu;
+    }
+
+    public Main(int currentPage) {
+        this.currentPage = currentPage;
+        this.previousPage = mainmenu;
+    }
+
     public void settings() {
         size(1280, 720);
     }
@@ -55,14 +64,13 @@ public class Main extends PApplet {
         level5Button = new Button(100, 500, 100, 50, "Level 5");
         playButton.setImage(loadImage("../assets/buttons/start_button.png"));
         settingsButton.setImage(loadImage("../assets/buttons/settings_button.png"));
+        backButton.setImage(loadImage("../assets/buttons/back_button.png"));
         level1Button.setImage(loadImage("../assets/buttons/level1.png"));
         level2Button.setImage(loadImage("../assets/buttons/level2.png"));
         level3Button.setImage(loadImage("../assets/buttons/level3.png"));
         level4Button.setImage(loadImage("../assets/buttons/level4.png"));
         level5Button.setImage(loadImage("../assets/buttons/level5.png"));
 
-        currentPage = mainmenu;
-        previousPage = mainmenu;
     }
 
     public void draw() {

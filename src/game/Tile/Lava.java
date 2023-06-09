@@ -21,8 +21,8 @@ public class Lava extends Tile implements Collidable{
          if (c.isCollidable()) {
             if (c instanceof Player) {
                 Player p = (Player) c;
-                if (p.getX() + p.getWidth() >= x && p.getX() <= x + width && p.getY() + p.getHeight() >= y
-                        && p.getY() <= y + height) {
+                if (p.getX() + p.getWidth() > x && p.getX() < x + width && p.getY() + p.getHeight() > y
+                        && p.getY() < y + height) {
                     System.out.println("Lava collision");
                     return true;
                 }
