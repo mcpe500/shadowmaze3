@@ -28,7 +28,7 @@ public class Level1 extends PApplet {
         width = 1280;
         height = 720;
         this.parent = parent;
-        player = new Player(-170, -170, 5, 100, 10, 44, 90);
+        player = new Player(170, 170, 5, 100, 10, 22, 22);
         run = true;
         backButton = new Button(width/2, height/2, 100, 50, "Back");
         
@@ -52,12 +52,12 @@ public class Level1 extends PApplet {
     public void draw() {
         if (run) {
             // Calculate the camera position to center the player on the screen
-            float cameraX = player.getX() - width / 2;
-            float cameraY = player.getY() - height / 2;
+            float cameraX = player.getX() - width/2;
+            float cameraY = player.getY() - height/2;
 
             // Limit the camera position to stay within the map boundaries
-            // cameraX = constrain(cameraX, 50, map[0].length * 32 - 1100);
-            // cameraY = constrain(cameraY, 50, map.length * 32 - 550);
+            cameraX = constrain(cameraX, 50, map[0].length * 32 - 1100);
+            cameraY = constrain(cameraY, 50, map.length * 32 - 550);
 
             // Apply camera translation
             pushMatrix();
@@ -100,28 +100,14 @@ public class Level1 extends PApplet {
             
             // Circle overlay
             int radius = 200;
-            int playerX = Math.round(player.getX());
-            int playerY = Math.round(player.getY());
-            int sqrRadius = radius * radius;
-
-            loadPixels(); // Load the pixel array
-
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int pixelIndex = x + y * width;
-                    int dx = x + Math.round(cameraX) - playerX;
-                    int dy = y + Math.round(cameraY) - playerY;
-                    int sqrDistance = dx * dx + dy * dy;
-
-                    if (sqrDistance >= sqrRadius && !isFlashed(x + Math.round(cameraX), y + Math.round(cameraY), flashPixel)) {
-                        pixels[pixelIndex] = color(0, 0, 0);
-                    // } else if (isFlashed(x + Math.round(cameraX), y + Math.round(cameraY), flashPixel)) {
-                    //     pixels[pixelIndex] = color(255, 100);
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    double distance = Math.pow((j+cameraX-(player.getX()+player.getWidth()/2)), 2)+Math.pow((i+cameraY-(player.getY()+player.getHeight()/2)), 2);
+                    if (distance >= Math.pow(radius, 2)) {
+                        set(j, i, color(0, 0, 0));
                     }
                 }
             }
-
-            updatePixels(); // Update the display with modified pixels
 
             // Reset the transformations
             popMatrix();

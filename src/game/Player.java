@@ -10,12 +10,13 @@ public class Player extends Karakter implements Collidable {
     private int lastDirection;
     private PImage image; 
     private int imageIdx;
+    private int tick;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
         this.flash = false;
         this.lastDirection = 2;
-        this.imageIdx = 0;
+        this.imageIdx = 1;
         this.up = false;
         this.right = false;
         this.down = false;
@@ -38,6 +39,16 @@ public class Player extends Karakter implements Collidable {
         if (right) {
             moveRight();
             this.lastDirection = 3;
+        }
+        if (up || down || left || right) {
+            this.tick++;
+            if (this.tick>=10) {
+                this.tick%=10;
+                this.imageIdx++;
+                this.imageIdx%=3;
+            } 
+        } else if (this.imageIdx!=1) {
+            this.imageIdx = 1;
         }
     }
 
@@ -148,14 +159,12 @@ public class Player extends Karakter implements Collidable {
 
     @Override
     public void display(PApplet applet) {
-        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), imageIdx*this.getWidth(), lastDirection*this.getHeight(), this.getWidth(), this.getHeight());
-        // this.imageIdx++;
-        // this.imageIdx%=3;
-        System.out.println(imageIdx*this.getWidth() + " " + lastDirection*this.getHeight());
+        applet.image(image, this.getX()-image.width/3+this.getWidth(), this.getY()-image.height/4+this.getHeight(), image.width/3, image.height/4, imageIdx*image.width/3, lastDirection*image.height/4, (imageIdx+1)*image.width/3, (lastDirection+1)*image.height/4);
     }
 
     public void setImage(PImage image) {
         this.image = image;
+        this.image.resize(66, 180);
     }
 
 }
