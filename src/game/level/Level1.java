@@ -8,6 +8,9 @@ import src.game.Tile.Tile;
 import src.game.Tile.Wall;
 import src.util.Button;
 import src.util.MapLoader;
+
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 
 public class Level1 extends PApplet {
@@ -25,7 +28,7 @@ public class Level1 extends PApplet {
         width = 1280;
         height = 720;
         this.parent = parent;
-        player = new Player(170, 170, 5, 100, 10, 16, 16);
+        player = new Player(-170, -170, 5, 100, 10, 44, 90);
         run = true;
         backButton = new Button(width/2, height/2, 100, 50, "Back");
         
@@ -43,6 +46,7 @@ public class Level1 extends PApplet {
         String[][] strMap = MapLoader.loadMap(parent, "../assets/maps/map1.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         backButton.setImage(loadImage("../assets/buttons/back_button.png"));
+        player.setImage(loadImage("../assets/sprites/player.png"));
     }
 
     public void draw() {
@@ -52,8 +56,8 @@ public class Level1 extends PApplet {
             float cameraY = player.getY() - height / 2;
 
             // Limit the camera position to stay within the map boundaries
-            cameraX = constrain(cameraX, 50, map[0].length * 32 - 1100);
-            cameraY = constrain(cameraY, 50, map.length * 32 - 550);
+            // cameraX = constrain(cameraX, 50, map[0].length * 32 - 1100);
+            // cameraY = constrain(cameraY, 50, map.length * 32 - 550);
 
             // Apply camera translation
             pushMatrix();
@@ -81,16 +85,43 @@ public class Level1 extends PApplet {
             player.display(this);
             player.playerController(this);
 
+            ArrayList<int[]> flashPixel = new ArrayList<>();
+            if (player.getFlash()) {
+                if (player.getLastDirection()==0) {
+
+                } else if (player.getLastDirection() == 2) {
+                    flashPixel = player.flashRight(width, height, cameraX, cameraY);
+                } else if (player.getLastDirection() == 4) {
+
+                } else if (player.getLastDirection() == 6) {
+
+                }
+            }
+            
             // Circle overlay
             int radius = 200;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    double distance = Math.pow((j+cameraX-player.getX()), 2)+Math.pow((i+cameraY-player.getY()), 2);
-                    if (distance >= Math.pow(radius, 2)) {
-                        set(j, i, color(0, 0, 0));
+            int playerX = Math.round(player.getX());
+            int playerY = Math.round(player.getY());
+            int sqrRadius = radius * radius;
+
+            loadPixels(); // Load the pixel array
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int pixelIndex = x + y * width;
+                    int dx = x + Math.round(cameraX) - playerX;
+                    int dy = y + Math.round(cameraY) - playerY;
+                    int sqrDistance = dx * dx + dy * dy;
+
+                    if (sqrDistance >= sqrRadius && !isFlashed(x + Math.round(cameraX), y + Math.round(cameraY), flashPixel)) {
+                        pixels[pixelIndex] = color(0, 0, 0);
+                    // } else if (isFlashed(x + Math.round(cameraX), y + Math.round(cameraY), flashPixel)) {
+                    //     pixels[pixelIndex] = color(255, 100);
                     }
                 }
             }
+
+            updatePixels(); // Update the display with modified pixels
 
             // Reset the transformations
             popMatrix();
@@ -104,7 +135,7 @@ public class Level1 extends PApplet {
             text("Time : " + time, width-200, 50);
             if (player.getHealth()<=0) {
                 run = false;
-            }
+            } 
 
         } else {
             gameOver();
@@ -142,5 +173,14 @@ public class Level1 extends PApplet {
             surface.setVisible(false);
             backButton.setEnabled(false);
         }
+    }
+
+    public boolean isFlashed(int x, int y, ArrayList<int[]> flashPixel) {
+        for (int[] pixel : flashPixel) {
+            if (pixel[0] == x && pixel[1] == y) {
+                return true;
+            }
+        }
+        return false;
     }
 }
