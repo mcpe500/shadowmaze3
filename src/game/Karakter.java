@@ -83,6 +83,7 @@ public abstract class Karakter implements Movable {
     public void takeDamage(int amount) {
         health -= amount;
         if (health <= 0) {
+
         }
     }
 

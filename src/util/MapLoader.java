@@ -29,6 +29,12 @@ public class MapLoader {
                     case "1":
                         tileMap[i][j] = new Wall(parent, bSize, bSize, bX, bY);
                         break;
+                    case "2":
+                        tileMap[i][j] = new Beartrap(parent, bSize, bSize, bX, bY);
+                        break;
+                    case "3":
+                        tileMap[i][j] = new Lava(parent, bSize, bSize, bX, bY);
+                        break;
                     default:
                         break;
                 }

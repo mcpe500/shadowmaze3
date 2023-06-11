@@ -16,7 +16,7 @@ public class Level5 extends PApplet {
         width = 1280;
         height = 720;
         this.parent = parent;
-        player = new Player(170, 170, 5, 100, 10, 16, 16);
+        player = new Player(170, 170, 5, 100, 10, 22, 22);
     }
 
     @Override
@@ -27,6 +27,7 @@ public class Level5 extends PApplet {
     public void setup() {
         String[][] strMap = MapLoader.loadMap(parent, "../assets/maps/map5.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
+        player.setImage(loadImage("../assets/sprites/player.png"));
     }
 
     public void draw() {
@@ -56,6 +57,17 @@ public class Level5 extends PApplet {
         }
         player.display(this);
         player.playerController(this);
+
+        // Circle overlay
+        int radius = 200;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                double distance = Math.pow((j+cameraX-(player.getX()+player.getWidth()/2)), 2)+Math.pow((i+cameraY-(player.getY()+player.getHeight()/2)), 2);
+                if (distance >= Math.pow(radius, 2)) {
+                    set(j, i, color(0, 0, 0));
+                }
+            }
+        }
 
         // Reset the transformations
         popMatrix();
