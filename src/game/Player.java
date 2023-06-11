@@ -10,6 +10,7 @@ public class Player extends Karakter implements Collidable {
     private int lastDirection;
     private PImage image; 
     private int imageIdx;
+    private int imageDx;
     private int tick;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
@@ -17,6 +18,7 @@ public class Player extends Karakter implements Collidable {
         this.flash = false;
         this.lastDirection = 2;
         this.imageIdx = 1;
+        this.imageDx = 1;
         this.up = false;
         this.right = false;
         this.down = false;
@@ -42,10 +44,14 @@ public class Player extends Karakter implements Collidable {
         }
         if (up || down || left || right) {
             this.tick++;
-            if (this.tick>=10) {
-                this.tick%=10;
-                this.imageIdx++;
-                this.imageIdx%=3;
+            if (this.tick>=8) {
+                this.tick%=8;
+                this.imageIdx+=this.imageDx;
+                if (this.imageIdx==2) {
+                    this.imageDx = -1;
+                } else if (this.imageIdx==0) {
+                    this.imageDx = 1;
+                }
             } 
         } else if (this.imageIdx!=1) {
             this.imageIdx = 1;
@@ -164,7 +170,7 @@ public class Player extends Karakter implements Collidable {
 
     public void setImage(PImage image) {
         this.image = image;
-        this.image.resize(66, 180);
+        this.image.resize(this.getWidth()*3, (int)((this.getWidth()*3)*1.0/this.image.width)*this.image.height);
     }
 
 }
