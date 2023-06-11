@@ -48,10 +48,8 @@ public class Player extends Karakter implements Collidable {
             if (this.tick >= 8) {
                 this.tick %= 8;
                 this.imageIdx += this.imageDx;
-                if (this.imageIdx == 2) {
-                    this.imageDx = -1;
-                } else if (this.imageIdx == 0) {
-                    this.imageDx = 1;
+                if (this.imageIdx == 0 || this.imageIdx == 2) {
+                    this.imageDx *= -1;
                 }
             }
         } else if (this.imageIdx != 1) {

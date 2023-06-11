@@ -37,9 +37,9 @@ public class CurrentMap {
                             karakters.get(j2).getY() >= i * size + mapY
                             && karakters.get(j2).getY() < (i + 1) * size + mapY) {
                         maps[i][j] = karakters.get(j2).getId();
-                        karakters.get(i).setMapPosX(j);
-                        karakters.get(i).setMapPosY(i);
-                        System.out.println("X: " + karakters.get(i).getX() + " Y: " + karakters.get(i).getY() + " MapX: " + karakters.get(i).getMapPosX() + " MapY: " + karakters.get(i).getMapPosY());
+                        karakters.get(j2).setMapPosX(j-1);
+                        karakters.get(j2).setMapPosY(i-1);
+                        System.out.println("X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: " + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
                     }
 
                 }

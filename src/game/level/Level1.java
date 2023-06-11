@@ -16,6 +16,7 @@ import src.util.MapLoader;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Level1 extends Level {
     private String[][] strMap;
@@ -24,7 +25,9 @@ public class Level1 extends Level {
     private ArrayList<Enemy> enemies;
     private int width, height;
     private boolean run;
-    private Button backButton;
+    private Button mainButton;
+    private Button restartButton;
+    private PImage gameOver;
     private boolean over;
     private int time;
     private int currentSecond;
@@ -35,7 +38,8 @@ public class Level1 extends Level {
         height = 720;
         player = new Player(170, 170, 5, 100, 10, 22, 22);
         run = true;
-        backButton = new Button(width / 2, height / 2, 100, 50, "Back");
+        mainButton = new Button(width / 2-200, height / 2, 100, 50, "main");
+        restartButton = new Button(width / 2+100, height / 2, 100, 50, "restart");
         enemies = new ArrayList<>();
         over = false;
         time = 0;
@@ -50,7 +54,9 @@ public class Level1 extends Level {
     public void setup() {
         this.strMap = MapLoader.loadMap(parent, "../assets/maps/map1.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
-        backButton.setImage(loadImage("../assets/buttons/back_button.png"));
+        mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
+        restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
+        gameOver = loadImage("../assets/buttons/gameover.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
         EnemyEyeball enemyEyeball = new EnemyEyeball(180, 180, 5, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
@@ -165,21 +171,26 @@ public class Level1 extends Level {
         if (!over) {
             fill(255, 0, 0, 100); // Red color with alpha value of 100 (partially transparent)
             rect(0, 0, width, height);
-            textSize(32);
-            textAlign(CENTER, CENTER);
-            fill(255);
-            text("GAME OVER", width / 2, height / 2 - 100);
             over = true;
         }
 
-        backButton.display(this);
-        backButton.update(mouseX, mouseY, mousePressed);
-        if (backButton.isClicked()) {
+        image(gameOver, width/2-gameOver.width/2, height/2-200);
+        mainButton.display(this);
+        mainButton.update(mouseX, mouseY, mousePressed);
+        if (mainButton.isClicked()) {
             Main app = new Main(3);
             String[] main = { "Main" };
             PApplet.runSketch(main, app);
             surface.setVisible(false);
-            backButton.setEnabled(false);
+            mainButton.setEnabled(false);
+        }
+        restartButton.display(this);
+        restartButton.update(mouseX, mouseY, mousePressed);
+        if (restartButton.isClicked()) {
+            String[] levStrings = { "Level1" };
+            PApplet.runSketch(levStrings, new Level1(parent));
+            surface.setVisible(false);
+            restartButton.setEnabled(false);
         }
     }
 
