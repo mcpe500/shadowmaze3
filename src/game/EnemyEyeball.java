@@ -7,6 +7,7 @@ public class EnemyEyeball extends Enemy {
 
     public EnemyEyeball(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
+        setId(200);
         // TODO Auto-generated constructor stub
     }
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Player extends Karakter implements Collidable {
     private boolean up, down, left, right, flash;
     private int lastDirection;
-    private PImage image; 
+    private PImage image;
     private int imageIdx;
     private int imageDx;
     private int tick;
@@ -23,6 +23,7 @@ public class Player extends Karakter implements Collidable {
         this.right = false;
         this.down = false;
         this.left = false;
+        setId(100);
     }
 
     public void playerController(PApplet parent) {
@@ -44,16 +45,16 @@ public class Player extends Karakter implements Collidable {
         }
         if (up || down || left || right) {
             this.tick++;
-            if (this.tick>=8) {
-                this.tick%=8;
-                this.imageIdx+=this.imageDx;
-                if (this.imageIdx==2) {
+            if (this.tick >= 8) {
+                this.tick %= 8;
+                this.imageIdx += this.imageDx;
+                if (this.imageIdx == 2) {
                     this.imageDx = -1;
-                } else if (this.imageIdx==0) {
+                } else if (this.imageIdx == 0) {
                     this.imageDx = 1;
                 }
-            } 
-        } else if (this.imageIdx!=1) {
+            }
+        } else if (this.imageIdx != 1) {
             this.imageIdx = 1;
         }
     }
@@ -155,8 +156,9 @@ public class Player extends Karakter implements Collidable {
         ArrayList<int[]> pixels = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (j+cameraX-this.getX()>=5*Math.abs(i+cameraY-this.getY()) && j+cameraX<this.getX()+width/5 && j+cameraX>this.getX()) {
-                    pixels.add(new int[]{j, i});
+                if (j + cameraX - this.getX() >= 5 * Math.abs(i + cameraY - this.getY())
+                        && j + cameraX < this.getX() + width / 5 && j + cameraX > this.getX()) {
+                    pixels.add(new int[] { j, i });
                 }
             }
         }
@@ -165,12 +167,16 @@ public class Player extends Karakter implements Collidable {
 
     @Override
     public void display(PApplet applet) {
-        applet.image(image, this.getX()-image.width/3+this.getWidth(), this.getY()-image.height/4+this.getHeight(), image.width/3, image.height/4, imageIdx*image.width/3, lastDirection*image.height/4, (imageIdx+1)*image.width/3, (lastDirection+1)*image.height/4);
+        applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
+                this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
+                imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,
+                (lastDirection + 1) * image.height / 4);
     }
 
     public void setImage(PImage image) {
         this.image = image;
-        this.image.resize(this.getWidth()*3, (int)((this.getWidth()*3)*1.0/this.image.width)*this.image.height);
+        this.image.resize(this.getWidth() * 3,
+                (int) ((this.getWidth() * 3) * 1.0 / this.image.width) * this.image.height);
     }
 
 }

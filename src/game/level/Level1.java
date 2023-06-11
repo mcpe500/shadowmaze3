@@ -1,8 +1,10 @@
 package src.game.level;
 
 import src.Main;
+import src.game.CurrentMap;
 import src.game.Enemy;
 import src.game.EnemyEyeball;
+import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
 import src.game.Tile.Lava;
@@ -53,6 +55,7 @@ public class Level1 extends Level {
         EnemyEyeball enemyEyeball = new EnemyEyeball(180, 180, 5, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
+        this.currentMap = new CurrentMap(strMap);
     }
 
     public void draw() {
@@ -90,10 +93,17 @@ public class Level1 extends Level {
 
             player.display(this);
             player.playerController(this);
+            ArrayList<Karakter> karakter = new ArrayList<>();
+            karakter.add(player);
+            for (int i = 0; i < enemies.size(); i++) {
+                karakter.add(enemies.get(i));
+            }
+            currentMap.updateMap(karakter, 100, 100, 32);
+
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
                 enemy.display(this);
-                enemy.moveController(player);
+                enemy.moveController(player, currentMap.getMaps());
             }
             ArrayList<int[]> flashPixel = new ArrayList<>();
             if (player.getFlash()) {

@@ -3,11 +3,11 @@ package src.game.Interface;
 import src.game.Player;
 
 public interface Pathfinding {
-    void pathfind();
+    void pathfind(int[][] map);
 
-    void moveRandomly();
+    void moveRandomly(int[][] map);
 
     boolean hasLineOfSight(Player player);
 
-    int[] getPossibleMoves();
+    int[] getPossibleMoves(int[][] map);
 }

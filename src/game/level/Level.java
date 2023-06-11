@@ -1,9 +1,11 @@
 package src.game.level;
 
 import processing.core.PApplet;
+import src.game.CurrentMap;
 
 public abstract class Level extends PApplet {
     protected PApplet parent;
+    protected CurrentMap currentMap;
 
     public Level(PApplet parent) {
         this.parent = parent;

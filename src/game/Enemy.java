@@ -35,14 +35,14 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     }
 
     @Override
-    public void pathfind() {
+    public void pathfind(int[][] map) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'pathfind'");
     }
 
     @Override
-    public void moveRandomly() {
-        int[] possibleMoves = this.getPossibleMoves();
+    public void moveRandomly(int[][] map) {
+        int[] possibleMoves = this.getPossibleMoves(map);
         int move = random.nextInt(possibleMoves.length);
         switch (move) {
             case 0:
@@ -67,22 +67,22 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     }
 
     @Override
-    public int[] getPossibleMoves() {
+    public int[] getPossibleMoves(int[][] map) {
         int[] possibleMoves = new int[4];
         int idx = 0;
-        if (this.canMoveUp()) {
+        if (this.canMoveUp(map)) {
             possibleMoves[idx] = 0;
             idx++;
         }
-        if (this.canMoveRight()) {
+        if (this.canMoveRight(map)) {
             possibleMoves[idx] = 1;
             idx++;
         }
-        if (this.canMoveDown()) {
+        if (this.canMoveDown(map)) {
             possibleMoves[idx] = 2;
             idx++;
         }
-        if (this.canMoveLeft()) {
+        if (this.canMoveLeft(map)) {
             possibleMoves[idx] = 3;
             idx++;
         }
@@ -93,11 +93,11 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         return result;
     }
 
-    public void moveController(Player player) {
+    public void moveController(Player player, int[][] map) {
         if (this.hasLineOfSight(player)) {
-            this.pathfind();
+            this.pathfind(map);
         } else {
-            this.moveRandomly();
+            this.moveRandomly(map);
         }
     }
 }
