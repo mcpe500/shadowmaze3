@@ -6,16 +6,15 @@ import src.game.Tile.Wall;
 import src.util.MapLoader;
 import processing.core.PApplet;
 
-public class Level5 extends PApplet {
+public class Level5 extends Level {
     private Tile[][] map;
-    private PApplet parent;
     private Player player;
     private int width, height;
 
     public Level5(PApplet parent) {
+        super(parent);
         width = 1280;
         height = 720;
-        this.parent = parent;
         player = new Player(170, 170, 5, 100, 10, 22, 22);
     }
 
@@ -62,7 +61,8 @@ public class Level5 extends PApplet {
         int radius = 200;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                double distance = Math.pow((j+cameraX-(player.getX()+player.getWidth()/2)), 2)+Math.pow((i+cameraY-(player.getY()+player.getHeight()/2)), 2);
+                double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth() / 2)), 2)
+                        + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
                 if (distance >= Math.pow(radius, 2)) {
                     set(j, i, color(0, 0, 0));
                 }

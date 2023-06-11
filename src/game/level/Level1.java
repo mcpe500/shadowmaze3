@@ -1,6 +1,8 @@
 package src.game.level;
 
 import src.Main;
+import src.game.Enemy;
+import src.game.EnemyEyeball;
 import src.game.Player;
 import src.game.Tile.Beartrap;
 import src.game.Tile.Lava;
@@ -13,10 +15,11 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
-public class Level1 extends PApplet {
+public class Level1 extends Level {
+    private String[][] strMap;
     private Tile[][] map;
-    private PApplet parent;
     private Player player;
+    private ArrayList<Enemy> enemies;
     private int width, height;
     private boolean run;
     private Button backButton;
@@ -25,13 +28,13 @@ public class Level1 extends PApplet {
     private int currentSecond;
 
     public Level1(PApplet parent) {
+        super(parent);
         width = 1280;
         height = 720;
-        this.parent = parent;
         player = new Player(170, 170, 5, 100, 10, 22, 22);
         run = true;
-        backButton = new Button(width/2, height/2, 100, 50, "Back");
-        
+        backButton = new Button(width / 2, height / 2, 100, 50, "Back");
+        enemies = new ArrayList<>();
         over = false;
         time = 0;
         currentSecond = second();
@@ -43,17 +46,20 @@ public class Level1 extends PApplet {
     }
 
     public void setup() {
-        String[][] strMap = MapLoader.loadMap(parent, "../assets/maps/map1.txt");
+        this.strMap = MapLoader.loadMap(parent, "../assets/maps/map1.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         backButton.setImage(loadImage("../assets/buttons/back_button.png"));
         player.setImage(loadImage("../assets/sprites/player.png"));
+        EnemyEyeball enemyEyeball = new EnemyEyeball(180, 180, 5, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
     }
 
     public void draw() {
         if (run) {
             // Calculate the camera position to center the player on the screen
-            float cameraX = player.getX() - width/2;
-            float cameraY = player.getY() - height/2;
+            float cameraX = player.getX() - width / 2;
+            float cameraY = player.getY() - height / 2;
 
             // Limit the camera position to stay within the map boundaries
             cameraX = constrain(cameraX, 50, map[0].length * 32 - 1100);
@@ -84,10 +90,14 @@ public class Level1 extends PApplet {
 
             player.display(this);
             player.playerController(this);
-
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy enemy = enemies.get(i);
+                enemy.display(this);
+                enemy.moveController(player);
+            }
             ArrayList<int[]> flashPixel = new ArrayList<>();
             if (player.getFlash()) {
-                if (player.getLastDirection()==0) {
+                if (player.getLastDirection() == 0) {
 
                 } else if (player.getLastDirection() == 2) {
                     flashPixel = player.flashRight(width, height, cameraX, cameraY);
@@ -97,17 +107,19 @@ public class Level1 extends PApplet {
 
                 }
             }
-            
+
             // Circle overlay
             int radius = 200;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    double distance = Math.pow((j+cameraX-(player.getX()+player.getWidth()/2)), 2)+Math.pow((i+cameraY-(player.getY()+player.getHeight()/2)), 2);
-                    if (distance >= Math.pow(radius, 2)) {
-                        set(j, i, color(0, 0, 0));
-                    }
-                }
-            }
+            // for (int i = 0; i < height; i++) {
+            // for (int j = 0; j < width; j++) {
+            // double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()
+            // / 2)), 2)
+            // + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+            // if (distance >= Math.pow(radius, 2)) {
+            // set(j, i, color(0, 0, 0));
+            // }
+            // }
+            // }
 
             // Reset the transformations
             popMatrix();
@@ -118,15 +130,15 @@ public class Level1 extends PApplet {
                 currentSecond = second();
             }
             text("Health : " + player.getHealth(), 50, 50);
-            text("Time : " + time, width-200, 50);
-            if (player.getHealth()<=0) {
+            text("Time : " + time, width - 200, 50);
+            if (player.getHealth() <= 0) {
                 run = false;
-            } 
+            }
 
         } else {
             gameOver();
         }
-        
+
     }
 
     @Override
@@ -146,12 +158,12 @@ public class Level1 extends PApplet {
             textSize(32);
             textAlign(CENTER, CENTER);
             fill(255);
-            text("GAME OVER", width/2, height/2-100);
+            text("GAME OVER", width / 2, height / 2 - 100);
             over = true;
         }
-        
+
         backButton.display(this);
-        backButton.update(mouseX, mouseY, mousePressed);            
+        backButton.update(mouseX, mouseY, mousePressed);
         if (backButton.isClicked()) {
             Main app = new Main(3);
             String[] main = { "Main" };

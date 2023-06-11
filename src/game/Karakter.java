@@ -76,6 +76,22 @@ public abstract class Karakter implements Movable {
         x += moveSpeed;
     }
 
+    public boolean canMoveDown() {
+        return y + this.height < 1000;
+    }
+
+    public boolean canMoveUp() {
+        return y > 0;
+    }
+
+    public boolean canMoveLeft() {
+        return x > 0;
+    }
+
+    public boolean canMoveRight() {
+        return x + this.width < 1000;
+    }
+
     public void attack(Karakter target) {
         target.takeDamage(damage);
     }

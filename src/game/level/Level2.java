@@ -6,16 +6,15 @@ import src.game.Tile.Wall;
 import src.util.MapLoader;
 import processing.core.PApplet;
 
-public class Level2 extends PApplet {
+public class Level2 extends Level {
     private Tile[][] map;
-    private PApplet parent;
     private Player player;
     private int width, height;
 
     public Level2(PApplet parent) {
+        super(parent);
         width = 1280;
         height = 720;
-        this.parent = parent;
         player = new Player(170, 170, 5, 100, 10, 22, 22);
     }
 
