@@ -45,4 +45,33 @@ public class MapLoader {
         }
         return tileMap;
     }
+
+    public static Tile[][] tileMap(PApplet parent, int[][] arrMap, int bSize, int bX, int bY) {
+        Tile[][] tileMap = new Tile[arrMap.length][arrMap[0].length];
+        int savebX = bX;
+        for (int i = 0; i < arrMap.length; i++) {
+            for (int j = 0; j < arrMap[0].length; j++) {
+                switch (arrMap[i][j]) {
+                    case 0:
+                        tileMap[i][j] = new Stonefloor(parent, bSize, bSize, bX, bY);
+                        break;
+                    case 1:
+                        tileMap[i][j] = new Wall(parent, bSize, bSize, bX, bY);
+                        break;
+                    case 2:
+                        tileMap[i][j] = new Beartrap(parent, bSize, bSize, bX, bY);
+                        break;
+                    case 3:
+                        tileMap[i][j] = new Lava(parent, bSize, bSize, bX, bY);
+                        break;
+                    default:
+                        break;
+                }
+                bX += bSize;
+            }
+            bX = savebX;
+            bY += bSize;
+        }
+        return tileMap;
+    }
 }

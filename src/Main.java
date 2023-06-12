@@ -7,6 +7,7 @@ import src.game.level.Level2;
 import src.game.level.Level3;
 import src.game.level.Level4;
 import src.game.level.Level5;
+import src.game.level.LevelVersus;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -21,16 +22,20 @@ public class Main extends PApplet {
     private Button level3Button;
     private Button level4Button;
     private Button level5Button;
+    private Button playVersusButton;
 
     private final int mainmenu = 0;
     private final int settings = 1;
     private final int playmenu = 2;
     private final int adventuremenu = 3;
+    private final int versusmenu = 4;
 
     private final int jumlahLevel = 5;
 
     private int currentPage;
     private int previousPage;
+
+    private boolean startVersus;
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -54,22 +59,23 @@ public class Main extends PApplet {
     public void setup() {
         background = loadImage("../assets/sprites/SL_menu.png");
         background.resize(1280, 720);
-        playButton = new Button(280, 300, 250, 100,  "Start");
+        playButton = new Button(280, 300, 250, 100, "Start");
         playButton.setImage(loadImage("../assets/buttons/start_button.png"));
         settingsButton = new Button(280, 460, 250, 110, "Settings");
         settingsButton.setImage(loadImage("../assets/buttons/settings_button.png"));
-        backButton = new Button(50, 50, 100, 50,  "Back");
+        backButton = new Button(50, 50, 100, 50, "Back");
         backButton.setImage(loadImage("assets/buttons/back_button.png"));
         level1Button = new Button(100, 400, 150, 80, "Level 1");
         level1Button.setImage(loadImage("assets/buttons/level1.png"));
-        level2Button = new Button(300, 400, 150, 80,  "Level 2");
+        level2Button = new Button(300, 400, 150, 80, "Level 2");
         level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
         level3Button = new Button(500, 400, 150, 80, "Level 3");
         level3Button.setImage(loadImage("assets/buttons/level3_locked.png"));
-        level4Button = new Button(700, 400, 150, 80,  "Level 4");
+        level4Button = new Button(700, 400, 150, 80, "Level 4");
         level4Button.setImage(loadImage("assets/buttons/level4_locked.png"));
         level5Button = new Button(900, 400, 150, 80, "Level 5");
         level5Button.setImage(loadImage("assets/buttons/level5_locked.png"));
+        playVersusButton = new Button(515, 280, 250, 100, "Play");
     }
 
     public void draw() {
@@ -90,6 +96,8 @@ public class Main extends PApplet {
             displayGameMenu();
         } else if (currentPage == adventuremenu) {
             displayAdventureMenu();
+        } else if (currentPage == versusmenu) {
+            displayVersusMenu();
         }
     }
 
@@ -105,11 +113,11 @@ public class Main extends PApplet {
     public void displayGameMenu() {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
-        Button adventureButton = new Button(515, 280, 250, 100,  "Adventure");
+        Button adventureButton = new Button(515, 280, 250, 100, "Adventure");
         adventureButton.setImage(loadImage("../assets/buttons/adventure_button.png"));
         adventureButton.display(this);
         adventureButton.update(mouseX, mouseY, mousePressed);
-        Button versusButton = new Button(515, 430, 250, 100,  "Versus");
+        Button versusButton = new Button(515, 430, 250, 100, "Versus");
         versusButton.setImage(loadImage("../assets/buttons/versus_button.png"));
         versusButton.display(this);
         versusButton.update(mouseX, mouseY, mousePressed);
@@ -119,6 +127,21 @@ public class Main extends PApplet {
         } else if (adventureButton.isClicked()) {
             goToAdventureMenu();
         } else if (versusButton.isClicked()) {
+            goToVersus();
+        }
+    }
+
+    public void displayVersusMenu() {
+        backButton.display(this);
+        backButton.update(mouseX, mouseY, mousePressed);
+        playVersusButton.setImage(loadImage("../assets/buttons/start_button.png"));
+        playVersusButton.display(this);
+        playVersusButton.update(mouseX, mouseY, mousePressed);
+        if (backButton.isClicked()) {
+            goToPreviousPage();
+        } else if (playVersusButton.isClicked()) {
+            goToVersusGame();
+            playVersusButton.setEnabled(false);
         }
     }
 
@@ -137,6 +160,10 @@ public class Main extends PApplet {
 
     public void goToAdventureMenu() {
         currentPage = adventuremenu;
+    }
+
+    public void goToVersus() {
+        currentPage = versusmenu;
     }
 
     public void displayAdventureMenu() {
@@ -207,4 +234,9 @@ public class Main extends PApplet {
         surface.setVisible(false);
     }
 
+    public void goToVersusGame() {
+        String[] levStrings = { "Level Versus" };
+        PApplet.runSketch(levStrings, new LevelVersus(this));
+        surface.setVisible(false);
+    }
 }

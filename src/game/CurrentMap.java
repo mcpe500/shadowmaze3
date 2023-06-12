@@ -40,9 +40,9 @@ public class CurrentMap {
                         maps[i][j] = karakters.get(j2).getId();
                         karakters.get(j2).setMapPosX(j);
                         karakters.get(j2).setMapPosY(i);
-                        System.out.println(
-                                "X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: "
-                                        + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
+                        // System.out.println(
+                        //         "X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: "
+                        //                 + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
                     }
                 }
             }

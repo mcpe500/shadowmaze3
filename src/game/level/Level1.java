@@ -58,7 +58,7 @@ public class Level1 extends Level {
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
         gameOver = loadImage("../assets/buttons/gameover.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
-        EnemyEyeball enemyEyeball = new EnemyEyeball(180, 180, 5, 100, 10, 22, 22);
+        EnemyEyeball enemyEyeball = new EnemyEyeball(292, 292, 5, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
         this.currentMap = new CurrentMap(strMap);

@@ -116,15 +116,15 @@ public abstract class Karakter implements Movable {
     }
 
     public boolean canMoveRight(int[][] maps) {
-        for (int i = 0; i < maps.length; i++) {
-            for (int j = 0; j < maps[i].length; j++) {
-                System.out.print(maps[i][j] + "\t");
-            }
-            System.out.println();
-        }
-        System.out.println(mapPosX<maps[0].length-1);
-        System.out.println(maps[mapPosY][mapPosX + 1] == 0);
-        System.out.println(maps[mapPosY][mapPosX + 1]);
+        // for (int i = 0; i < maps.length; i++) {
+        //     for (int j = 0; j < maps[i].length; j++) {
+        //         System.out.print(maps[i][j] + "\t");
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println(mapPosX<maps[0].length-1);
+        // System.out.println(maps[mapPosY][mapPosX + 1] == 0);
+        // System.out.println(maps[mapPosY][mapPosX + 1]);
         return mapPosX<maps[0].length-1 && maps[mapPosY][mapPosX + 1] == 0;
     }
 

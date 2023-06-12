@@ -44,10 +44,10 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     public void moveRandomly(int[][] map) {
         int[] possibleMoves = this.getPossibleMoves(map);
         if (possibleMoves.length > 0) {
-            for (int i = 0; i < possibleMoves.length; i++) {
-                System.out.print(possibleMoves[i] + " ");
-            }
-            System.out.println();
+            // for (int i = 0; i < possibleMoves.length; i++) {
+            //     System.out.print(possibleMoves[i] + " ");
+            // }
+            // System.out.println();
             int move = possibleMoves[random.nextInt(possibleMoves.length)];
             switch (move) {
                 case 0:
@@ -94,7 +94,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         int[] result = new int[idx];
         for (int i = 0; i < idx; i++) {
             result[i] = possibleMoves[i];
-            System.out.println(result[i]);
+            // System.out.println(result[i]);
         }
         return result;
     }
