@@ -4,13 +4,20 @@ import java.util.Random;
 
 import src.game.Interface.Collidable;
 import src.game.Interface.Pathfinding;
+import src.game.Tile.Tile;
 
 public abstract class Enemy extends Karakter implements Collidable, Pathfinding {
     protected Random random;
+    protected int pickedMove;
+    protected int moveTime;
+    protected int moveCooldown;
 
     public Enemy(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
         random = new Random();
+        this.moveCooldown = 0;
+        this.moveTime = 0;
+        this.pickedMove = -1;
         // TODO Auto-generated constructor stub
     }
 
@@ -42,6 +49,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     @Override
     public void moveRandomly(int[][] map) {
+<<<<<<< HEAD
         int[] possibleMoves = this.getPossibleMoves(map);
         if (possibleMoves.length > 0) {
             // for (int i = 0; i < possibleMoves.length; i++) {
@@ -50,21 +58,48 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
             // System.out.println();
             int move = possibleMoves[random.nextInt(possibleMoves.length)];
             switch (move) {
+=======
+        if (this.moveCooldown == 0 && this.moveTime == 0) {
+            int[] possibleMoves = this.getPossibleMoves(map);
+            if (possibleMoves.length > 0) {
+                for (int i = 0; i < possibleMoves.length; i++) {
+                    System.out.print(possibleMoves[i] + " ");
+                }
+                System.out.println();
+                this.pickedMove = possibleMoves[random.nextInt(possibleMoves.length)];
+                this.moveTime = random.nextInt(200,500);
+                this.moveCooldown = random.nextInt(300,500);
+            }
+        }
+        if (this.moveTime>0) {
+            this.moveTime--;
+            System.out.println("checkstop");
+            switch (this.pickedMove) {
+>>>>>>> 5816372f2bc012b63f5ca9a171be4e2c33aea6b6
                 case 0:
                     this.moveUp();
+                    if (!this.canMoveUp(map)) this.moveTime = 0;
                     break;
                 case 1:
                     this.moveRight();
+                    if (!this.canMoveRight(map)) this.moveTime = 0;
                     break;
                 case 2:
                     this.moveDown();
+                    if (!this.canMoveDown(map)) this.moveTime = 0;
                     break;
                 case 3:
                     this.moveLeft();
+                    if (!this.canMoveLeft(map)) this.moveTime = 0;
                     break;
             }
+        } else if (this.moveCooldown>0) {
+            this.moveCooldown--;
         }
+        
+            
     }
+    
 
     @Override
     public boolean hasLineOfSight(Player player) {
@@ -75,6 +110,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     public int[] getPossibleMoves(int[][] map) {
         int[] possibleMoves = new int[4];
         int idx = 0;
+        System.out.println("getmove");
         if (this.canMoveUp(map)) {
             possibleMoves[idx] = 0;
             idx++;

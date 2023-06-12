@@ -12,6 +12,7 @@ public abstract class Karakter implements Movable {
     private int id;
     protected int mapPosX;
     protected int mapPosY;
+    protected int[][] mapPos;
 
     public Karakter(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         this.x = x;
@@ -21,6 +22,7 @@ public abstract class Karakter implements Movable {
         this.damage = damage;
         this.width = width;
         this.height = height;
+        this.mapPos = new int[4][2]; //[leftX - upY - rightX - botY]
     }
 
     public int getMapPosX() {
@@ -37,6 +39,10 @@ public abstract class Karakter implements Movable {
 
     public void setMapPosY(int mapPosY) {
         this.mapPosY = mapPosY;
+    }
+
+    public void setMapPos(int[][] mapPos) {
+        this.mapPos = mapPos;
     }
 
     public int getId() {
@@ -104,15 +110,30 @@ public abstract class Karakter implements Movable {
     }
 
     public boolean canMoveDown(int[][] maps) {
-        return mapPosY<maps.length-1 && maps[mapPosY + 1][mapPosX] == 0;
+        System.out.println("down");
+        if (mapPos[0][1]+1 < maps.length-1) {
+            System.out.println("top left: " + (maps[mapPos[0][1] + 1][mapPos[0][0]] == 0));
+            System.out.println("top right: " + (maps[mapPos[1][1] + 1][mapPos[1][0]] == 0));
+        }
+        return mapPos[0][1]+1 < maps.length-1 && (maps[mapPos[0][1] + 1][mapPos[0][0]] == 0 || maps[mapPos[0][1] + 1][mapPos[0][0]] == id) && (maps[mapPos[1][1] + 1][mapPos[1][0]] == 0 || maps[mapPos[1][1] + 1][mapPos[1][0]] == id);
     }
 
     public boolean canMoveUp(int[][] maps) {
-        return mapPosY>0 && maps[mapPosY - 1][mapPosX] == 0;
+        System.out.println("up");
+        if (mapPos[2][1]-1 > 0) {
+            System.out.println("bot left: " + (maps[mapPos[2][1] - 1][mapPos[2][0]] == 0));
+            System.out.println("bot right: " + (maps[mapPos[3][1] - 1][mapPos[3][0]] == 0));
+        }
+        return mapPos[2][1]-1 > 0 && (maps[mapPos[2][1] - 1][mapPos[2][0]] == 0 || maps[mapPos[2][1] - 1][mapPos[2][0]] == id) && (maps[mapPos[3][1] - 1][mapPos[3][0]] == 0 || maps[mapPos[3][1] - 1][mapPos[3][0]] == id);
     }
 
     public boolean canMoveLeft(int[][] maps) {
-        return mapPosX>0 && maps[mapPosY][mapPosX - 1] == 0;
+        System.out.println("left");
+        if (mapPos[1][0]-1 > 0) {
+            System.out.println("top right: " + (maps[mapPos[1][1]][mapPos[1][0] - 1] == 0));
+            System.out.println("bot right: " + (maps[mapPos[3][1]][mapPos[3][0] - 1] == 0));
+        }
+        return mapPos[1][0]-1 > 0 && (maps[mapPos[1][1]][mapPos[1][0] - 1] == 0 || maps[mapPos[1][1]][mapPos[1][0] - 1] == id ) && (maps[mapPos[3][1]][mapPos[3][0] - 1] == 0 || maps[mapPos[3][1]][mapPos[3][0] - 1] == id);
     }
 
     public boolean canMoveRight(int[][] maps) {
@@ -125,7 +146,16 @@ public abstract class Karakter implements Movable {
         // System.out.println(mapPosX<maps[0].length-1);
         // System.out.println(maps[mapPosY][mapPosX + 1] == 0);
         // System.out.println(maps[mapPosY][mapPosX + 1]);
+<<<<<<< HEAD
         return mapPosX<maps[0].length-1 && maps[mapPosY][mapPosX + 1] == 0;
+=======
+        System.out.println("right");
+        if (mapPos[0][1]+1 < maps[0].length-1) {
+            System.out.println("top left: " + (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0));
+            System.out.println("bot left: " + (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0));
+        }
+        return mapPos[0][1]+1 < maps[0].length-1 && (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0 || maps[mapPos[0][1]][mapPos[0][0] + 1] == id) && (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0 || maps[mapPos[2][1]][mapPos[2][0] + 1] == id);
+>>>>>>> 5816372f2bc012b63f5ca9a171be4e2c33aea6b6
     }
 
     public void attack(Karakter target) {

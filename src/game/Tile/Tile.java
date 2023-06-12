@@ -10,7 +10,7 @@ public abstract class Tile {
     protected PImage image;
     protected int x, y;
 
-    public Tile(PApplet parent, float width, float height, PImage image,int x,int y) {
+    public Tile(PApplet parent, float width, float height, PImage image, int x, int y) {
         this.parent = parent;
         this.width = width;
         this.height = height;
@@ -25,5 +25,9 @@ public abstract class Tile {
 
     public void setImage(PImage image) {
         this.image = image;
+    }
+
+    public float getSize() {
+        return this.width;
     }
 }

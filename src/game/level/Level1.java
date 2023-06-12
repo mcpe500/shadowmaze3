@@ -36,7 +36,7 @@ public class Level1 extends Level {
         super(parent);
         width = 1280;
         height = 720;
-        player = new Player(170, 170, 5, 100, 10, 22, 22);
+        player = new Player(170, 170, 5, 100, 10, 32, 32);
         run = true;
         mainButton = new Button(width / 2 - 200, height / 2, 100, 50, "main");
         restartButton = new Button(width / 2 + 100, height / 2, 100, 50, "restart");
@@ -58,7 +58,11 @@ public class Level1 extends Level {
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
         gameOver = loadImage("../assets/buttons/gameover.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
+<<<<<<< HEAD
         EnemyEyeball enemyEyeball = new EnemyEyeball(292, 292, 5, 100, 10, 22, 22);
+=======
+        EnemyEyeball enemyEyeball = new EnemyEyeball(180, 180, 2, 100, 10, 22, 22);
+>>>>>>> 5816372f2bc012b63f5ca9a171be4e2c33aea6b6
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
         this.currentMap = new CurrentMap(strMap);
@@ -86,6 +90,9 @@ public class Level1 extends Level {
                         if (this.map[i][j] instanceof Wall) {
                             Wall wall = (Wall) this.map[i][j];
                             wall.onCollision(player);
+                            for (Enemy enemy : enemies) {
+                                wall.onCollision(enemy);
+                            }
                         } else if (this.map[i][j] instanceof Beartrap) {
                             Beartrap beartrap = (Beartrap) this.map[i][j];
                             beartrap.onCollision(player);
