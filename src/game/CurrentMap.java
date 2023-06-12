@@ -33,16 +33,26 @@ public class CurrentMap {
             for (int j = 0; j < maps[i].length; j++) {
                 maps[i][j] = newMap[i][j];
                 for (int j2 = 0; j2 < karakters.size(); j2++) {
-                    if (karakters.get(j2).getX() >= j * size + mapX && karakters.get(j2).getX() < (j + 1) * size + mapX
-                            &&
-                            karakters.get(j2).getY() >= i * size + mapY
-                            && karakters.get(j2).getY() < (i + 1) * size + mapY) {
+                    int[][] mapPos = new int[4][2];
+                    mapPos[0][0] = (int)((karakters.get(j2).getX()-mapX)*1.0/size);
+                    mapPos[0][1] = (int)((karakters.get(j2).getY()-mapY)*1.0/size);
+                    mapPos[1][0] = (int)((karakters.get(j2).getX()+karakters.get(j2).getWidth()-mapX-1)*1.0/size);
+                    mapPos[1][1] = (int)((karakters.get(j2).getY()-mapY)*1.0/size);
+                    mapPos[2][0] = (int)((karakters.get(j2).getX()-mapX)*1.0/size);
+                    mapPos[2][1] = (int)((karakters.get(j2).getY()+karakters.get(j2).getHeight()-mapY-1)*1.0/size);
+                    mapPos[3][0] = (int)((karakters.get(j2).getX()+karakters.get(j2).getWidth()-mapX-1)*1.0/size);
+                    mapPos[3][1] = (int)((karakters.get(j2).getY()+karakters.get(j2).getHeight()-mapY-1)*1.0/size);
+                    karakters.get(j2).setMapPos(mapPos);
+
+                    if (karakters.get(j2).getX() >= j * size + mapX && karakters.get(j2).getX() < (j + 1) * size + mapX &&
+                            karakters.get(j2).getY() >= i * size + mapY && karakters.get(j2).getY() < (i + 1) * size + mapY) {
                         maps[i][j] = karakters.get(j2).getId();
                         karakters.get(j2).setMapPosX(j);
                         karakters.get(j2).setMapPosY(i);
-                        System.out.println(
-                                "X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: "
-                                        + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
+                        // System.out.println(
+                        //         "X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: "
+                        //                 + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY() + 
+                        //                 " MapTile: " + maps[karakters.get(j2).mapPosY-1][karakters.get(j2).mapPosX-1]);
                     }
                 }
             }
