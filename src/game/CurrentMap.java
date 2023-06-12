@@ -21,13 +21,14 @@ public class CurrentMap {
         return map1;
     }
 
-    public void updateMap(ArrayList<Karakter> karakters, int mapX, int mapY, int size) {
-        int[][] newMap = new int[maps.length][maps[0].length];
-        for (int i = 0; i < newMap.length; i++) {
-            for (int j = 0; j < newMap[i].length; j++) {
-                newMap[i][j] = maps[i][j];
-            }
-        }
+    public void updateMap(ArrayList<Karakter> karakters, int mapX, int mapY, int size, String[][] strMaps) {
+        int[][] newMap = convertMap(strMaps);
+        // for (int i = 0; i < newMap.length; i++) {
+        // for (int j = 0; j < newMap[i].length; j++) {
+        // newMap[i][j] = maps[i][j];
+        // }
+        // }
+
         for (int i = 0; i < maps.length; i++) {
             for (int j = 0; j < maps[i].length; j++) {
                 maps[i][j] = newMap[i][j];
@@ -37,17 +38,24 @@ public class CurrentMap {
                             karakters.get(j2).getY() >= i * size + mapY
                             && karakters.get(j2).getY() < (i + 1) * size + mapY) {
                         maps[i][j] = karakters.get(j2).getId();
-                        karakters.get(j2).setMapPosX(j-1);
-                        karakters.get(j2).setMapPosY(i-1);
-                        System.out.println("X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: " + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
+                        karakters.get(j2).setMapPosX(j);
+                        karakters.get(j2).setMapPosY(i);
+                        System.out.println(
+                                "X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: "
+                                        + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
                     }
-
                 }
             }
         }
     }
 
     public int[][] getMaps() {
+        // for (int i = 0; i < maps.length; i++) {
+        // for (int j = 0; j < maps[i].length; j++) {
+        // System.out.print(maps[i][j] + " ");
+        // }
+        // System.out.println();
+        // }
         return maps;
     }
 

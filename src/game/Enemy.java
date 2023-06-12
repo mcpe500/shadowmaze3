@@ -43,8 +43,12 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     @Override
     public void moveRandomly(int[][] map) {
         int[] possibleMoves = this.getPossibleMoves(map);
-        if (possibleMoves.length>0) {
-            int move = random.nextInt(possibleMoves.length);
+        if (possibleMoves.length > 0) {
+            for (int i = 0; i < possibleMoves.length; i++) {
+                System.out.print(possibleMoves[i] + " ");
+            }
+            System.out.println();
+            int move = possibleMoves[random.nextInt(possibleMoves.length)];
             switch (move) {
                 case 0:
                     this.moveUp();
@@ -64,7 +68,6 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     @Override
     public boolean hasLineOfSight(Player player) {
-
         return false;
     }
 
@@ -91,6 +94,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         int[] result = new int[idx];
         for (int i = 0; i < idx; i++) {
             result[i] = possibleMoves[i];
+            System.out.println(result[i]);
         }
         return result;
     }

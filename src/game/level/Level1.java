@@ -38,8 +38,8 @@ public class Level1 extends Level {
         height = 720;
         player = new Player(170, 170, 5, 100, 10, 22, 22);
         run = true;
-        mainButton = new Button(width / 2-200, height / 2, 100, 50, "main");
-        restartButton = new Button(width / 2+100, height / 2, 100, 50, "restart");
+        mainButton = new Button(width / 2 - 200, height / 2, 100, 50, "main");
+        restartButton = new Button(width / 2 + 100, height / 2, 100, 50, "restart");
         enemies = new ArrayList<>();
         over = false;
         time = 0;
@@ -99,18 +99,17 @@ public class Level1 extends Level {
 
             player.display(this);
             player.playerController(this);
-            ArrayList<Karakter> karakter = new ArrayList<>();
-            karakter.add(player);
-            for (int i = 0; i < enemies.size(); i++) {
-                karakter.add(enemies.get(i));
-            }
-            currentMap.updateMap(karakter, 100, 100, 32);
-
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
                 enemy.display(this);
                 enemy.moveController(player, currentMap.getMaps());
             }
+            ArrayList<Karakter> karakter = new ArrayList<>();
+            karakter.add(player);
+            for (int i = 0; i < enemies.size(); i++) {
+                karakter.add(enemies.get(i));
+            }
+            currentMap.updateMap(karakter, 100, 100, 32,this.strMap);
             ArrayList<int[]> flashPixel = new ArrayList<>();
             if (player.getFlash()) {
                 if (player.getLastDirection() == 0) {
@@ -174,7 +173,7 @@ public class Level1 extends Level {
             over = true;
         }
 
-        image(gameOver, width/2-gameOver.width/2, height/2-200);
+        image(gameOver, width / 2 - gameOver.width / 2, height / 2 - 200);
         mainButton.display(this);
         mainButton.update(mouseX, mouseY, mousePressed);
         if (mainButton.isClicked()) {
