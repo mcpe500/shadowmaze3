@@ -165,6 +165,7 @@ public class Player extends Karakter implements Collidable {
 
     @Override
     public void display(PApplet applet) {
+        decreaseInvulTime();
         applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
                 this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
                 imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,
