@@ -58,9 +58,11 @@ public class Level1 extends Level {
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
         gameOver = loadImage("../assets/buttons/gameover.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
-        EnemyEyeball enemyEyeball = new EnemyEyeball(210, 210, 2, 100, 10, 22, 22);
-        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
-        enemies.add(enemyEyeball);
+        for (int i = 0; i < 10; i++) {
+            EnemyEyeball enemyEyeball = new EnemyEyeball(210, 210, 2, 100, 10, 22, 22);
+            enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+            enemies.add(enemyEyeball);
+        }
         this.currentMap = new CurrentMap(strMap);
     }
 
@@ -112,7 +114,7 @@ public class Level1 extends Level {
             for (int i = 0; i < enemies.size(); i++) {
                 karakter.add(enemies.get(i));
             }
-            currentMap.updateMap(karakter, 100, 100, 32,this.strMap);
+            currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
             ArrayList<int[]> flashPixel = new ArrayList<>();
             if (player.getFlash()) {
                 if (player.getLastDirection() == 0) {
