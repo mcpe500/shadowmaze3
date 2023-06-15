@@ -7,6 +7,7 @@ import src.game.EnemyEyeball;
 import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
+import src.game.Tile.Exit;
 import src.game.Tile.Lava;
 import src.game.Tile.Tile;
 import src.game.Tile.Wall;
@@ -27,7 +28,9 @@ public class Level1 extends Level {
     private boolean run;
     private Button mainButton;
     private Button restartButton;
+    private Button nextButton;
     private PImage gameOver;
+    private PImage levelClear;
     private boolean over;
     private int time;
     private int currentSecond;
@@ -40,6 +43,7 @@ public class Level1 extends Level {
         run = true;
         mainButton = new Button(width / 2 - 200, height / 2, 100, 50, "main");
         restartButton = new Button(width / 2 + 100, height / 2, 100, 50, "restart");
+        nextButton = new Button(width / 2 + 100, height / 2, 100, 50, "next");
         enemies = new ArrayList<>();
         over = false;
         time = 0;
@@ -56,7 +60,9 @@ public class Level1 extends Level {
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
+        nextButton.setImage(loadImage("../assets/buttons/next_button.png"));
         gameOver = loadImage("../assets/buttons/gameover.png");
+        levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
         EnemyEyeball enemyEyeball = new EnemyEyeball(1124, 1124, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
@@ -101,6 +107,9 @@ public class Level1 extends Level {
                         } else if (this.map[i][j] instanceof Lava) {
                             Lava lava = (Lava) this.map[i][j];
                             lava.onCollision(player);
+                        }  else if (this.map[i][j] instanceof Exit) {
+                            Exit exit = (Exit) this.map[i][j];
+                            exit.onCollision(player);
                         }
                     }
                 }
@@ -155,12 +164,16 @@ public class Level1 extends Level {
             }
             text("Health : " + player.getHealth(), 50, 50);
             text("Time : " + time, width - 200, 50);
-            if (player.getHealth() <= 0) {
+            if (player.getHealth() <= 0 || player.isAtExit()) {
                 run = false;
             }
 
         } else {
-            gameOver();
+            if (player.isAtExit()) {
+                win();
+            } else {
+                gameOver();
+            }
         }
 
     }
@@ -199,6 +212,33 @@ public class Level1 extends Level {
             PApplet.runSketch(levStrings, new Level1(parent));
             surface.setVisible(false);
             restartButton.setEnabled(false);
+        }
+    }
+
+    public void win() {
+        if (!over) {
+            fill(0, 255, 0, 100); // Red color with alpha value of 100 (partially transparent)
+            rect(0, 0, width, height);
+            over = true;
+        }
+
+        image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);
+        mainButton.display(this);
+        mainButton.update(mouseX, mouseY, mousePressed);
+        if (mainButton.isClicked()) {
+            Main app = new Main(3);
+            String[] main = { "Main" };
+            PApplet.runSketch(main, app);
+            surface.setVisible(false);
+            mainButton.setEnabled(false);
+        }
+        nextButton.display(this);
+        nextButton.update(mouseX, mouseY, mousePressed);
+        if (nextButton.isClicked()) {
+            String[] levStrings = { "Level2" };
+            PApplet.runSketch(levStrings, new Level2(parent));
+            surface.setVisible(false);
+            nextButton.setEnabled(false);
         }
     }
 

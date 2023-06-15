@@ -5,10 +5,10 @@ import src.util.AssetLoader;
 import src.game.Player;
 import src.game.Interface.Collidable;
 
-public class Lava extends Tile implements Collidable{
+public class Exit extends Tile implements Collidable{
 
-    public Lava(PApplet parent, float width, float height, int x, int y) {
-        super(parent, width, height, new AssetLoader(parent).getLava(), x, y);
+    public Exit(PApplet parent, float width, float height, int x, int y) {
+        super(parent, width, height, new AssetLoader(parent).getExit(), x, y);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Lava extends Tile implements Collidable{
         if (checkCollision(c)) {
             if (c instanceof Player) {
                 Player p = (Player) c;
-                p.takeDamage(100);
+                p.setAtExit(true);
             }
         }
     }

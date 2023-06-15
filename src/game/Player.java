@@ -12,6 +12,7 @@ public class Player extends Karakter implements Collidable {
     private int imageIdx;
     private int imageDx;
     private int tick;
+    private boolean atExit;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -23,6 +24,7 @@ public class Player extends Karakter implements Collidable {
         this.right = false;
         this.down = false;
         this.left = false;
+        this.atExit = false;
         setId(100);
     }
 
@@ -120,6 +122,14 @@ public class Player extends Karakter implements Collidable {
 
     public void stopRight() {
         right = false;
+    }
+
+    public void setAtExit(boolean atExit) {
+        this.atExit = atExit;
+    }
+
+    public boolean isAtExit() {
+        return atExit;
     }
 
     @Override
