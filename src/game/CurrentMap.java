@@ -51,12 +51,8 @@ public class CurrentMap {
                         karakters.get(j2).setMapPosY(i);
                         // System.out.println(
                         //         "X: " + karakters.get(j2).getX() + " Y: " + karakters.get(j2).getY() + " MapX: "
-<<<<<<< HEAD
-                        //                 + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY());
-=======
                         //                 + karakters.get(j2).getMapPosX() + " MapY: " + karakters.get(j2).getMapPosY() + 
                         //                 " MapTile: " + maps[karakters.get(j2).mapPosY-1][karakters.get(j2).mapPosX-1]);
->>>>>>> 5816372f2bc012b63f5ca9a171be4e2c33aea6b6
                     }
                 }
             }

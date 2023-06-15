@@ -49,16 +49,6 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     @Override
     public void moveRandomly(int[][] map) {
-<<<<<<< HEAD
-        int[] possibleMoves = this.getPossibleMoves(map);
-        if (possibleMoves.length > 0) {
-            // for (int i = 0; i < possibleMoves.length; i++) {
-            //     System.out.print(possibleMoves[i] + " ");
-            // }
-            // System.out.println();
-            int move = possibleMoves[random.nextInt(possibleMoves.length)];
-            switch (move) {
-=======
         if (this.moveCooldown == 0 && this.moveTime == 0) {
             int[] possibleMoves = this.getPossibleMoves(map);
             if (possibleMoves.length > 0) {
@@ -75,7 +65,6 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
             this.moveTime--;
             System.out.println("checkstop");
             switch (this.pickedMove) {
->>>>>>> 5816372f2bc012b63f5ca9a171be4e2c33aea6b6
                 case 0:
                     this.moveUp();
                     if (!this.canMoveUp(map)) this.moveTime = 0;

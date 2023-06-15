@@ -146,16 +146,12 @@ public abstract class Karakter implements Movable {
         // System.out.println(mapPosX<maps[0].length-1);
         // System.out.println(maps[mapPosY][mapPosX + 1] == 0);
         // System.out.println(maps[mapPosY][mapPosX + 1]);
-<<<<<<< HEAD
-        return mapPosX<maps[0].length-1 && maps[mapPosY][mapPosX + 1] == 0;
-=======
         System.out.println("right");
         if (mapPos[0][1]+1 < maps[0].length-1) {
             System.out.println("top left: " + (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0));
             System.out.println("bot left: " + (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0));
         }
         return mapPos[0][1]+1 < maps[0].length-1 && (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0 || maps[mapPos[0][1]][mapPos[0][0] + 1] == id) && (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0 || maps[mapPos[2][1]][mapPos[2][0] + 1] == id);
->>>>>>> 5816372f2bc012b63f5ca9a171be4e2c33aea6b6
     }
 
     public void attack(Karakter target) {
