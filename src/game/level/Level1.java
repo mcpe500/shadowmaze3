@@ -48,11 +48,13 @@ public class Level1 extends Level {
         over = false;
         time = 0;
         currentSecond = second();
+        // song = new SoundFile(parent,"");
     }
 
     @Override
     public void settings() {
         size(width, height);
+        
     }
 
     public void setup() {

@@ -10,6 +10,7 @@ import src.game.level.Level5;
 import src.game.level.LevelVersus;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.sound.*;
 
 public class Main extends PApplet {
 
@@ -23,6 +24,8 @@ public class Main extends PApplet {
     private Button level4Button;
     private Button level5Button;
     private Button playVersusButton;
+    private SoundFile sound;
+    private Amplitude amp;
 
     private final int mainmenu = 0;
     private final int settings = 1;
@@ -57,6 +60,11 @@ public class Main extends PApplet {
     }
 
     public void setup() {
+        sound = new SoundFile(this, "../assets/sounds/bgm_game.mp3");
+        sound.play();
+        amp = new Amplitude(this);
+        amp.input(sound);
+        
         background = loadImage("../assets/sprites/SL_menu.png");
         background.resize(1280, 720);
         playButton = new Button(280, 300, 250, 100, "Start");
