@@ -61,10 +61,10 @@ public class Main extends PApplet {
 
     public void setup() {
         sound = new SoundFile(this, "../assets/sounds/bgm.mp3");
-        sound.play();
+        sound.loop();
         amp = new Amplitude(this);
         amp.input(sound);
-        
+
         background = loadImage("../assets/sprites/SL_menu.png");
         background.resize(1280, 720);
         playButton = new Button(280, 300, 250, 100, "Start");
@@ -109,6 +109,12 @@ public class Main extends PApplet {
         }
     }
 
+    public void stopSound() {
+        if (sound != null) {
+            sound.stop();
+        }
+    }
+
     public void displaySettings() {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
@@ -148,6 +154,7 @@ public class Main extends PApplet {
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (playVersusButton.isClicked()) {
+            stopSound();
             goToVersusGame();
             playVersusButton.setEnabled(false);
         }
@@ -190,22 +197,27 @@ public class Main extends PApplet {
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (level1Button.isClicked()) {
+            stopSound();
             System.out.println("Level 1");
             goToLevel1();
             level1Button.setEnabled(false);
         } else if (level2Button.isClicked()) {
+            stopSound();
             System.out.println("Level 2");
             goToLevel2();
             level2Button.setEnabled(false);
         } else if (level3Button.isClicked()) {
+            stopSound();
             System.out.println("Level 3");
             goToLevel3();
             level3Button.setEnabled(false);
         } else if (level4Button.isClicked()) {
+            stopSound();
             System.out.println("Level 4");
             goToLevel4();
             level4Button.setEnabled(false);
         } else if (level5Button.isClicked()) {
+            stopSound();
             System.out.println("Level 5");
             goToLevel5();
             level5Button.setEnabled(false);

@@ -10,9 +10,11 @@ public class PortalPair<T extends Portal> {
         } else if (portal2 == null) {
             portal2 = portal;
         } else {
+            // T temp = portal1;
             portal1 = portal2;
             portal2 = portal;
-            portal1 = null;
+            // portal1.setPortalImage(portal2.getPortalImage());
+            // portal2.setPortalImage(temp.getPortalImage());
         }
     }
 

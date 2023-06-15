@@ -11,6 +11,8 @@ public class AssetLoader {
     private PImage beartrapBlood;
     private PImage lava;
     private PImage exit;
+    private PImage portal1;
+    private PImage portal2;
 
     public AssetLoader(PApplet pApplet) {
         parent = pApplet;
@@ -20,6 +22,8 @@ public class AssetLoader {
         beartrapBlood = parent.loadImage("../assets/sprites/beartrap_blood.png");
         lava = parent.loadImage("../assets/sprites/lava.png");
         exit = parent.loadImage("../assets/sprites/hole_exit.png");
+        portal1 = parent.loadImage("../assets/sprites/portal1.png");
+        portal2 = parent.loadImage("../assets/sprites/portal.png");
     }
 
     public PImage getStonefloor() {
@@ -44,5 +48,13 @@ public class AssetLoader {
 
     public PImage getExit() {
         return exit;
+    }
+
+    public PImage getPortal1() {
+        return portal1;
+    }
+
+    public PImage getPortal2() {
+        return portal2;
     }
 }

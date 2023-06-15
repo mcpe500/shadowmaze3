@@ -1,13 +1,23 @@
 package src.game.Tile;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import src.game.Player;
 import src.game.Interface.Collidable;
 import src.util.AssetLoader;
 
 public class Portal extends Tile implements Collidable {
     public Portal(PApplet parent, float width, float height, int x, int y) {
-        super(parent, width, height, new AssetLoader(parent).getWall(), x, y);
+        super(parent, width, height, new AssetLoader(parent).getPortal1(), x, y);
+    }
+
+    public void setPortalImage(PImage newImage) {
+        this.image = newImage;
+    }
+
+
+    public PImage getPortalImage() {
+        return this.image;
     }
 
     @Override
@@ -60,7 +70,5 @@ public class Portal extends Tile implements Collidable {
             }
         }
     }
-
-
 
 }
