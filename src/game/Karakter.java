@@ -152,17 +152,8 @@ public abstract class Karakter implements Movable {
         // System.out.println(mapPosX<maps[0].length-1);
         // System.out.println(maps[mapPosY][mapPosX + 1] == 0);
         // System.out.println(maps[mapPosY][mapPosX + 1]);
-<<<<<<< HEAD
-        System.out.println("right");
-        if (mapPos[0][1]+1 < maps[0].length-1) {
-            System.out.println("top left: " + (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0));
-            System.out.println("bot left: " + (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0));
-        }
-        return mapPos[0][1]+1 < maps[0].length-1 && (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0 || maps[mapPos[0][1]][mapPos[0][0] + 1] == id) && (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0 || maps[mapPos[2][1]][mapPos[2][0] + 1] == id);
-=======
         return mapPos[0][1]+1 < maps[0].length-1 && (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0 || maps[mapPos[0][1]][mapPos[0][0] + 1] == id) && (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0 || maps[mapPos[2][1]][mapPos[2][0] + 1] == id);
         // return nextMove[3][0][0] < maps[0].length-1 && (maps[nextMove[3][0][1]][nextMove[3][0][0]] == 0 || maps[nextMove[3][0][1]][nextMove[3][0][0]] == id) && (maps[nextMove[3][1][1]][nextMove[3][1][0]] == 0 || maps[nextMove[3][1][1]][nextMove[3][1][0]] == id);
->>>>>>> cb394b178363ae38dea0d8a0211aefffbeda5edd
     }
 
     public void attack(Karakter target) {
