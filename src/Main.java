@@ -60,7 +60,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        sound = new SoundFile(this, "../assets/sounds/bgm_game.mp3");
+        sound = new SoundFile(this, "../assets/sounds/bgm.mp3");
         sound.play();
         amp = new Amplitude(this);
         amp.input(sound);
