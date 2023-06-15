@@ -7,7 +7,7 @@ public class EnemyEyeball extends Enemy {
     private PImage image;
 
     public EnemyEyeball(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
-        super(x, y, moveSpeed, health, damage, width, height);
+        super(x, y, moveSpeed, health, damage, width, height, 7);
         setId(200);
         // TODO Auto-generated constructor stub
     }
@@ -20,7 +20,7 @@ public class EnemyEyeball extends Enemy {
     @Override
     public void display(PApplet applet) {
         decreaseInvulTime();
-        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, this.getWidth(), this.getHeight());
+        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), (this.imageIdx)*this.getWidth(), 0, (this.imageIdx+1)*this.getWidth(), this.getHeight());
     }
 
 }

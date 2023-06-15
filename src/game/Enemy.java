@@ -11,13 +11,21 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     protected int pickedMove;
     protected int moveTime;
     protected int moveCooldown;
+    protected int imageIdx;
+    protected int imageDx;
+    protected int tick;
+    protected int maxImageIdx;
 
-    public Enemy(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
+    public Enemy(int x, int y, int moveSpeed, int health, int damage, int width, int height, int maxImageIdx) {
         super(x, y, moveSpeed, health, damage, width, height);
         random = new Random();
         this.moveCooldown = 0;
         this.moveTime = 0;
         this.pickedMove = -1;
+        this.imageIdx = 0;
+        this.imageDx = 1;
+        this.tick = 0;
+        this.maxImageIdx = maxImageIdx;
         // TODO Auto-generated constructor stub
     }
 
@@ -43,22 +51,35 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     @Override
     public void pathfind(int[][] map, int direction) {
+        processImageId();
         switch (direction) {
             case 0:
-                if (this.canMoveUp(map)) this.moveUp();
-                System.out.println("up");
+                if (this.canMoveUp(map)) {
+                    this.moveUp();
+                    processImageId();
+                    // System.out.println("up");
+                }
                 break;
             case 1:
-                if (this.canMoveRight(map)) this.moveRight();
-                System.out.println("right");
+                if (this.canMoveRight(map)) {
+                    this.moveRight();
+                    processImageId();
+                    // System.out.println("right");
+                }
                 break;
             case 2:
-                if (this.canMoveDown(map)) this.moveDown();
-                System.out.println("down");
+                if (this.canMoveDown(map)) {
+                    this.moveDown();
+                    processImageId();
+                    // System.out.println("down");
+                }
                 break;
             case 3:
-                if (this.canMoveLeft(map)) this.moveLeft();
-                System.out.println("left");
+                if (this.canMoveLeft(map)) {
+                    this.moveLeft();
+                    processImageId();
+                    // System.out.println("left");
+                }
                 break;
         }
     }
@@ -68,21 +89,22 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         if (this.moveCooldown == 0 && this.moveTime == 0) {
             int[] possibleMoves = this.getPossibleMoves(map);
             if (possibleMoves.length > 0) {
-                for (int i = 0; i < possibleMoves.length; i++) {
-                    System.out.print(possibleMoves[i] + " ");
-                }
-                System.out.println();
+                // for (int i = 0; i < possibleMoves.length; i++) {
+                //     System.out.print(possibleMoves[i] + " ");
+                // }
+                // System.out.println();
                 this.pickedMove = possibleMoves[random.nextInt(possibleMoves.length)];
                 this.moveTime = random.nextInt(200,500);
                 // this.moveTime = 100;
-                // this.moveCooldown = random.nextInt(300,500);
-                this.moveCooldown = 10;
-            } else {
-                System.out.println("No moves");
+                this.moveCooldown = random.nextInt(200,500);
+                // this.moveCooldown = 10;
+            // } else {
+            //     System.out.println("No moves");
             }
         }
         if (this.moveTime>0) {
             this.moveTime--;
+            processImageId();
             // System.out.println("checkstop");
             switch (this.pickedMove) {
                 case 0:
@@ -107,6 +129,22 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         }
         
             
+    }
+
+    public void processImageId() {
+        this.tick++;
+        if (this.tick>=8) {
+            this.tick%=8;
+            this.imageIdx+=this.imageDx;
+
+            if (this.imageIdx==0 || this.imageIdx==this.maxImageIdx) {
+                this.imageDx*=-1;
+            }
+        }
+    }
+
+    public int getImageIdx() {
+        return this.imageIdx;
     }
     
 
