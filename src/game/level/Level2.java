@@ -65,7 +65,6 @@ public class Level2 extends Level {
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
 
-
         this.currentMap = new CurrentMap(strMap);
     }
 
@@ -100,7 +99,7 @@ public class Level2 extends Level {
                         } else if (this.map[i][j] instanceof Lava) {
                             Lava lava = (Lava) this.map[i][j];
                             lava.onCollision(player);
-                        }  else if (this.map[i][j] instanceof Exit) {
+                        } else if (this.map[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.map[i][j];
                             exit.onCollision(player);
                         }
@@ -137,12 +136,14 @@ public class Level2 extends Level {
             // Circle overlay
             // int radius = 200;
             // for (int i = 0; i < height; i++) {
-            //     for (int j = 0; j < width; j++) {
-            //         double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
-            //         if (distance >= Math.pow(radius, 2)) {
-            //             set(j, i, color(0, 0, 0));
-            //         }
-            //     }   
+            // for (int j = 0; j < width; j++) {
+            // double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/
+            // 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)),
+            // 2);
+            // if (distance >= Math.pow(radius, 2)) {
+            // set(j, i, color(0, 0, 0));
+            // }
+            // }
             // }
 
             // Reset the transformations
