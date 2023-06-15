@@ -91,4 +91,8 @@ public class Button {
     public boolean isEnabled() {
         return isEnabled;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
 }

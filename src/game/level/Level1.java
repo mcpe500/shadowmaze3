@@ -39,7 +39,7 @@ public class Level1 extends Level {
         super(parent);
         width = 1280;
         height = 720;
-        player = new Player(170, 170, 5, 100, 10, 32, 32);
+        player = new Player(170, 170, 5, 100, 10, 22, 22);
         run = true;
         mainButton = new Button(width / 2 - 200, height / 2, 100, 50, "main");
         restartButton = new Button(width / 2 + 100, height / 2, 100, 50, "restart");
@@ -142,16 +142,14 @@ public class Level1 extends Level {
             }
 
             // Circle overlay
-            int radius = 200;
+            // int radius = 200;
             // for (int i = 0; i < height; i++) {
-            // for (int j = 0; j < width; j++) {
-            // double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()
-            // / 2)), 2)
-            // + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
-            // if (distance >= Math.pow(radius, 2)) {
-            // set(j, i, color(0, 0, 0));
-            // }
-            // }
+            //     for (int j = 0; j < width; j++) {
+            //         double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+            //         if (distance >= Math.pow(radius, 2)) {
+            //             set(j, i, color(0, 0, 0));
+            //         }
+            //     }   
             // }
 
             // Reset the transformations
@@ -190,7 +188,7 @@ public class Level1 extends Level {
 
     public void gameOver() {
         if (!over) {
-            fill(255, 0, 0, 100); // Red color with alpha value of 100 (partially transparent)
+            fill(255, 0, 0, 100);
             rect(0, 0, width, height);
             over = true;
         }
@@ -217,7 +215,7 @@ public class Level1 extends Level {
 
     public void win() {
         if (!over) {
-            fill(0, 255, 0, 100); // Red color with alpha value of 100 (partially transparent)
+            fill(0, 255, 0, 100);
             rect(0, 0, width, height);
             over = true;
         }
