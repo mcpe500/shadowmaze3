@@ -44,6 +44,30 @@ public class CurrentMap {
                     mapPos[3][1] = (int)((karakters.get(j2).getY()+karakters.get(j2).getHeight()-mapY-1)*1.0/size);
                     karakters.get(j2).setMapPos(mapPos);
 
+                    // int[][][] nextMove = new int[4][2][2];
+                    // // up
+                    // nextMove[0][0][0] = (karakters.get(j2).getX()-mapX)/size;
+                    // nextMove[0][0][1] = (karakters.get(j2).getY()-mapY-karakters.get(j2).getMoveSpeed())/size;
+                    // nextMove[0][1][0] = (karakters.get(j2).getX()+karakters.get(j2).getWidth()-mapX-1)/size;
+                    // nextMove[0][1][1] = (karakters.get(j2).getY()-mapY-karakters.get(j2).getMoveSpeed())/size;
+                    // // down
+                    // nextMove[1][0][0] = (karakters.get(j2).getX()-mapX)/size;
+                    // nextMove[1][0][1] = (karakters.get(j2).getY()+karakters.get(j2).getHeight()-1-mapY+karakters.get(j2).getMoveSpeed())/size;
+                    // nextMove[1][1][0] = (karakters.get(j2).getX()+karakters.get(j2).getWidth()-mapX-1)/size;
+                    // nextMove[1][1][1] = (karakters.get(j2).getY()+karakters.get(j2).getHeight()-1-mapY+karakters.get(j2).getMoveSpeed())/size;
+                    // // left
+                    // nextMove[2][0][0] = (karakters.get(j2).getX()-mapX-karakters.get(j2).getMoveSpeed())/size;
+                    // nextMove[2][0][1] = (karakters.get(j2).getY()-mapY)/size;
+                    // nextMove[2][1][0] = (karakters.get(j2).getX()-mapX-karakters.get(j2).getMoveSpeed())/size;
+                    // nextMove[2][1][1] = (karakters.get(j2).getY()+karakters.get(j2).getHeight()-mapY-1)/size;
+                    // // right
+                    // nextMove[3][0][0] = (karakters.get(j2).getX()+karakters.get(j2).getWidth()-mapX+karakters.get(j2).getMoveSpeed()-1)/size;
+                    // nextMove[3][0][1] = (karakters.get(j2).getY()-mapY)/size;
+                    // nextMove[3][1][0] = (karakters.get(j2).getX()+karakters.get(j2).getWidth()-mapX+karakters.get(j2).getMoveSpeed()-1)/size;
+                    // nextMove[3][1][1] = (karakters.get(j2).getY()+karakters.get(j2).getHeight()-mapY-1)/size;
+                    // karakters.get(j2).setNextMove(nextMove);
+
+
                     if (karakters.get(j2).getX() >= j * size + mapX && karakters.get(j2).getX() < (j + 1) * size + mapX &&
                             karakters.get(j2).getY() >= i * size + mapY && karakters.get(j2).getY() < (i + 1) * size + mapY) {
                         maps[i][j] = karakters.get(j2).getId();

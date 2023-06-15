@@ -42,9 +42,25 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     }
 
     @Override
-    public void pathfind(int[][] map) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pathfind'");
+    public void pathfind(int[][] map, int direction) {
+        switch (direction) {
+            case 0:
+                if (this.canMoveUp(map)) this.moveUp();
+                System.out.println("up");
+                break;
+            case 1:
+                if (this.canMoveRight(map)) this.moveRight();
+                System.out.println("right");
+                break;
+            case 2:
+                if (this.canMoveDown(map)) this.moveDown();
+                System.out.println("down");
+                break;
+            case 3:
+                if (this.canMoveLeft(map)) this.moveLeft();
+                System.out.println("left");
+                break;
+        }
     }
 
     @Override
@@ -58,12 +74,16 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
                 System.out.println();
                 this.pickedMove = possibleMoves[random.nextInt(possibleMoves.length)];
                 this.moveTime = random.nextInt(200,500);
-                this.moveCooldown = random.nextInt(300,500);
+                // this.moveTime = 100;
+                // this.moveCooldown = random.nextInt(300,500);
+                this.moveCooldown = 10;
+            } else {
+                System.out.println("No moves");
             }
         }
         if (this.moveTime>0) {
             this.moveTime--;
-            System.out.println("checkstop");
+            // System.out.println("checkstop");
             switch (this.pickedMove) {
                 case 0:
                     this.moveUp();
@@ -91,15 +111,45 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     
 
     @Override
-    public boolean hasLineOfSight(Player player) {
-        return false;
+    public int findPlayer(int[][] map) {
+        // up
+        int tempX = getMapPosX();
+        int tempY = getMapPosY();
+        while (tempY>0 && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())) {
+            tempY--;
+        }
+        if (map[tempY][tempX] == 100) return 0;
+        
+        // down
+        tempY = getMapPosY()+1;
+        while (tempY<map.length && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())) {
+            tempY++;
+        }
+        if (map[tempY][tempX] == 100) return 2;
+
+        // left 
+        tempX = getMapPosX();
+        tempY = getMapPosY();
+        while (tempX>0 && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())) {
+            tempX--;
+        }
+        if (map[tempY][tempX] == 100) return 3;
+
+        // right
+        tempX = getMapPosX();
+        while (tempX<map[0].length && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())){
+            tempX++;
+        }
+        if (map[tempY][tempX] == 100) return 1;
+
+        return -1;
     }
 
     @Override
     public int[] getPossibleMoves(int[][] map) {
         int[] possibleMoves = new int[4];
         int idx = 0;
-        System.out.println("getmove");
+        // System.out.println("getmove");
         if (this.canMoveUp(map)) {
             possibleMoves[idx] = 0;
             idx++;
@@ -125,10 +175,15 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
     }
 
     public void moveController(Player player, int[][] map) {
-        if (this.hasLineOfSight(player)) {
-            this.pathfind(map);
+        int playerPos = this.findPlayer(map);
+        if (playerPos != -1) {
+            this.pathfind(map, playerPos);
         } else {
             this.moveRandomly(map);
+        }
+
+        if (Math.abs(player.mapPosX-this.mapPosX) + Math.abs(player.mapPosY-this.mapPosY) <= 1) {
+            this.attack(player);
         }
     }
 }

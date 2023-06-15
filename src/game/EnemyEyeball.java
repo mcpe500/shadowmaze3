@@ -1,5 +1,6 @@
 package src.game;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 public class EnemyEyeball extends Enemy {
@@ -13,8 +14,13 @@ public class EnemyEyeball extends Enemy {
 
     public void setImage(PImage image) {
         this.image = image;
-        this.image.resize(this.getWidth() * 3,
-                (int) ((this.getWidth() * 3) * 1.0 / this.image.width) * this.image.height);
+        this.image.resize(this.getWidth()*8, (int)Math.round(this.getHeight()*1.0/16*image.height));
+    }
+
+    @Override
+    public void display(PApplet applet) {
+        decreaseInvulTime();
+        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, this.getWidth(), this.getHeight());
     }
 
 }
