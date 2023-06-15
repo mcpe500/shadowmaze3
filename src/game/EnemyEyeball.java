@@ -20,6 +20,7 @@ public class EnemyEyeball extends Enemy {
     @Override
     public void display(PApplet applet) {
         decreaseInvulTime();
+        processImageId();
         applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), (this.imageIdx)*this.getWidth(), 0, (this.imageIdx+1)*this.getWidth(), this.getHeight());
     }
 

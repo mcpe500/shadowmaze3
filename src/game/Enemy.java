@@ -51,7 +51,6 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     @Override
     public void pathfind(int[][] map, int direction) {
-        processImageId();
         switch (direction) {
             case 0:
                 if (this.canMoveUp(map)) {
@@ -104,7 +103,6 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         }
         if (this.moveTime>0) {
             this.moveTime--;
-            processImageId();
             // System.out.println("checkstop");
             switch (this.pickedMove) {
                 case 0:
@@ -133,8 +131,8 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     public void processImageId() {
         this.tick++;
-        if (this.tick>=8) {
-            this.tick%=8;
+        if (this.tick>=20) {
+            this.tick%=20;
             this.imageIdx+=this.imageDx;
 
             if (this.imageIdx==0 || this.imageIdx==this.maxImageIdx) {
