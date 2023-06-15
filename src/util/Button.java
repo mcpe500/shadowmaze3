@@ -24,7 +24,7 @@ public class Button {
         this.label = label;
         this.baseColor = 200;
         this.highlightColor = 255;
-        this.alpha = 255;
+        this.alpha = 0;
         this.isPressed = false;
         this.isEnabled = true;
     }
@@ -44,6 +44,8 @@ public class Button {
     }
 
     public void display(PApplet sketch) {
+        sketch.noStroke(); // Menghilangkan garis hitam
+
         if (isEnabled) {
             if (isOver) {
                 sketch.fill(highlightColor, alpha);

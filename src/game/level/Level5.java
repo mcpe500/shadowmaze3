@@ -27,7 +27,7 @@ public class Level5 extends Level {
     private boolean run;
     private Button mainButton;
     private Button restartButton;
-    private Button nextButton;
+    
     private PImage gameOver;
     private PImage levelClear;
     private boolean over;
@@ -58,7 +58,7 @@ public class Level5 extends Level {
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
-        nextButton.setImage(loadImage("../assets/buttons/next_button.png"));
+        
         gameOver = loadImage("../assets/buttons/gameover.png");
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
