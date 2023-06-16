@@ -34,6 +34,7 @@ public class Main extends PApplet {
     private final int playmenu = 2;
     private final int adventuremenu = 3;
     private final int versusmenu = 4;
+    private float currentVolume = 1.0f;
 
     private final int jumlahLevel = 5;
 
@@ -132,6 +133,8 @@ public class Main extends PApplet {
             displayAdventureMenu();
         } else if (currentPage == versusmenu) {
             displayVersusMenu();
+        }else if (currentPage == settings) {
+        displaySettings();
         }
     }
 
@@ -142,13 +145,46 @@ public class Main extends PApplet {
     }
 
     public void displaySettings() {
-        backButton.display(this);
-        backButton.update(mouseX, mouseY, mousePressed);
+    // ...
+    backButton.display(this);
+    backButton.update(mouseX, mouseY, mousePressed);
 
-        if (backButton.isClicked()) {
-            goToPreviousPage();
-        }
+    // Display volume slider
+    float volumeSliderX = width / 2 - 200;
+    float volumeSliderY = height / 2 - 10;
+    float volumeSliderWidth = 400;
+    float volumeSliderHeight = 20;
+    float volume = map(currentVolume, 0, 1, 0, volumeSliderWidth);
+    fill(200);
+    rect(volumeSliderX, volumeSliderY, volumeSliderWidth, volumeSliderHeight);
+    fill(0);
+    rect(volumeSliderX, volumeSliderY, volume, volumeSliderHeight);
+
+    // Display volume percentage
+    float volumePercentage = currentVolume * 100;
+    String volumeText = "Volume menu: " + nf(volumePercentage, 0, 0) + "%";
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text(volumeText, width / 2, volumeSliderY - 30);
+
+    // Update currentVolume based on slider position
+    if (mousePressed && mouseX >= volumeSliderX && mouseX <= volumeSliderX + volumeSliderWidth
+            && mouseY >= volumeSliderY && mouseY <= volumeSliderY + volumeSliderHeight) {
+        float normalizedVolume = constrain(map(mouseX, volumeSliderX, volumeSliderX + volumeSliderWidth, 0, 1), 0, 1);
+        currentVolume = normalizedVolume;
+        sound.amp(currentVolume);  // Adjust the sound volume
     }
+
+    if (backButton.isClicked()) {
+        goToPreviousPage();
+    }
+
+    // ...
+}
+
+    
+   
 
     public void displayGameMenu() {
         backButton.display(this);
