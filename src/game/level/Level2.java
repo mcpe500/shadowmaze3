@@ -80,8 +80,6 @@ public class Level2 extends Level {
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
         this.currentMap = new CurrentMap(strMap);
-
-        this.currentMap = new CurrentMap(strMap);
     }
 
     public void draw() {
