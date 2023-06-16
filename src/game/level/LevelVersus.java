@@ -1,6 +1,7 @@
 package src.game.level;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 import processing.core.PApplet;
@@ -14,6 +15,8 @@ import src.util.Button;
 import src.util.FileManager;
 import src.util.MapLoader;
 import src.util.MazeGenerator;
+import src.util.ScoreManager;
+import src.util.Node;
 
 public class LevelVersus extends Level {
 
@@ -485,10 +488,9 @@ public class LevelVersus extends Level {
             Amplitude amp = new Amplitude(this);
             amp.input(sound);
 
-            int[] file = FileManager.openFile();
-            if (file[5] < time)
-                file[5] = time;
-            FileManager.writeToFile(file);
+            PriorityQueue<Node> file = ScoreManager.openFile();
+            file.add(new Node(time, file.size()));
+            ScoreManager.writeToFile(file);
         }
 
         image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);

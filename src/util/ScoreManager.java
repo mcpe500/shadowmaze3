@@ -41,9 +41,9 @@ public class ScoreManager {
         PriorityQueue<Node> output = new PriorityQueue<>();
         for (String line : file) {
             String[] data = line.split(",");
-            String name = data[0];
+            int idx = Integer.parseInt(data[0]);
             int score = Integer.parseInt(data[1]);
-            Node node = new Node(score, name);
+            Node node = new Node(score, idx);
             output.add(node);
         }
         return output;
@@ -53,7 +53,7 @@ public class ScoreManager {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("../src/Highscore.txt"));
             for (Node node : output) {
-                writer.write(node.getName() + "-" + node.getScore());
+                writer.write(node.getIdx() + "-" + node.getScore());
                 writer.newLine();
             }
             writer.close();

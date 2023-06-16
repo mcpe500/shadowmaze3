@@ -2,26 +2,26 @@ package src.util;
 
 public class Node {
     private long score;
-    private String name;
+    private int idx;
 
-    public Node(long score, String name) {
+    public Node(long score, int idx) {
         this.score = score;
-        this.name = name;
+        this.idx = idx;
     }
 
     public long getScore() {
         return score;
     }
 
-    public String getName() {
-        return name;
+    public int getIdx() {
+        return idx;
     }
 
     public void setScore(long score) {
         this.score = score;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIdx(int idx) {
+        this.idx = idx;
     }
 }
