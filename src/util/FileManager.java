@@ -12,7 +12,7 @@ public class FileManager {
     public static int[] openFile() {
         ArrayList<String> input = new ArrayList<>();
         try {
-            BufferedReader in = new BufferedReader(new FileReader("../output/Save.txt"));
+            BufferedReader in = new BufferedReader(new FileReader("../src/Save.txt"));
             String line;
             while((line=in.readLine())!=null) {
                 input.add(line);
@@ -34,7 +34,7 @@ public class FileManager {
 
     public static void writeToFile(int[] output) {
         try {
-            PrintWriter out = new PrintWriter(new FileOutputStream("Save.txt"), true);
+            PrintWriter out = new PrintWriter(new FileOutputStream("../src/Save.txt"), true);
             for (int i : output) {
                 out.println(i);
             }
