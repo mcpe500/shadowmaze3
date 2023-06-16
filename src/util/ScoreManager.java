@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class ScoreManager {
@@ -23,7 +22,7 @@ public class ScoreManager {
         } catch (IOException ex) {
             System.out.println("File not found");
             createFile();
-            return new PriorityQueue<>(Comparator.comparingLong(Node::getScore));
+            return new PriorityQueue<>();
         }
 
         return decodeFile(input);
@@ -39,7 +38,7 @@ public class ScoreManager {
     }
 
     public static PriorityQueue<Node> decodeFile(ArrayList<String> file) {
-        PriorityQueue<Node> output = new PriorityQueue<>(Comparator.comparingLong(Node::getScore));
+        PriorityQueue<Node> output = new PriorityQueue<>();
         for (String line : file) {
             String[] data = line.split(",");
             String name = data[0];
