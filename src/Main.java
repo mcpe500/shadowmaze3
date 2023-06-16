@@ -227,27 +227,29 @@ public class Main extends PApplet {
         playVersusButton.setImage(loadImage("../assets/buttons/start_button.png"));
         playVersusButton.display(this);
         playVersusButton.update(mouseX, mouseY, mousePressed);
-        Button highscoreButton = new Button(515, 430, 250, 100, "Highscore");
-        highscoreButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
-        highscoreButton.display(this);
+        // Button highscoreButton = new Button(515, 430, 250, 100, "Highscore");
+        // highscoreButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+        // highscoreButton.display(this);
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (playVersusButton.isClicked()) {
             stopSound();
             goToVersusGame();
             playVersusButton.setEnabled(false);
-        } else if (highscoreButton.isClicked()) {
-            goToHighscore();
-        }
+        } 
+        // else if (highscoreButton.isClicked()) {
+        //     goToHighscore();
+        // }
     }
 
-    public void displayHighScoreMenu() {
-        backButton.display(this);
-        backButton.update(mouseX, mouseY, mousePressed);
-        if (backButton.isClicked()) {
-            goToPreviousPage();
-        }
-    }
+    // public void displayHighScoreMenu() {
+    //     backButton.display(this);
+    //     backButton.update(mouseX, mouseY, mousePressed);
+
+    //     if (backButton.isClicked()) {
+    //         goToPreviousPage();
+    //     }
+    // }
 
     public void goToHighscore() {
         previousPage = currentPage;
