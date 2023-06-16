@@ -276,7 +276,6 @@ public class LevelVersus extends Level {
             for (int i = 0; i < portals.length; i++) {
                 if (portals[i] != null) {
                     portals[i].draw(this);
-                    // System.out.println(portals);
                 }
             }
 
