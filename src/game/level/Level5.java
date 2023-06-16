@@ -8,6 +8,7 @@ import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
 import src.game.Tile.Exit;
+import src.game.Tile.HolyGrenade;
 import src.game.Tile.Lava;
 import src.game.Tile.Tile;
 import src.game.Tile.Trapdoor;
@@ -106,6 +107,12 @@ public class Level5 extends Level {
                         }  else if (this.map[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.map[i][j];
                             exit.onCollision(player);
+                        } else if (this.map[i][j] instanceof Trapdoor) {
+                            Trapdoor trapdoor = (Trapdoor) this.map[i][j];
+                            trapdoor.onCollision(player);
+                        } else if (this.map[i][j] instanceof HolyGrenade) {
+                            HolyGrenade holyGrenade = (HolyGrenade) this.map[i][j];
+                            holyGrenade.onCollision(player);
                         }
                     }
                 }

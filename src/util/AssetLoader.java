@@ -1,6 +1,9 @@
 package src.util;
 
 import processing.core.PImage;
+
+import com.jsyn.unitgen.PinkNoise;
+
 import processing.core.PApplet;
 
 public class AssetLoader {
@@ -13,8 +16,8 @@ public class AssetLoader {
     private PImage exit;
     private PImage portal1;
     private PImage portal2;
-    private PImage trapdoor; // Corrected typo: PImage instead of PImange
-
+    private PImage trapdoor;
+    private PImage holyGrenade;
 
     public AssetLoader(PApplet pApplet) {
         parent = pApplet;
@@ -27,6 +30,7 @@ public class AssetLoader {
         portal1 = parent.loadImage("../assets/sprites/portal1.png");
         portal2 = parent.loadImage("../assets/sprites/portal2.png");
         trapdoor = parent.loadImage("../assets/sprites/trapdoor.png");
+        holyGrenade = parent.loadImage("../assets/sprites/Holy_grenade.png");
     }
 
     public PImage getStonefloor() {
@@ -61,8 +65,11 @@ public class AssetLoader {
         return portal2;
     }
 
-    public PImage getTrapdoor()
-    {
+    public PImage getTrapdoor() {
         return trapdoor;
+    }
+
+    public PImage getHolyGrenade() {
+        return holyGrenade;
     }
 }

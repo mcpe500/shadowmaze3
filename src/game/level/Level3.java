@@ -137,7 +137,7 @@ public class Level3 extends Level {
                         } else if (this.map[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.map[i][j];
                             exit.onCollision(player);
-                        }else if (this.map[i][j] instanceof Trapdoor) {
+                        } else if (this.map[i][j] instanceof Trapdoor) {
                             Trapdoor trapdoor = (Trapdoor) this.map[i][j];
                             trapdoor.onCollision(player);
                         }
@@ -286,7 +286,7 @@ public class Level3 extends Level {
             }
             text("Health : " + player.getHealth(), 50, 50);
             text("Time : " + time, width - 200, 50);
-            
+
             if (player.getTookDamage()) {
                 player.setTookDamage(false);
                 SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_blood.mp3");

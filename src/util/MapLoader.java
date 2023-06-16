@@ -38,6 +38,9 @@ public class MapLoader {
                     case "4":
                         tileMap[i][j] = new Trapdoor(parent, bSize, bSize, bX, bY);
                         break;
+                    case "5":
+                        tileMap[i][j] = new HolyGrenade(parent, bSize, bSize, bX, bY);
+                        break;
                     case "9":
                         tileMap[i][j] = new Exit(parent, bSize, bSize, bX, bY);
                     default:
@@ -69,6 +72,14 @@ public class MapLoader {
                     case 3:
                         tileMap[i][j] = new Lava(parent, bSize, bSize, bX, bY);
                         break;
+                    case 4:
+                        tileMap[i][j] = new Trapdoor(parent, bSize, bSize, bX, bY);
+                        break;
+                    case 5:
+                        tileMap[i][j] = new HolyGrenade(parent, bSize, bSize, bX, bY);
+                        break;
+                    case 9:
+                        tileMap[i][j] = new Exit(parent, bSize, bSize, bX, bY);
                     default:
                         break;
                 }
