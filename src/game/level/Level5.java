@@ -11,6 +11,7 @@ import src.game.Tile.Beartrap;
 import src.game.Tile.Exit;
 import src.game.Tile.HolyGrenade;
 import src.game.Tile.Lava;
+import src.game.Tile.Portal;
 import src.game.Tile.Stonefloor;
 import src.game.Tile.Tile;
 import src.game.Tile.Trapdoor;
@@ -42,6 +43,8 @@ public class Level5 extends Level {
     private boolean over;
     private int time;
     private int currentSecond;
+    private int nextShootPortal;
+    private int[][] portalscoord;
 
     public Level5(PApplet parent) {
         super(parent);
@@ -54,7 +57,9 @@ public class Level5 extends Level {
         enemies = new ArrayList<>();
         over = false;
         time = 0;
+        portalscoord = new int[2][2];
         currentSecond = second();
+        nextShootPortal = 0;
     }
 
     @Override
@@ -165,6 +170,28 @@ public class Level5 extends Level {
         enemies.add(enemySolid);
 
         this.currentMap = new CurrentMap(strMap);
+    }
+
+    public void addPortal(Portal portal) {
+        if (portals[0] == null) {
+            portals[0] = portal;
+            portals[0].setImage(loadImage("../assets/sprites/portal1.png")); // Set the image for the first portal
+            portalscoord[0][0] = portal.getX();
+            portalscoord[0][1] = portal.getY();
+        } else if (portals[1] == null) {
+            portals[1] = portal;
+            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the second portal
+            portalscoord[1][0] = portal.getX();
+            portalscoord[1][1] = portal.getY();
+        } else {
+            portals[0] = portals[1];
+            portalscoord[0][0] = portals[1].getX();
+            portalscoord[0][1] = portals[1].getY();
+            portals[1] = portal;
+            portalscoord[1][0] = portal.getX();
+            portalscoord[1][1] = portal.getY();
+            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the new second portal
+        }
     }
 
     public void draw() {
