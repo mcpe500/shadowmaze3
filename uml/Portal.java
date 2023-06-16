@@ -7,49 +7,17 @@ import src.game.Interface.Collidable;
 import src.util.AssetLoader;
 
 public class Portal extends Tile implements Collidable {
-    private boolean portal1Active;
-    private boolean portal2Active;
-
     public Portal(PApplet parent, float width, float height, int x, int y) {
         super(parent, width, height, new AssetLoader(parent).getPortal1(), x, y);
-        this.portal1Active = false;
-        this.portal2Active = false;
     }
+
+    public void setPortalImage(PImage newImage) {
+        this.image = newImage;
+    }
+
 
     public PImage getPortalImage() {
-        if (portal1Active && portal2Active) {
-            return new AssetLoader(parent).getPortal2();
-        } else if (portal1Active) {
-            return new AssetLoader(parent).getPortal1();
-        } else if (portal2Active) {
-            return new AssetLoader(parent).getPortal2();
-        } else {
-            return new AssetLoader(parent).getPortal1();
-        }
-    }
-
-    public void activatePortal1() {
-        this.portal1Active = true;
-    }
-
-    public void activatePortal2() {
-        this.portal2Active = true;
-    }
-
-    public void deactivatePortal1() {
-        this.portal1Active = false;
-    }
-
-    public void deactivatePortal2() {
-        this.portal2Active = false;
-    }
-
-    public boolean isPortal1Active() {
-        return portal1Active;
-    }
-
-    public boolean isPortal2Active() {
-        return portal2Active;
+        return this.image;
     }
 
     @Override
@@ -73,7 +41,7 @@ public class Portal extends Tile implements Collidable {
 
     @Override
     public void onCollision(Collidable c) {
-        if (checkCollision(c) && isPortal1Active() && isPortal2Active()) {
+        if (checkCollision(c)) {
             if (c instanceof Player) {
                 Player player = (Player) c;
                 float playerX = player.getX();
@@ -82,25 +50,25 @@ public class Portal extends Tile implements Collidable {
                 // Calculate the overlap distances
                 float xOverlap = Math.min(playerX + player.getWidth(), x + width) - Math.max(playerX, x);
                 float yOverlap = Math.min(playerY + player.getHeight(), y + height) - Math.max(playerY, y);
-
                 if (xOverlap < yOverlap) {
                     if (playerX < x) {
-                        player.setX((int) (x + width));
-                        player.stopLeft();
+                        // player.setX((int) (x - player.getWidth()));
+                        // player.stopRight();
                     } else {
-                        player.setX(x - player.getWidth());
-                        player.stopRight();
+                        // player.setX((int) (x + width));
+                        // player.stopLeft();
                     }
                 } else {
                     if (playerY < y) {
-                        player.setY((int) (y + height));
-                        player.stopUp();
+                        // player.setY((int) (y - player.getHeight()));
+                        // player.stopDown();
                     } else {
-                        player.setY(y - player.getHeight());
-                        player.stopDown();
+                        // player.setY((int) (y + height));
+                        // player.stopUp();
                     }
                 }
             }
         }
     }
+
 }
