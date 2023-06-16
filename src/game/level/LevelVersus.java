@@ -51,11 +51,35 @@ public class LevelVersus extends Level {
         currentSecond = second();
         random = new Random();
         mazeGenerator = new MazeGenerator(width / 32 - 2, height / 32 - 2);
+        portalscoord = new int[2][2];
+        nextShootPortal = 0;
     }
 
     @Override
     public void settings() {
         size(width, height);
+    }
+
+    public void addPortal(Portal portal) {
+        if (portals[0] == null) {
+            portals[0] = portal;
+            portals[0].setImage(loadImage("../assets/sprites/portal1.png")); // Set the image for the first portal
+            portalscoord[0][0] = portal.getX();
+            portalscoord[0][1] = portal.getY();
+        } else if (portals[1] == null) {
+            portals[1] = portal;
+            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the second portal
+            portalscoord[1][0] = portal.getX();
+            portalscoord[1][1] = portal.getY();
+        } else {
+            portals[0] = portals[1];
+            portalscoord[0][0] = portals[1].getX();
+            portalscoord[0][1] = portals[1].getY();
+            portals[1] = portal;
+            portalscoord[1][0] = portal.getX();
+            portalscoord[1][1] = portal.getY();
+            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the new second portal
+        }
     }
 
     @Override
@@ -104,36 +128,36 @@ public class LevelVersus extends Level {
     }
 
     // public void randomMap(int startX, int startY, int[][] intMap) {
-    //     int sizeX = intMap[0].length;
-    //     int sizeY = intMap.length;
-    //     intMap[startY][startX] = 0;
-    //     int[][] possibleMove = { { 0, 2 }, { 2, 0 }, { 0, -2 }, { -2, 0 } };
-    //     shuffle(possibleMove);
-    //     for (int i = 0; i < possibleMove.length; i++) {
-    //         int x1 = possibleMove[i][0];
-    //         int y1 = possibleMove[i][1];
-    //         int lx1 = startX + x1;
-    //         int ly1 = startY + y1;
-    //         int mx1 = startX + x1 / 2;
-    //         int my1 = startY + y1 / 2;
-    //         if (lx1 >= 0 && lx1 < sizeX && ly1 >= 0 && ly1 < sizeY) {
-    //             if (intMap[ly1][lx1] == 1 && intMap[my1][mx1] == 1) {
-    //                 intMap[ly1][lx1] = 0;
-    //                 intMap[my1][mx1] = 0;
-    //                 randomMap(lx1, ly1, intMap);
-    //             }
-    //         }
-    //     }
+    // int sizeX = intMap[0].length;
+    // int sizeY = intMap.length;
+    // intMap[startY][startX] = 0;
+    // int[][] possibleMove = { { 0, 2 }, { 2, 0 }, { 0, -2 }, { -2, 0 } };
+    // shuffle(possibleMove);
+    // for (int i = 0; i < possibleMove.length; i++) {
+    // int x1 = possibleMove[i][0];
+    // int y1 = possibleMove[i][1];
+    // int lx1 = startX + x1;
+    // int ly1 = startY + y1;
+    // int mx1 = startX + x1 / 2;
+    // int my1 = startY + y1 / 2;
+    // if (lx1 >= 0 && lx1 < sizeX && ly1 >= 0 && ly1 < sizeY) {
+    // if (intMap[ly1][lx1] == 1 && intMap[my1][mx1] == 1) {
+    // intMap[ly1][lx1] = 0;
+    // intMap[my1][mx1] = 0;
+    // randomMap(lx1, ly1, intMap);
+    // }
+    // }
+    // }
     // }
 
     // public void shuffle(int[][] shf) {
-    //     Random random = new Random();
-    //     for (int i = shf.length - 1; i > 0; i--) {
-    //         int j = random.nextInt(i + 1);
-    //         int[] temp = shf[i];
-    //         shf[i] = shf[j];
-    //         shf[j] = temp;
-    //     }
+    // Random random = new Random();
+    // for (int i = shf.length - 1; i > 0; i--) {
+    // int j = random.nextInt(i + 1);
+    // int[] temp = shf[i];
+    // shf[i] = shf[j];
+    // shf[j] = temp;
+    // }
     // }
 
     @Override
@@ -189,7 +213,6 @@ public class LevelVersus extends Level {
                 karakter.add(enemies.get(i));
             }
             currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
-
             if (player.isTeleport()) {
                 if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
                         && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
@@ -263,80 +286,114 @@ public class LevelVersus extends Level {
             int radius = 200;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth() / 2)), 2)
+                            + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
                     if (!player.getFlash()) {
                         if (distance >= Math.pow(radius, 2)) {
                             set(j, i, color(0, 0, 0));
                         }
                     } else {
-                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 <= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX > (player.getX()+player.getWidth()/2) + width / 2)) {
+                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2)
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) + width / 8 <= 5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2))))
+                                || j + cameraX > (player.getX() + player.getWidth() / 2) + width / 2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 >= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX < (player.getX()+player.getWidth()/2) - width / 2)) {
+                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2)
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) - width / 8 >= -5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2))))
+                                || j + cameraX < (player.getX() + player.getWidth() / 2) - width / 2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 >= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY < (player.getY()+player.getHeight()/2) - height / 1.2)) {
+                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2)
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) - height / 4 >= -5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2))))
+                                || i + cameraY < (player.getY() + player.getHeight() / 2) - height / 1.2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 <= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY > (player.getY()+player.getHeight()/2) + height / 1.2)) {
+                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2)
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) + height / 4 <= 5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2))))
+                                || i + cameraY > (player.getY() + player.getHeight() / 2) + height / 1.2)) {
                             set(j, i, color(0, 0, 0));
                         }
 
-                        if (player.getLastDirection() == 3 && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 >= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2))) && (j + cameraX < (player.getX()+player.getWidth()/2) + width / 2) && (j + cameraX > (player.getX()+player.getWidth()/2))) {
+                        if (player.getLastDirection() == 3
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) + width / 8 >= 5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2)))
+                                && (j + cameraX < (player.getX() + player.getWidth() / 2) + width / 2)
+                                && (j + cameraX > (player.getX() + player.getWidth() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
-                        } else if (player.getLastDirection() == 2 && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 <= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2))) && (j + cameraX > (player.getX()+player.getWidth()/2) - width / 2) && (j + cameraX < (player.getX()+player.getWidth()/2))) {
+                        } else if (player.getLastDirection() == 2
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) - width / 8 <= -5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2)))
+                                && (j + cameraX > (player.getX() + player.getWidth() / 2) - width / 2)
+                                && (j + cameraX < (player.getX() + player.getWidth() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
-                        } else if (player.getLastDirection() == 1 && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 <= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2))) && (i + cameraY > (player.getY()+player.getHeight()/2) - height / 1.2) && (i + cameraY < (player.getY()+player.getHeight()/2))) {
+                        } else if (player.getLastDirection() == 1
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) - height / 4 <= -5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2)))
+                                && (i + cameraY > (player.getY() + player.getHeight() / 2) - height / 1.2)
+                                && (i + cameraY < (player.getY() + player.getHeight() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
-                        } else if (player.getLastDirection() == 0 && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 >= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2))) && (i + cameraY < (player.getY()+player.getHeight()/2) + height / 1.2) && (i + cameraY > (player.getY()+player.getHeight()/2))) {
+                        } else if (player.getLastDirection() == 0
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) + height / 4 >= 5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2)))
+                                && (i + cameraY < (player.getY() + player.getHeight() / 2) + height / 1.2)
+                                && (i + cameraY > (player.getY() + player.getHeight() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                    
-                    
-                    
-                }   
-            }
 
-            for (int i=enemies.size()-1; i>=0; i--) {
-                if (enemies.get(i).getHealth()==0) {
-                    enemies.remove(i);
                 }
             }
 
+            for (int i = enemies.size() - 1; i >= 0; i--) {
+                if (enemies.get(i).getHealth() == 0) {
+                    enemies.remove(i);
+                }
+            }
 
             // Reset the transformations
             popMatrix();
@@ -451,28 +508,6 @@ public class LevelVersus extends Level {
             PApplet.runSketch(levStrings, new LevelVersus(parent));
             surface.setVisible(false);
             restartButton.setEnabled(false);
-        }
-    }
-
-    public void addPortal(Portal portal) {
-        if (portals[0] == null) {
-            portals[0] = portal;
-            portals[0].setImage(loadImage("../assets/sprites/portal1.png")); // Set the image for the first portal
-            portalscoord[0][0] = portal.getX();
-            portalscoord[0][1] = portal.getY();
-        } else if (portals[1] == null) {
-            portals[1] = portal;
-            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the second portal
-            portalscoord[1][0] = portal.getX();
-            portalscoord[1][1] = portal.getY();
-        } else {
-            portals[0] = portals[1];
-            portalscoord[0][0] = portals[1].getX();
-            portalscoord[0][1] = portals[1].getY();
-            portals[1] = portal;
-            portalscoord[1][0] = portal.getX();
-            portalscoord[1][1] = portal.getY();
-            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the new second portal
         }
     }
 
