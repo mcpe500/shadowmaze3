@@ -10,9 +10,11 @@ import src.game.Tile.Beartrap;
 import src.game.Tile.Exit;
 import src.game.Tile.HolyGrenade;
 import src.game.Tile.Lava;
+import src.game.Tile.Stonefloor;
 import src.game.Tile.Tile;
 import src.game.Tile.Trapdoor;
 import src.game.Tile.Wall;
+import src.util.AssetLoader;
 import src.util.Button;
 import src.util.FileManager;
 import src.util.MapLoader;
@@ -113,6 +115,9 @@ public class Level5 extends Level {
                         } else if (this.map[i][j] instanceof HolyGrenade) {
                             HolyGrenade holyGrenade = (HolyGrenade) this.map[i][j];
                             holyGrenade.onCollision(player);
+                            if (player.getHasGrenade()) {
+                                this.map[i][j] = new Stonefloor(parent, 32, 32, j*32+100, i*32+100);
+                            }
                         }
                     }
                 }

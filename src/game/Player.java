@@ -18,6 +18,8 @@ public class Player extends Karakter implements Collidable {
     private boolean canHide;
     private boolean hiding;
     private boolean tookDamage;
+    private boolean pickItem;
+    private boolean hasGrenade;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -36,6 +38,8 @@ public class Player extends Karakter implements Collidable {
         this.canHide = false;
         this.hiding = false;
         this.tookDamage = false;
+        this.pickItem = false;
+        this.hasGrenade = false;
         setId(100);
     }
 
@@ -86,6 +90,8 @@ public class Player extends Karakter implements Collidable {
         } else if (key == 'e') {
             if (this.canHide) this.hiding = true;
             if (this.flash) this.flash = false;
+        } else if (key == 'p') {
+            this.pickItem = true;
         }
     }
 
@@ -102,6 +108,8 @@ public class Player extends Karakter implements Collidable {
             flash = false;
         }  else if (key == 'e') {
             if (this.canHide) this.hiding = false;
+        } else if (key == 'p') {
+            this.pickItem = false;
         }
     }
 
@@ -148,6 +156,18 @@ public class Player extends Karakter implements Collidable {
 
     public boolean isAtExit() {
         return atExit;
+    }
+
+    public boolean isPickingItem() {
+        return this.pickItem;
+    }
+
+    public void setHasGrenade(boolean hasGrenade) {
+        this.hasGrenade = hasGrenade;
+    }
+
+    public boolean getHasGrenade() {
+        return this.hasGrenade;
     }
 
     @Override
