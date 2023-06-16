@@ -4,6 +4,7 @@ import src.Main;
 import src.game.CurrentMap;
 import src.game.Enemy;
 import src.game.EnemyEyeball;
+import src.game.EnemySolid;
 import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
@@ -80,6 +81,10 @@ public class Level3 extends Level {
         enemyEyeball = new EnemyEyeball(1090, 1314, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
+
+        EnemySolid enemySolid = new EnemySolid(164, 164, 2, 100, 10, 12, 16);
+        enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+        enemies.add(enemySolid);
         this.currentMap = new CurrentMap(strMap);
     }
 
