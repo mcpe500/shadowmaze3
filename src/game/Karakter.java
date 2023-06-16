@@ -182,7 +182,6 @@ public abstract class Karakter implements Movable {
     }
 
     public void attack(Karakter target) {
-        System.out.println(this.getId() + " " + target.id);
         if (target.getInvulTime() == 0) {
             target.takeDamage(damage);
         }

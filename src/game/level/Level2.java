@@ -12,6 +12,7 @@ import src.game.Tile.Lava;
 import src.game.Tile.Tile;
 import src.game.Tile.Wall;
 import src.util.Button;
+import src.util.FileManager;
 import src.util.MapLoader;
 
 import java.util.ArrayList;
@@ -64,22 +65,23 @@ public class Level2 extends Level {
         gameOver = loadImage("../assets/buttons/gameover.png");
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
-        EnemyEyeball enemyEyeball = new EnemyEyeball(994, 1090, 2, 100, 10, 22, 22);
+        EnemyEyeball enemyEyeball = new EnemyEyeball(1282, 1378, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-        enemyEyeball = new EnemyEyeball(962, 1186, 2, 100, 10, 22, 22);
+        enemyEyeball = new EnemyEyeball(1122, 994, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-        enemyEyeball = new EnemyEyeball(994, 1346, 2, 100, 10, 22, 22);
+        enemyEyeball = new EnemyEyeball(1314, 1122, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-        enemyEyeball = new EnemyEyeball(1122, 1346, 2, 100, 10, 22, 22);
+        enemyEyeball = new EnemyEyeball(994, 1250, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-        enemyEyeball = new EnemyEyeball(1250, 1346, 2, 100, 10, 22, 22);
+        enemyEyeball = new EnemyEyeball(610, 1314, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
         this.currentMap = new CurrentMap(strMap);
+
     }
 
     public void draw() {
@@ -314,6 +316,9 @@ public class Level2 extends Level {
             fill(0, 255, 0, 100);
             rect(0, 0, width, height);
             over = true;
+            int[] file = FileManager.openFile();
+            if (file[0]<time) file[0] = time;
+            FileManager.writeToFile(file);
         }
 
         image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);
