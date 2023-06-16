@@ -30,9 +30,11 @@ public class EnemyEyeball extends Enemy {
     @Override
     public void onCollision(Collidable c) {
         if (c instanceof Player && ((Player) c).getFlash()) {
-            // EnemyEyeball is hit by the flashlight
-            System.out.println("EnemyEyeball is hit by the flashlight");
-            isFlashed = true;
+            if (((Player) c).getFlash()) {
+                System.out.println("flash1");
+                isFlashed = true;
+            }
+            System.out.println("flash2");
         }
     }
 

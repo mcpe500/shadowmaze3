@@ -103,7 +103,6 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         }
         if (this.moveTime>0) {
             this.moveTime--;
-            // System.out.println("checkstop");
             switch (this.pickedMove) {
                 case 0:
                     this.moveUp();
