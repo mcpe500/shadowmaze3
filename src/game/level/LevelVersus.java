@@ -5,9 +5,13 @@ import java.util.Random;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.sound.Amplitude;
+import processing.sound.SoundFile;
+import src.Main;
 import src.game.*;
 import src.game.Tile.*;
 import src.util.Button;
+import src.util.FileManager;
 import src.util.MapLoader;
 import src.util.MazeGenerator;
 
@@ -19,6 +23,7 @@ public class LevelVersus extends Level {
     private boolean run;
     private Button mainButton;
     private Button restartButton;
+    private PImage levelClear;
     private PImage gameOver;
     private boolean over;
     private int time;
@@ -62,6 +67,11 @@ public class LevelVersus extends Level {
         tileMap = MapLoader.tileMap(parent, map, 32, 100, 100);
         player = new Player(170, 170, 10, 100, 10, 32, 32);
         player.setImage(loadImage("../assets/sprites/player.png"));
+
+        mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
+        restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
+        gameOver = loadImage("../assets/buttons/gameover.png");
+        levelClear = loadImage("../assets/buttons/level_clear.png");
     }
 
     public int[][] genEmptyMap(int width, int height) {
@@ -287,6 +297,76 @@ public class LevelVersus extends Level {
     @Override
     public void keyReleased() {
         player.keyReleased(key);
+    }
+
+    public void gameOver() {
+        if (!over) {
+            fill(255, 0, 0, 100);
+            rect(0, 0, width, height);
+            over = true;
+
+            SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_gameover.mp3");
+            sound.stop();
+            sound.play();
+            Amplitude amp = new Amplitude(this);
+            amp.input(sound);
+        }
+
+        image(gameOver, width / 2 - gameOver.width / 2, height / 2 - 200);
+        mainButton.display(this);
+        mainButton.update(mouseX, mouseY, mousePressed);
+        if (mainButton.isClicked()) {
+            Main app = new Main(3);
+            String[] main = { "Main" };
+            PApplet.runSketch(main, app);
+            surface.setVisible(false);
+            mainButton.setEnabled(false);
+        }
+        restartButton.display(this);
+        restartButton.update(mouseX, mouseY, mousePressed);
+        if (restartButton.isClicked()) {
+            String[] levStrings = { "Level4" };
+            PApplet.runSketch(levStrings, new Level4(parent));
+            surface.setVisible(false);
+            restartButton.setEnabled(false);
+        }
+    }
+
+    public void win() {
+        if (!over) {
+            fill(0, 255, 0, 100);
+            rect(0, 0, width, height);
+            over = true;
+
+            SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_win.mp3");
+            sound.play();
+            Amplitude amp = new Amplitude(this);
+            amp.input(sound);
+
+            int[] file = FileManager.openFile();
+            if (file[5] < time)
+                file[5] = time;
+            FileManager.writeToFile(file);
+        }
+
+        image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);
+        mainButton.display(this);
+        mainButton.update(mouseX, mouseY, mousePressed);
+        if (mainButton.isClicked()) {
+            Main app = new Main(3);
+            String[] main = { "Main" };
+            PApplet.runSketch(main, app);
+            surface.setVisible(false);
+            mainButton.setEnabled(false);
+        }
+        restartButton.display(this);
+        restartButton.update(mouseX, mouseY, mousePressed);
+        if (restartButton.isClicked()) {
+            String[] levStrings = { "Versus" };
+            PApplet.runSketch(levStrings, new LevelVersus(parent));
+            surface.setVisible(false);
+            restartButton.setEnabled(false);
+        }
     }
 
 }
