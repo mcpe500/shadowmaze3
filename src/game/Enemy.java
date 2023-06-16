@@ -213,13 +213,13 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
     public void moveController(Player player, int[][] map) {
         int playerPos = this.findPlayer(map);
-        if (playerPos != -1) {
+        if (playerPos != -1 && !player.isHiding()) {
             this.pathfind(map, playerPos);
         } else {
             this.moveRandomly(map);
         }
 
-        if (Math.abs(player.mapPosX-this.mapPosX) + Math.abs(player.mapPosY-this.mapPosY) <= 1) {
+        if (Math.abs(player.mapPosX-this.mapPosX) + Math.abs(player.mapPosY-this.mapPosY) <= 1 && !player.isHiding()) {
             this.attack(player);
         }
     }

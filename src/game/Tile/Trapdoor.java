@@ -34,8 +34,11 @@ public class Trapdoor extends Tile {
         if (checkCollision(c)) {
             if (c instanceof Player) {
                 Player p = (Player) c;
-                p.setAtExit(true);
+                p.setCanHide(true);
             }
+        } else if (c instanceof Player) {
+            Player p = (Player) c;
+            if (p.getCanHide()) p.setCanHide(false);
         }
     }
 }

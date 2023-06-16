@@ -15,6 +15,8 @@ public class Player extends Karakter implements Collidable {
     private int flashTick;
     private int lastFlashTick;
     private int flashCooldown;
+    private boolean canHide;
+    private boolean hiding;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -30,37 +32,41 @@ public class Player extends Karakter implements Collidable {
         this.flashTick = 0;
         this.lastFlashTick = 0;
         this.flashCooldown = 0;
+        this.canHide = false;
+        this.hiding = false;
         setId(100);
     }
 
     public void playerController(PApplet parent) {
-        if (up) {
-            moveUp();
-            this.lastDirection = 1;
-        }
-        if (down) {
-            moveDown();
-            this.lastDirection = 0;
-        }
-        if (left) {
-            moveLeft();
-            this.lastDirection = 2;
-        }
-        if (right) {
-            moveRight();
-            this.lastDirection = 3;
-        }
-        if (up || down || left || right) {
-            this.tick++;
-            if (this.tick >= 8) {
-                this.tick %= 8;
-                this.imageIdx += this.imageDx;
-                if (this.imageIdx == 0 || this.imageIdx == 2) {
-                    this.imageDx *= -1;
-                }
+        if (!hiding) {
+            if (up) {
+                moveUp();
+                this.lastDirection = 1;
             }
-        } else if (this.imageIdx != 1) {
-            this.imageIdx = 1;
+            if (down) {
+                moveDown();
+                this.lastDirection = 0;
+            }
+            if (left) {
+                moveLeft();
+                this.lastDirection = 2;
+            }
+            if (right) {
+                moveRight();
+                this.lastDirection = 3;
+            }
+            if (up || down || left || right) {
+                this.tick++;
+                if (this.tick >= 8) {
+                    this.tick %= 8;
+                    this.imageIdx += this.imageDx;
+                    if (this.imageIdx == 0 || this.imageIdx == 2) {
+                        this.imageDx *= -1;
+                    }
+                }
+            } else if (this.imageIdx != 1) {
+                this.imageIdx = 1;
+            }
         }
     }
 
@@ -74,7 +80,10 @@ public class Player extends Karakter implements Collidable {
         } else if (key == 'd') {
             right = true;
         } else if (key == 'f') {
-            if (this.flashCooldown==0) flash = true;
+            if (this.flashCooldown==0 && !hiding) flash = true;
+        } else if (key == 'e') {
+            if (this.canHide) this.hiding = true;
+            if (this.flash) this.flash = false;
         }
     }
 
@@ -89,6 +98,8 @@ public class Player extends Karakter implements Collidable {
             right = false;
         } else if (key == 'f') {
             flash = false;
+        }  else if (key == 'e') {
+            if (this.canHide) this.hiding = false;
         }
     }
 
@@ -161,6 +172,18 @@ public class Player extends Karakter implements Collidable {
         return flash;
     }
 
+    public void setCanHide(boolean canHide) {
+        this.canHide = canHide; 
+    }
+
+    public boolean getCanHide() {
+        return canHide;
+    }
+
+    public boolean isHiding() {
+        return hiding;
+    }
+
     public int getLastDirection() {
         return lastDirection;
     }
@@ -191,10 +214,12 @@ public class Player extends Karakter implements Collidable {
             this.lastFlashTick = this.flashTick;
         }
 
-        applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
+        if (!hiding) {
+            applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
                 this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
                 imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,
                 (lastDirection + 1) * image.height / 4);
+        }
     }
 
     public void setImage(PImage image) {
