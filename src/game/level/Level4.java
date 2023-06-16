@@ -12,6 +12,7 @@ import src.game.Tile.Lava;
 import src.game.Tile.Tile;
 import src.game.Tile.Wall;
 import src.util.Button;
+import src.util.FileManager;
 import src.util.MapLoader;
 
 import java.util.ArrayList;
@@ -266,6 +267,9 @@ public class Level4 extends Level {
             fill(0, 255, 0, 100);
             rect(0, 0, width, height);
             over = true;
+            int[] file = FileManager.openFile();
+            if (file[0]<time) file[0] = time;
+            FileManager.writeToFile(file);
         }
 
         image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);

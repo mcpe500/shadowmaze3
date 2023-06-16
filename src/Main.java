@@ -1,6 +1,7 @@
 package src;
 
 import src.util.Button;
+import src.util.FileManager;
 import src.game.level.Level;
 import src.game.level.Level1;
 import src.game.level.Level2;
@@ -8,6 +9,17 @@ import src.game.level.Level3;
 import src.game.level.Level4;
 import src.game.level.Level5;
 import src.game.level.LevelVersus;
+
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+import javax.annotation.processing.FilerException;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.sound.*;
@@ -65,6 +77,8 @@ public class Main extends PApplet {
         amp = new Amplitude(this);
         amp.input(sound);
 
+        int[] file = FileManager.openFile();
+
         background = loadImage("../assets/sprites/SL_menu.png");
         background.resize(1280, 720);
         playButton = new Button(280, 300, 250, 100, "Start");
@@ -76,14 +90,36 @@ public class Main extends PApplet {
         level1Button = new Button(100, 400, 150, 80, "Level 1");
         level1Button.setImage(loadImage("assets/buttons/level1.png"));
         level2Button = new Button(300, 400, 150, 80, "Level 2");
-        level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
         level3Button = new Button(500, 400, 150, 80, "Level 3");
-        level3Button.setImage(loadImage("assets/buttons/level3_locked.png"));
         level4Button = new Button(700, 400, 150, 80, "Level 4");
-        level4Button.setImage(loadImage("assets/buttons/level4_locked.png"));
         level5Button = new Button(900, 400, 150, 80, "Level 5");
-        level5Button.setImage(loadImage("assets/buttons/level5_locked.png"));
+        if (file[1]==0) {
+            level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
+            level2Button.setEnabled(false);
+        } else {
+            level2Button.setImage(loadImage("assets/buttons/level2.png"));
+        }
+        if (file[2]==0) {
+            level3Button.setImage(loadImage("assets/buttons/level3_locked.png"));
+            level3Button.setEnabled(false);
+        } else {
+            level3Button.setImage(loadImage("assets/buttons/level3.png"));
+        }
+        if (file[3]==0) {
+            level4Button.setImage(loadImage("assets/buttons/level4_locked.png"));
+            level4Button.setEnabled(false);
+        } else {
+            level4Button.setImage(loadImage("assets/buttons/level4.png"));
+        }
+        if (file[4]==0) {
+            level5Button.setImage(loadImage("assets/buttons/level5_locked.png"));
+            level5Button.setEnabled(false);
+        } else {
+            level5Button.setImage(loadImage("assets/buttons/level5.png"));
+        }
+        
         playVersusButton = new Button(515, 280, 250, 100, "Play");
+
     }
 
     public void draw() {
@@ -259,4 +295,5 @@ public class Main extends PApplet {
         PApplet.runSketch(levStrings, new LevelVersus(this));
         surface.setVisible(false);
     }
+
 }

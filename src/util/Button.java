@@ -53,7 +53,7 @@ public class Button {
                 sketch.fill(baseColor, alpha);
             }
         } else {
-            sketch.fill(100);
+            sketch.fill(100, alpha);
         }
         sketch.rect(x, y, width, height);
 
