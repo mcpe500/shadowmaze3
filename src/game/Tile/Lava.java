@@ -5,7 +5,7 @@ import src.util.AssetLoader;
 import src.game.Player;
 import src.game.Interface.Collidable;
 
-public class Lava extends Tile implements Collidable{
+public class Lava extends Tile implements Collidable {
 
     public Lava(PApplet parent, float width, float height, int x, int y) {
         super(parent, width, height, new AssetLoader(parent).getLava(), x, y);

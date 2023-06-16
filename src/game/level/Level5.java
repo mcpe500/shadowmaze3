@@ -4,6 +4,7 @@ import src.Main;
 import src.game.CurrentMap;
 import src.game.Enemy;
 import src.game.EnemyEyeball;
+import src.game.EnemySolid;
 import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
@@ -71,6 +72,37 @@ public class Level5 extends Level {
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
 
+        EnemyEyeball enemyEyeball = new EnemyEyeball(1250, 994, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+        enemyEyeball = new EnemyEyeball(932, 1060, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+        enemyEyeball = new EnemyEyeball(932, 1252, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+        enemyEyeball = new EnemyEyeball(1252, 1380, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+        enemyEyeball = new EnemyEyeball(740, 1444, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+
+        EnemySolid enemySolid = new EnemySolid(740, 740, 2, 100, 10, 18, 24);
+        enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+        enemies.add(enemySolid);
+        enemySolid = new EnemySolid(548, 868, 2, 100, 10, 18, 24);
+        enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+        enemies.add(enemySolid);
+        enemySolid = new EnemySolid(484, 996, 2, 100, 10, 18, 24);
+        enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+        enemies.add(enemySolid);
+        enemySolid = new EnemySolid(740, 1124, 2, 100, 10, 18, 24);
+        enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+        enemies.add(enemySolid);
+        enemySolid = new EnemySolid(484, 1188, 2, 100, 10, 18, 24);
+        enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+        enemies.add(enemySolid);
 
         this.currentMap = new CurrentMap(strMap);
     }
@@ -207,6 +239,14 @@ public class Level5 extends Level {
                     
                     
                 }   
+            }
+
+            if (player.getThrowGrenade()) {
+                player.runGrenade(enemies);
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_explode.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
             }
 
             for (int i=enemies.size()-1; i>=0; i--) {

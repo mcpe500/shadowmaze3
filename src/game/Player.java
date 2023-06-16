@@ -1,5 +1,7 @@
 package src.game;
 
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import src.game.Interface.Collidable;
@@ -20,6 +22,7 @@ public class Player extends Karakter implements Collidable {
     private boolean tookDamage;
     private boolean pickItem;
     private boolean hasGrenade;
+    private boolean throwGrenade;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -40,6 +43,7 @@ public class Player extends Karakter implements Collidable {
         this.tookDamage = false;
         this.pickItem = false;
         this.hasGrenade = false;
+        this.throwGrenade = false;
         setId(100);
     }
     
@@ -93,6 +97,11 @@ public class Player extends Karakter implements Collidable {
             if (this.flash) this.flash = false;
         } else if (key == 'p') {
             this.pickItem = true;
+        } else if (key == 'q') {
+            if (this.hasGrenade) {
+                this.hasGrenade = false;
+                this.throwGrenade = true;
+            }
         }
     }
 
@@ -169,6 +178,19 @@ public class Player extends Karakter implements Collidable {
 
     public boolean getHasGrenade() {
         return this.hasGrenade;
+    }
+    
+    public boolean getThrowGrenade() {
+        return this.throwGrenade;
+    }
+
+    public void runGrenade(ArrayList<Enemy> enemies) {
+        this.throwGrenade = false;
+        for (Enemy enemy : enemies) {
+            if (Math.abs(this.mapPosX-enemy.mapPosX) + Math.abs(this.mapPosY-enemy.mapPosY) <= 7) {
+                enemy.takeDamage(enemy.getHealth());
+            }
+        }
     }
 
     @Override
