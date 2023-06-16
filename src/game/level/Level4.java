@@ -10,6 +10,7 @@ import src.game.Player;
 import src.game.Tile.Beartrap;
 import src.game.Tile.Exit;
 import src.game.Tile.Lava;
+import src.game.Tile.Portal;
 import src.game.Tile.Tile;
 import src.game.Tile.Trapdoor;
 import src.game.Tile.Wall;
@@ -61,6 +62,8 @@ public class Level4 extends Level {
     }
 
     public void setup() {
+        portals[0] = null;
+        portals[1] = null;
         this.strMap = MapLoader.loadMap(parent, "../assets/maps/map4.txt");
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
@@ -102,6 +105,17 @@ public class Level4 extends Level {
         enemies.add(enemySolid);
 
         this.currentMap = new CurrentMap(strMap);
+    }
+
+    public void addPortal(Portal portal) {
+        if (portals[0] == null) {
+            portals[0] = portal;
+        } else if (portals[1] == null) {
+            portals[1] = portal;
+        } else {
+            portals[0] = portals[1];
+            portals[1] = portal;
+        }
     }
 
     public void draw() {
@@ -159,7 +173,42 @@ public class Level4 extends Level {
                 karakter.add(enemies.get(i));
             }
             currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
-
+            if (player.isShootPortal()) {
+                System.out.println("shoot portal");
+                if (player.isShootPortal() && player.getLastDirection() == 1) {
+                    System.out.println("shoot portal up");
+                    int mapX = player.getMapPosX();
+                    int mapY = player.getMapPosY();
+                    while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
+                        mapY--;
+                    }
+                    mapX = mapX * 32 + 100;
+                    mapY = mapY * 32 + 100;
+                    Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                    portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                    addPortal(portal);
+                }
+                
+                // if (player.getLastDirection() == 1) {
+                //     int mapX = player.getMapPosX();
+                //     int mapY = player.getMapPosY();
+                //     while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
+                //         mapY--;
+                //     }
+                //     mapX = mapX * 32 + 100;
+                //     mapY = mapY * 32 + 100;
+                //     System.out.println(mapX + " " + mapY);
+                //     Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                //     portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                //     // addPortal(portal);
+                // }
+            }
+            for (int i = 0; i < portals.length; i++) {
+                if (portals[i] != null) {
+                    portals[i].draw(parent);
+                    System.out.println(portals);
+                }
+            }
             // Circle overlay
             int radius = 200;
             for (int i = 0; i < height; i++) {
@@ -283,7 +332,7 @@ public class Level4 extends Level {
 
             if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
                 player.setCanHide(false);
-            } 
+            }
 
             // Reset the transformations
             popMatrix();
@@ -377,7 +426,8 @@ public class Level4 extends Level {
             amp.input(sound);
 
             int[] file = FileManager.openFile();
-            if (file[3] < time) file[3] = time;
+            if (file[3] < time)
+                file[3] = time;
             FileManager.writeToFile(file);
         }
 

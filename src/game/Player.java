@@ -1,10 +1,12 @@
 package src.game;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import src.game.Interface.Collidable;
+import src.game.Tile.Portal;
 
 public class Player extends Karakter implements Collidable {
     private boolean up, down, left, right, flash;
@@ -23,6 +25,7 @@ public class Player extends Karakter implements Collidable {
     private boolean pickItem;
     private boolean hasGrenade;
     private boolean throwGrenade;
+    private boolean shootPortal;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -44,9 +47,9 @@ public class Player extends Karakter implements Collidable {
         this.pickItem = false;
         this.hasGrenade = false;
         this.throwGrenade = false;
+        this.shootPortal = false;
         setId(100);
     }
-    
 
     public void playerController(PApplet parent) {
         if (!hiding) {
@@ -91,10 +94,13 @@ public class Player extends Karakter implements Collidable {
         } else if (key == 'd') {
             right = true;
         } else if (key == 'f') {
-            if (this.flashCooldown==0 && !hiding) flash = true;
+            if (this.flashCooldown == 0 && !hiding)
+                flash = true;
         } else if (key == 'e') {
-            if (this.canHide) this.hiding = true;
-            if (this.flash) this.flash = false;
+            if (this.canHide)
+                this.hiding = true;
+            if (this.flash)
+                this.flash = false;
         } else if (key == 'p') {
             this.pickItem = true;
         } else if (key == 'q') {
@@ -102,6 +108,8 @@ public class Player extends Karakter implements Collidable {
                 this.hasGrenade = false;
                 this.throwGrenade = true;
             }
+        } else if (key == ' ') {
+            this.shootPortal = true;
         }
     }
 
@@ -116,34 +124,18 @@ public class Player extends Karakter implements Collidable {
             right = false;
         } else if (key == 'f') {
             flash = false;
-        }  else if (key == 'e') {
-            if (this.canHide) this.hiding = false;
+        } else if (key == 'e') {
+            if (this.canHide)
+                this.hiding = false;
         } else if (key == 'p') {
             this.pickItem = false;
+        } else if (key == ' ') {
+            this.shootPortal = false;
         }
     }
-
-    public int getDirection() {
-        if (up) {
-            return 0;
-        } else if (up && right) {
-            return 1;
-        } else if (right) {
-            return 2;
-        } else if (down && right) {
-            return 3;
-        } else if (down) {
-            return 4;
-        } else if (down && left) {
-            return 5;
-        } else if (left) {
-            return 6;
-        } else if (up && left) {
-            return 7;
-        }
-        return -1;
+    public boolean isShootPortal(){
+        return this.shootPortal;
     }
-
     public void stopDown() {
         down = false;
     }
@@ -179,7 +171,7 @@ public class Player extends Karakter implements Collidable {
     public boolean getHasGrenade() {
         return this.hasGrenade;
     }
-    
+
     public boolean getThrowGrenade() {
         return this.throwGrenade;
     }
@@ -187,7 +179,7 @@ public class Player extends Karakter implements Collidable {
     public void runGrenade(ArrayList<Enemy> enemies) {
         this.throwGrenade = false;
         for (Enemy enemy : enemies) {
-            if (Math.abs(this.mapPosX-enemy.mapPosX) + Math.abs(this.mapPosY-enemy.mapPosY) <= 7) {
+            if (Math.abs(this.mapPosX - enemy.mapPosX) + Math.abs(this.mapPosY - enemy.mapPosY) <= 7) {
                 enemy.takeDamage(enemy.getHealth());
             }
         }
@@ -218,7 +210,7 @@ public class Player extends Karakter implements Collidable {
     }
 
     public void setCanHide(boolean canHide) {
-        this.canHide = canHide; 
+        this.canHide = canHide;
     }
 
     public boolean getCanHide() {
@@ -244,11 +236,11 @@ public class Player extends Karakter implements Collidable {
     public void checkFlash() {
         if (flash) {
             this.flashTick++;
-            if (this.flashTick>=60) {
+            if (this.flashTick >= 60) {
                 this.flash = false;
                 this.flashCooldown = 300;
             }
-        } else if (this.flashCooldown>0) {
+        } else if (this.flashCooldown > 0) {
             this.flashCooldown--;
         }
         // System.out.println("flashtick: " + this.flashTick);
@@ -269,9 +261,9 @@ public class Player extends Karakter implements Collidable {
 
         if (!hiding) {
             applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
-                this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
-                imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,
-                (lastDirection + 1) * image.height / 4);
+                    this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
+                    imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,
+                    (lastDirection + 1) * image.height / 4);
         }
     }
 

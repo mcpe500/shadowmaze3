@@ -15,6 +15,7 @@ public class Portal extends Tile implements Collidable {
         this.portal1Active = false;
         this.portal2Active = false;
     }
+    
 
     public PImage getPortalImage() {
         if (portal1Active && portal2Active) {
