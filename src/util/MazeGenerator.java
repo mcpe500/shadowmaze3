@@ -28,6 +28,7 @@ public class MazeGenerator {
             }
             System.out.println();
         }
+        maze[maze.length-2][maze[0].length-2] = 9;
         return maze;
     }
 
