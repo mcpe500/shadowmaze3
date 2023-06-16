@@ -12,6 +12,7 @@ import src.game.level.LevelVersus;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.event.MouseEvent;
 import processing.sound.*;
 
 public class Main extends PApplet {
@@ -29,11 +30,14 @@ public class Main extends PApplet {
     private SoundFile sound;
     private Amplitude amp;
 
+    private float scrollPosition = 0, scrollSpeed = 5, contentHeight = 1000, viewHeight = 400;
+
     private final int mainmenu = 0;
     private final int settings = 1;
     private final int playmenu = 2;
     private final int adventuremenu = 3;
     private final int versusmenu = 4;
+    private final int highscoremenu = 4;
 
     private final int jumlahLevel = 5;
 
@@ -83,33 +87,43 @@ public class Main extends PApplet {
         level3Button = new Button(500, 400, 150, 80, "Level 3");
         level4Button = new Button(700, 400, 150, 80, "Level 4");
         level5Button = new Button(900, 400, 150, 80, "Level 5");
-        if (file[1]==0) {
+        if (file[1] == 0) {
             level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
             level2Button.setEnabled(false);
         } else {
             level2Button.setImage(loadImage("assets/buttons/level2.png"));
         }
-        if (file[2]==0) {
+        if (file[2] == 0) {
             level3Button.setImage(loadImage("assets/buttons/level3_locked.png"));
             level3Button.setEnabled(false);
         } else {
             level3Button.setImage(loadImage("assets/buttons/level3.png"));
         }
-        if (file[3]==0) {
+        if (file[3] == 0) {
             level4Button.setImage(loadImage("assets/buttons/level4_locked.png"));
             level4Button.setEnabled(false);
         } else {
             level4Button.setImage(loadImage("assets/buttons/level4.png"));
         }
-        if (file[4]==0) {
+        if (file[4] == 0) {
             level5Button.setImage(loadImage("assets/buttons/level5_locked.png"));
             level5Button.setEnabled(false);
         } else {
             level5Button.setImage(loadImage("assets/buttons/level5.png"));
         }
-        
+
         playVersusButton = new Button(515, 280, 250, 100, "Play");
 
+    }
+
+    public void mouseWheel(MouseEvent event) {
+        float delta = event.getCount();
+
+        // Update the scroll position based on the mouse wheel movement
+        scrollPosition += delta * scrollSpeed;
+
+        // Constrain the scroll position within the valid range
+        scrollPosition = constrain(scrollPosition, 0, contentHeight - viewHeight);
     }
 
     public void draw() {
@@ -132,6 +146,8 @@ public class Main extends PApplet {
             displayAdventureMenu();
         } else if (currentPage == versusmenu) {
             displayVersusMenu();
+        } else if (currentPage == highscoremenu) {
+            displayHighScoreMenu();
         }
     }
 
@@ -177,13 +193,31 @@ public class Main extends PApplet {
         playVersusButton.setImage(loadImage("../assets/buttons/start_button.png"));
         playVersusButton.display(this);
         playVersusButton.update(mouseX, mouseY, mousePressed);
+        Button highscoreButton = new Button(515, 430, 250, 100, "Highscore");
+        highscoreButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+        highscoreButton.display(this);
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (playVersusButton.isClicked()) {
             stopSound();
             goToVersusGame();
             playVersusButton.setEnabled(false);
+        } else if (highscoreButton.isClicked()) {
+            goToHighscore();
         }
+    }
+
+    public void displayHighScoreMenu() {
+        backButton.display(this);
+        backButton.update(mouseX, mouseY, mousePressed);
+        if (backButton.isClicked()) {
+            goToPreviousPage();
+        }
+    }
+
+    public void goToHighscore() {
+        previousPage = currentPage;
+        currentPage = highscoremenu;
     }
 
     public void goToSettings() {
