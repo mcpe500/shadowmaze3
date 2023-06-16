@@ -210,7 +210,75 @@ public class LevelVersus extends Level {
             for (int i = 0; i < enemies.size(); i++) {
                 karakter.add(enemies.get(i));
             }
-            // currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
+            currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
+            if (player.isTeleport()) {
+                if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
+                        && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
+                    player.setX(portalscoord[1][0]);
+                    player.setY(portalscoord[1][1]);
+                } else if (player.getX() >= portalscoord[1][0] && player.getX() <= portalscoord[1][0] + 32
+                        && player.getY() >= portalscoord[1][1] && player.getY() <= portalscoord[1][1] + 32) {
+                    player.setX(portalscoord[0][0]);
+                    player.setY(portalscoord[0][1]);
+                }
+                player.setTeleport(false);
+            }
+            if (player.isShootPortal()) {
+                if (nextShootPortal <= time) {
+                    nextShootPortal = time + 1;
+                    if (player.isShootPortal() && player.getLastDirection() == 1) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
+                            mapY--;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 0) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY + 1][mapX] != 1) {
+                            mapY++;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 2) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY][mapX - 1] != 1) {
+                            mapX--;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 3) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY][mapX + 1] != 1) {
+                            mapX++;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    }
+                }
+            }
+            for (int i = 0; i < portals.length; i++) {
+                if (portals[i] != null) {
+                    portals[i].draw(this);
+                    // System.out.println(portals);
+                }
+            }
 
             // Circle overlay
             int radius = 200;
