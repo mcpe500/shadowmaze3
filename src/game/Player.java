@@ -3,7 +3,6 @@ package src.game;
 import processing.core.PApplet;
 import processing.core.PImage;
 import src.game.Interface.Collidable;
-import java.util.ArrayList;
 
 public class Player extends Karakter implements Collidable {
     private boolean up, down, left, right, flash;
@@ -13,6 +12,9 @@ public class Player extends Karakter implements Collidable {
     private int imageDx;
     private int tick;
     private boolean atExit;
+    private int flashTick;
+    private int lastFlashTick;
+    private int flashCooldown;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -25,6 +27,9 @@ public class Player extends Karakter implements Collidable {
         this.down = false;
         this.left = false;
         this.atExit = false;
+        this.flashTick = 0;
+        this.lastFlashTick = 0;
+        this.flashCooldown = 0;
         setId(100);
     }
 
@@ -69,7 +74,7 @@ public class Player extends Karakter implements Collidable {
         } else if (key == 'd') {
             right = true;
         } else if (key == 'f') {
-            flash = true;
+            if (this.flashCooldown==0) flash = true;
         }
     }
 
@@ -160,22 +165,32 @@ public class Player extends Karakter implements Collidable {
         return lastDirection;
     }
 
-    public ArrayList<int[]> flashRight(int width, int height, float cameraX, float cameraY) {
-        ArrayList<int[]> pixels = new ArrayList<>();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (j + cameraX - this.getX() >= 5 * Math.abs(i + cameraY - this.getY())
-                        && j + cameraX < this.getX() + width / 5 && j + cameraX > this.getX()) {
-                    pixels.add(new int[] { j, i });
-                }
+    public void checkFlash() {
+        if (flash) {
+            this.flashTick++;
+            if (this.flashTick>=50) {
+                this.flash = false;
+                this.flashCooldown = 200;
             }
+        } else if (this.flashCooldown>0) {
+            this.flashCooldown--;
         }
-        return pixels;
+        System.out.println("flashtick: " + this.flashTick);
+        System.out.println("flashcooldown: " + this.flashCooldown);
     }
 
     @Override
     public void display(PApplet applet) {
         decreaseInvulTime();
+        checkFlash();
+
+        if (this.flashTick == this.lastFlashTick) {
+            this.flashTick = 0;
+            this.lastFlashTick = 0;
+        } else {
+            this.lastFlashTick = this.flashTick;
+        }
+        
         applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
                 this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
                 imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,

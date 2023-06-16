@@ -3,6 +3,7 @@ package src.game.level;
 import src.Main;
 import src.game.CurrentMap;
 import src.game.Enemy;
+import src.game.EnemyEyeball;
 import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
@@ -120,29 +121,84 @@ public class Level4 extends Level {
                 karakter.add(enemies.get(i));
             }
             currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
-            ArrayList<int[]> flashPixel = new ArrayList<>();
-            if (player.getFlash()) {
-                if (player.getLastDirection() == 0) {
-
-                } else if (player.getLastDirection() == 2) {
-                    flashPixel = player.flashRight(width, height, cameraX, cameraY);
-                } else if (player.getLastDirection() == 4) {
-
-                } else if (player.getLastDirection() == 6) {
-
-                }
-            }
 
             // Circle overlay
-            // int radius = 200;
-            // for (int i = 0; i < height; i++) {
-            //     for (int j = 0; j < width; j++) {
-            //         double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
-            //         if (distance >= Math.pow(radius, 2)) {
-            //             set(j, i, color(0, 0, 0));
-            //         }
-            //     }   
-            // }
+            int radius = 200;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+                    if (!player.getFlash()) {
+                        if (distance >= Math.pow(radius, 2)) {
+                            set(j, i, color(0, 0, 0));
+                        }
+                    } else {
+                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 <= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX > (player.getX()+player.getWidth()/2) + width / 2)) {
+                            set(j, i, color(0, 0, 0));
+                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 >= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX < (player.getX()+player.getWidth()/2) - width / 2)) {
+                            set(j, i, color(0, 0, 0));
+                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 >= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY < (player.getY()+player.getHeight()/2) - height / 1.2)) {
+                            set(j, i, color(0, 0, 0));
+                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 <= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY > (player.getY()+player.getHeight()/2) + height / 1.2)) {
+                            set(j, i, color(0, 0, 0));
+                        }
+
+                        if (player.getLastDirection() == 3 && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 >= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2))) && (j + cameraX < (player.getX()+player.getWidth()/2) + width / 2) && (j + cameraX > (player.getX()+player.getWidth()/2))) {
+                            for (Enemy enemy : enemies) {
+                                if (enemy instanceof EnemyEyeball) {
+                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                        EnemyEyeball eyeball = (EnemyEyeball) enemy;
+                                        if (eyeball.incFlashTick()) {
+                                            eyeball.takeDamage(eyeball.getHealth());
+                                        } 
+                                    }
+                                }
+                            }
+                        } else if (player.getLastDirection() == 2 && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 <= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2))) && (j + cameraX > (player.getX()+player.getWidth()/2) - width / 2) && (j + cameraX < (player.getX()+player.getWidth()/2))) {
+                            for (Enemy enemy : enemies) {
+                                if (enemy instanceof EnemyEyeball) {
+                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                        EnemyEyeball eyeball = (EnemyEyeball) enemy;
+                                        if (eyeball.incFlashTick()) {
+                                            eyeball.takeDamage(eyeball.getHealth());
+                                        } 
+                                    }
+                                }
+                            }
+                        } else if (player.getLastDirection() == 1 && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 <= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2))) && (i + cameraY > (player.getY()+player.getHeight()/2) - height / 1.2) && (i + cameraY < (player.getY()+player.getHeight()/2))) {
+                            for (Enemy enemy : enemies) {
+                                if (enemy instanceof EnemyEyeball) {
+                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                        EnemyEyeball eyeball = (EnemyEyeball) enemy;
+                                        if (eyeball.incFlashTick()) {
+                                            eyeball.takeDamage(eyeball.getHealth());
+                                        } 
+                                    }
+                                }
+                            }
+                        } else if (player.getLastDirection() == 0 && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 >= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2))) && (i + cameraY < (player.getY()+player.getHeight()/2) + height / 1.2) && (i + cameraY > (player.getY()+player.getHeight()/2))) {
+                            for (Enemy enemy : enemies) {
+                                if (enemy instanceof EnemyEyeball) {
+                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                        EnemyEyeball eyeball = (EnemyEyeball) enemy;
+                                        if (eyeball.incFlashTick()) {
+                                            eyeball.takeDamage(eyeball.getHealth());
+                                        } 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                }   
+            }
+
+            for (int i=enemies.size()-1; i>=0; i--) {
+                if (enemies.get(i).getHealth()==0) {
+                    enemies.remove(i);
+                }
+            }
 
             // Reset the transformations
             popMatrix();
