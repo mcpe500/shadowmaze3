@@ -11,6 +11,9 @@ public class MazeGenerator {
     private int height;
     private Random random;
 
+    private static final int[] DX = {0, 2, 0, -2};
+    private static final int[] DY = {-2, 0, 2, 0};
+
     public MazeGenerator(int width, int height) {
         this.width = width;
         this.height = height;
@@ -24,19 +27,24 @@ public class MazeGenerator {
         maze = walledMaze(maze);
         maze = putBeartrap(maze);
         maze = putLava(maze);
-        maze[maze.length-2][maze[0].length-2] = 9;
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze[i].length; j++) {
+                System.out.print(maze[i][j] + " ");
+            }
+            System.out.println();
+        }
+        maze[maze.length - 2][maze[0].length - 2] = 9;
         return maze;
     }
 
-
-    private int[][] walledMaze(int[][] oMaze){
-        int[][] wMaze = new int[oMaze.length+2][oMaze[0].length+2];
+    private int[][] walledMaze(int[][] oMaze) {
+        int[][] wMaze = new int[oMaze.length + 2][oMaze[0].length + 2];
         for (int i = 0; i < wMaze.length; i++) {
             for (int j = 0; j < wMaze[i].length; j++) {
-                if(i == 0 || j == 0 || i == wMaze.length-1 || j == wMaze[i].length-1){
+                if (i == 0 || j == 0 || i == wMaze.length - 1 || j == wMaze[i].length - 1) {
                     wMaze[i][j] = 1;
-                }else{
-                    wMaze[i][j] = oMaze[i-1][j-1];
+                } else {
+                    wMaze[i][j] = oMaze[i - 1][j - 1];
                 }
             }
         }
@@ -54,16 +62,16 @@ public class MazeGenerator {
     private void generatePaths(int x, int y) {
         maze[y][x] = 0;
 
-        List<Direction> directions = new ArrayList<>();
-        directions.add(Direction.UP);
-        directions.add(Direction.RIGHT);
-        directions.add(Direction.DOWN);
-        directions.add(Direction.LEFT);
+        List<Integer> directions = new ArrayList<>();
+        directions.add(0);
+        directions.add(1);
+        directions.add(2);
+        directions.add(3);
         Collections.shuffle(directions, random);
 
-        for (Direction direction : directions) {
-            int dx = direction.dx;
-            int dy = direction.dy;
+        for (Integer direction : directions) {
+            int dx = DX[direction];
+            int dy = DY[direction];
 
             int nx = x + dx;
             int ny = y + dy;
@@ -80,11 +88,11 @@ public class MazeGenerator {
 
     private int[][] putBeartrap(int[][] maze) {
         for (int i = 0; i < 10; i++) {
-            int x = random.nextInt(1, maze[0].length-2);
-            int y = random.nextInt(1, maze.length-2);
+            int x = random.nextInt(1, maze[0].length - 2);
+            int y = random.nextInt(1, maze.length - 2);
             while (!trapValid(maze, x, y)) {
-                x = random.nextInt(1, maze[0].length-2);
-                y = random.nextInt(1, maze.length-2);
+                x = random.nextInt(1, maze[0].length - 2);
+                y = random.nextInt(1, maze.length - 2);
             }
             maze[y][x] = 2;
         }
@@ -93,11 +101,11 @@ public class MazeGenerator {
 
     private int[][] putLava(int[][] maze) {
         for (int i = 0; i < 3; i++) {
-            int x = random.nextInt(1, maze[0].length-2);
-            int y = random.nextInt(1, maze.length-2);
+            int x = random.nextInt(1, maze[0].length - 2);
+            int y = random.nextInt(1, maze.length - 2);
             while (!trapValid(maze, x, y)) {
-                x = random.nextInt(1, maze[0].length-2);
-                y = random.nextInt(1, maze.length-2);
+                x = random.nextInt(1, maze[0].length - 2);
+                y = random.nextInt(1, maze.length - 2);
             }
             maze[y][x] = 3;
         }
@@ -105,26 +113,11 @@ public class MazeGenerator {
     }
 
     private boolean trapValid(int[][] maze, int x, int y) {
-        if (maze[y][x]!=1) return false;
+        if (maze[y][x] != 1) return false;
         int pathCount = 0;
-        if (maze[y-1][x] == 0 && maze[y+1][x] == 0) pathCount++;
-        if (maze[y][x-1] == 0 && maze[y][x+1] == 0) pathCount++;
+        if (maze[y - 1][x] == 0 && maze[y + 1][x] == 0) pathCount++;
+        if (maze[y][x - 1] == 0 && maze[y][x + 1] == 0) pathCount++;
         if (pathCount != 1) return false;
         return true;
-    }
- 
-    private enum Direction {
-        UP(0, -2),
-        RIGHT(2, 0),
-        DOWN(0, 2),
-        LEFT(-2, 0);
-
-        private int dx;
-        private int dy;
-
-        Direction(int dx, int dy) {
-            this.dx = dx;
-            this.dy = dy;
-        }
     }
 }

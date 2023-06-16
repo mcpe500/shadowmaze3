@@ -147,9 +147,10 @@ public class Main extends PApplet {
             displayAdventureMenu();
         } else if (currentPage == versusmenu) {
             displayVersusMenu();
-        } else if (currentPage == highscoremenu) {
-            displayHighScoreMenu();
-        }
+        } 
+        // else if (currentPage == highscoremenu) {
+        //     displayHighScoreMenu();
+        // }
     }
 
     public void stopSound() {
