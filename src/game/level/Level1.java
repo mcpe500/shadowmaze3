@@ -4,6 +4,7 @@ import src.Main;
 import src.game.CurrentMap;
 import src.game.Enemy;
 import src.game.EnemyEyeball;
+import src.game.EnemySolid;
 import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
@@ -82,6 +83,7 @@ public class Level1 extends Level {
         enemyEyeball = new EnemyEyeball(1026, 1314, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
+        
         this.currentMap = new CurrentMap(strMap);
     }
 
@@ -294,7 +296,7 @@ public class Level1 extends Level {
             rect(0, 0, width, height);
             over = true;
             int[] file = FileManager.openFile();
-            file[0] = time;
+            if (file[0]<time) file[0] = time;
             FileManager.writeToFile(file);
         }
 
