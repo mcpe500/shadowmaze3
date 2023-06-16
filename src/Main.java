@@ -10,16 +10,6 @@ import src.game.level.Level4;
 import src.game.level.Level5;
 import src.game.level.LevelVersus;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-
-import javax.annotation.processing.FilerException;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.sound.*;

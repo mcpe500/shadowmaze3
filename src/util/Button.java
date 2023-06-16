@@ -62,8 +62,8 @@ public class Button {
         }
 
         sketch.fill(0);
-        sketch.textAlign(PApplet.CENTER, PApplet.CENTER);
-        sketch.text(label, x + width / 2, y + height / 2);
+        // sketch.textAlign(PApplet.CENTER, PApplet.CENTER);
+        // sketch.text(label, x + width / 2, y + height / 2);
     }
 
     public void update(int mouseX, int mouseY, boolean isMousePressed) {

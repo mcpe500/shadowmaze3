@@ -36,7 +36,7 @@ public class EnemyEyeball extends Enemy {
 
     public boolean incFlashTick() {
         this.flashTick++;
-        if (this.flashTick>=25) {
+        if (this.flashTick>=50) {
             return true;
         }
         return false;

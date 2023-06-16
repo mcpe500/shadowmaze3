@@ -191,7 +191,7 @@ public class Player extends Karakter implements Collidable {
     public void checkFlash() {
         if (flash) {
             this.flashTick++;
-            if (this.flashTick>=30) {
+            if (this.flashTick>=60) {
                 this.flash = false;
                 this.flashCooldown = 300;
             }

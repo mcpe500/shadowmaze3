@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.sound.Amplitude;
+import processing.sound.SoundFile;
 
 public class Level1 extends Level {
     private String[][] strMap;
@@ -268,6 +270,11 @@ public class Level1 extends Level {
             fill(255, 0, 0, 100);
             rect(0, 0, width, height);
             over = true;
+
+            SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_gameover.mp3");
+            sound.play();
+            Amplitude amp = new Amplitude(this);
+            amp.input(sound);
         }
 
         image(gameOver, width / 2 - gameOver.width / 2, height / 2 - 200);
@@ -295,6 +302,12 @@ public class Level1 extends Level {
             fill(0, 255, 0, 100);
             rect(0, 0, width, height);
             over = true;
+
+            SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_win.mp3");
+            sound.play();
+            Amplitude amp = new Amplitude(this);
+            amp.input(sound);
+
             int[] file = FileManager.openFile();
             if (file[0]<time) file[0] = time;
             FileManager.writeToFile(file);
@@ -320,12 +333,4 @@ public class Level1 extends Level {
         }
     }
 
-    public boolean isFlashed(int x, int y, ArrayList<int[]> flashPixel) {
-        for (int[] pixel : flashPixel) {
-            if (pixel[0] == x && pixel[1] == y) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
