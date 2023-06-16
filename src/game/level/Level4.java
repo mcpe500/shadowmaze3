@@ -273,14 +273,6 @@ public class Level4 extends Level {
                 }
             }
 
-            if (player.getTookDamage()) {
-                player.setTookDamage(false);
-                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_blood.mp3");
-                sound.play();
-                Amplitude amp = new Amplitude(this);
-                amp.input(sound);
-            }
-
             if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
                 player.setCanHide(false);
             } 
