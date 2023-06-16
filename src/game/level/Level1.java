@@ -54,7 +54,7 @@ public class Level1 extends Level {
     @Override
     public void settings() {
         size(width, height);
-        
+
     }
 
     public void setup() {
@@ -66,13 +66,19 @@ public class Level1 extends Level {
         gameOver = loadImage("../assets/buttons/gameover.png");
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
-        EnemyEyeball enemyEyeball = new EnemyEyeball(1124, 1124, 2, 100, 10, 22, 22);
+        EnemyEyeball enemyEyeball = new EnemyEyeball(1122, 994, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-        enemyEyeball = new EnemyEyeball(1156, 1156, 2, 100, 10, 22, 22);
+        enemyEyeball = new EnemyEyeball(1122, 1058, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-        enemyEyeball = new EnemyEyeball(1156, 1060, 2, 100, 10, 22, 22);
+        enemyEyeball = new EnemyEyeball(1186, 1218, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+        enemyEyeball = new EnemyEyeball(706, 1250, 2, 100, 10, 22, 22);
+        enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+        enemies.add(enemyEyeball);
+        enemyEyeball = new EnemyEyeball(1026, 1314, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
         this.currentMap = new CurrentMap(strMap);
@@ -109,7 +115,7 @@ public class Level1 extends Level {
                         } else if (this.map[i][j] instanceof Lava) {
                             Lava lava = (Lava) this.map[i][j];
                             lava.onCollision(player);
-                        }  else if (this.map[i][j] instanceof Exit) {
+                        } else if (this.map[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.map[i][j];
                             exit.onCollision(player);
                         }
@@ -135,19 +141,32 @@ public class Level1 extends Level {
             int radius = 200;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth() / 2)), 2)
+                            + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
                     if (!player.getFlash()) {
                         if (distance >= Math.pow(radius, 2)) {
                             set(j, i, color(0, 0, 0));
                         }
                     } else {
-                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 <= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX > (player.getX()+player.getWidth()/2) + width / 2)) {
+                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2)
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) + width / 8 <= 5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2))))
+                                || j + cameraX > (player.getX() + player.getWidth() / 2) + width / 2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 >= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX < (player.getX()+player.getWidth()/2) - width / 2)) {
+                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2)
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) - width / 8 >= -5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2))))
+                                || j + cameraX < (player.getX() + player.getWidth() / 2) - width / 2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 >= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY < (player.getY()+player.getHeight()/2) - height / 1.2)) {
+                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2)
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) - height / 4 >= -5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2))))
+                                || i + cameraY < (player.getY() + player.getHeight() / 2) - height / 1.2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 <= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY > (player.getY()+player.getHeight()/2) + height / 1.2)) {
+                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2)
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) + height / 4 <= 5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2))))
+                                || i + cameraY > (player.getY() + player.getHeight() / 2) + height / 1.2)) {
                             set(j, i, color(0, 0, 0));
                         }
 
@@ -197,10 +216,8 @@ public class Level1 extends Level {
                             }
                         }
                     }
-                    
-                    
-                    
-                }   
+
+                }
             }
 
             for (int i=enemies.size()-1; i>=0; i--) {
