@@ -13,8 +13,8 @@ import src.game.Tile.Lava;
 import src.game.Tile.Tile;
 import src.game.Tile.Wall;
 import src.util.Button;
-import src.util.FileManager;
 import src.util.MapLoader;
+import src.game.Tile.Trapdoor;
 
 import java.util.ArrayList;
 
@@ -122,6 +122,9 @@ public class Level3 extends Level {
                         } else if (this.map[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.map[i][j];
                             exit.onCollision(player);
+                        }else if (this.map[i][j] instanceof Trapdoor) {
+                            Trapdoor trapdoor = (Trapdoor) this.map[i][j];
+                            trapdoor.onCollision(player);
                         }
                     }
                 }
@@ -320,9 +323,6 @@ public class Level3 extends Level {
             fill(0, 255, 0, 100);
             rect(0, 0, width, height);
             over = true;
-            int[] file = FileManager.openFile();
-            if (file[0]<time) file[0] = time;
-            FileManager.writeToFile(file);
         }
 
         image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);
