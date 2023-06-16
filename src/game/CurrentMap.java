@@ -68,8 +68,8 @@ public class CurrentMap {
                     // karakters.get(j2).setNextMove(nextMove);
 
 
-                    if (karakters.get(j2).getX() >= j * size + mapX && karakters.get(j2).getX() < (j + 1) * size + mapX &&
-                            karakters.get(j2).getY() >= i * size + mapY && karakters.get(j2).getY() < (i + 1) * size + mapY) {
+                    if (karakters.get(j2).getX()+karakters.get(j2).getWidth()/2 >= j * size + mapX && karakters.get(j2).getX()+karakters.get(j2).getWidth()/2 < (j + 1) * size + mapX &&
+                            karakters.get(j2).getY()+karakters.get(j2).getHeight()/2 >= i * size + mapY && karakters.get(j2).getY()+karakters.get(j2).getHeight()/2 < (i + 1) * size + mapY) {
                         maps[i][j] = karakters.get(j2).getId();
                         karakters.get(j2).setMapPosX(j);
                         karakters.get(j2).setMapPosY(i);

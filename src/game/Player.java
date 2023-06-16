@@ -179,7 +179,7 @@ public class Player extends Karakter implements Collidable {
     public void runGrenade(ArrayList<Enemy> enemies) {
         this.throwGrenade = false;
         for (Enemy enemy : enemies) {
-            if (Math.abs(this.mapPosX - enemy.mapPosX) + Math.abs(this.mapPosY - enemy.mapPosY) <= 7) {
+            if (Math.abs(this.mapPosX-enemy.mapPosX) + Math.abs(this.mapPosY-enemy.mapPosY) <= 7) {
                 enemy.takeDamage(enemy.getHealth());
             }
         }
