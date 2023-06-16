@@ -10,6 +10,7 @@ import src.game.Tile.Beartrap;
 import src.game.Tile.Exit;
 import src.game.Tile.Lava;
 import src.game.Tile.Tile;
+import src.game.Tile.Trapdoor;
 import src.game.Tile.Wall;
 import src.util.Button;
 import src.util.FileManager;
@@ -199,6 +200,10 @@ public class Level5 extends Level {
                     enemies.remove(i);
                 }
             }
+
+            if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
+                player.setCanHide(false);
+            } 
 
             // Reset the transformations
             popMatrix();

@@ -269,6 +269,10 @@ public class Level3 extends Level {
                 }
             }
 
+            if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
+                player.setCanHide(false);
+            } 
+
             // Reset the transformations
             popMatrix();
 

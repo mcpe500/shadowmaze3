@@ -36,9 +36,6 @@ public class Trapdoor extends Tile {
                 Player p = (Player) c;
                 p.setCanHide(true);
             }
-        } else if (c instanceof Player) {
-            Player p = (Player) c;
-            if (p.getCanHide()) p.setCanHide(false);
         }
     }
 }
