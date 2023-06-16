@@ -6,12 +6,7 @@ import src.game.Interface.Collidable;
 
 public class EnemyEyeball extends Enemy {
     private PImage image;
-<<<<<<< HEAD
-    private int flashTick;
-    private int lastFlashTick;
-=======
     private boolean isFlashed;
->>>>>>> eeb6316b6e0bbbc938b025baa8da0e5c59ad4a75
 
     public EnemyEyeball(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height, 7);
@@ -28,26 +23,6 @@ public class EnemyEyeball extends Enemy {
     @Override
     public void display(PApplet applet) {
         decreaseInvulTime();
-<<<<<<< HEAD
-        processImageId();   
-        if (this.flashTick == this.lastFlashTick) {
-            this.flashTick = 0;
-            this.lastFlashTick = 0;
-        } else {
-            this.lastFlashTick = this.flashTick;
-        }
-        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), (this.imageIdx)*this.getWidth(), 0, (this.imageIdx+1)*this.getWidth(), this.getHeight());
-    }
-
-    public boolean incFlashTick() {
-        this.flashTick++;
-        if (this.flashTick>=50) {
-            return true;
-        }
-        return false;
-    }
-
-=======
         processImageId();
         applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(),
                 (this.imageIdx) * this.getWidth(), 0, (this.imageIdx + 1) * this.getWidth(), this.getHeight());
@@ -67,5 +42,4 @@ public class EnemyEyeball extends Enemy {
     public boolean isFlashed() {
         return isFlashed;
     }
->>>>>>> eeb6316b6e0bbbc938b025baa8da0e5c59ad4a75
 }
