@@ -40,6 +40,8 @@ public class Level4 extends Level {
     private boolean over;
     private int time;
     private int currentSecond;
+    private int nextShootPortal;
+    private int[][] portalscoord;
 
     public Level4(PApplet parent) {
         super(parent);
@@ -53,7 +55,9 @@ public class Level4 extends Level {
         enemies = new ArrayList<>();
         over = false;
         time = 0;
+        nextShootPortal = 0;
         currentSecond = second();
+        portalscoord = new int[2][2];
     }
 
     @Override
@@ -110,11 +114,22 @@ public class Level4 extends Level {
     public void addPortal(Portal portal) {
         if (portals[0] == null) {
             portals[0] = portal;
+            portals[0].setImage(loadImage("../assets/sprites/portal1.png")); // Set the image for the first portal
+            portalscoord[0][0] = portal.getX();
+            portalscoord[0][1] = portal.getY();
         } else if (portals[1] == null) {
             portals[1] = portal;
+            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the second portal
+            portalscoord[1][0] = portal.getX();
+            portalscoord[1][1] = portal.getY();
         } else {
             portals[0] = portals[1];
+            portalscoord[0][0] = portals[1].getX();
+            portalscoord[0][1] = portals[1].getY();
             portals[1] = portal;
+            portalscoord[1][0] = portal.getX();
+            portalscoord[1][1] = portal.getY();
+            portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the new second portal
         }
     }
 
@@ -173,40 +188,72 @@ public class Level4 extends Level {
                 karakter.add(enemies.get(i));
             }
             currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
-            if (player.isShootPortal()) {
-                System.out.println("shoot portal");
-                if (player.isShootPortal() && player.getLastDirection() == 1) {
-                    System.out.println("shoot portal up");
-                    int mapX = player.getMapPosX();
-                    int mapY = player.getMapPosY();
-                    while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
-                        mapY--;
-                    }
-                    mapX = mapX * 32 + 100;
-                    mapY = mapY * 32 + 100;
-                    Portal portal = new Portal(this, 32, 32, mapX, mapY);
-                    portal.setImage(loadImage("../assets/sprites/portal1.png"));
-                    addPortal(portal);
+            if (player.isTeleport()) {
+                if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
+                        && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
+                    player.setX(portalscoord[1][0]);
+                    player.setY(portalscoord[1][1]);
+                }else if(player.getX() >= portalscoord[1][0] && player.getX() <= portalscoord[1][0] + 32
+                        && player.getY() >= portalscoord[1][1] && player.getY() <= portalscoord[1][1] + 32){
+                    player.setX(portalscoord[0][0]);
+                    player.setY(portalscoord[0][1]);
                 }
-                
-                // if (player.getLastDirection() == 1) {
-                //     int mapX = player.getMapPosX();
-                //     int mapY = player.getMapPosY();
-                //     while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
-                //         mapY--;
-                //     }
-                //     mapX = mapX * 32 + 100;
-                //     mapY = mapY * 32 + 100;
-                //     System.out.println(mapX + " " + mapY);
-                //     Portal portal = new Portal(this, 32, 32, mapX, mapY);
-                //     portal.setImage(loadImage("../assets/sprites/portal1.png"));
-                //     // addPortal(portal);
-                // }
+                player.setTeleport(false);
+            }
+            if (player.isShootPortal()) {
+                if (nextShootPortal <= time) {
+                    nextShootPortal = time + 1;
+                    if (player.isShootPortal() && player.getLastDirection() == 1) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
+                            mapY--;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 0) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY + 1][mapX] != 1) {
+                            mapY++;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 2) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY][mapX - 1] != 1) {
+                            mapX--;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 3) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY][mapX + 1] != 1) {
+                            mapX++;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    }
+                }
             }
             for (int i = 0; i < portals.length; i++) {
                 if (portals[i] != null) {
-                    portals[i].draw(parent);
-                    System.out.println(portals);
+                    portals[i].draw(this);
+                    // System.out.println(portals);
                 }
             }
             // Circle overlay

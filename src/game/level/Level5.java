@@ -36,7 +36,7 @@ public class Level5 extends Level {
     private boolean run;
     private Button mainButton;
     private Button restartButton;
-    
+
     private PImage gameOver;
     private PImage levelClear;
     private boolean over;
@@ -67,7 +67,7 @@ public class Level5 extends Level {
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
-        
+
         gameOver = loadImage("../assets/buttons/gameover.png");
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));
@@ -117,7 +117,6 @@ public class Level5 extends Level {
         enemyEyeball = new EnemyEyeball(1316, 1316, 2, 100, 10, 22, 22);
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
-
 
         EnemySolid enemySolid = new EnemySolid(484, 164, 2, 100, 10, 18, 24);
         enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
@@ -199,7 +198,7 @@ public class Level5 extends Level {
                         } else if (this.map[i][j] instanceof Lava) {
                             Lava lava = (Lava) this.map[i][j];
                             lava.onCollision(player);
-                        }  else if (this.map[i][j] instanceof Exit) {
+                        } else if (this.map[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.map[i][j];
                             exit.onCollision(player);
                         } else if (this.map[i][j] instanceof Trapdoor) {
@@ -209,7 +208,7 @@ public class Level5 extends Level {
                             HolyGrenade holyGrenade = (HolyGrenade) this.map[i][j];
                             holyGrenade.onCollision(player);
                             if (player.getHasGrenade()) {
-                                this.map[i][j] = new Stonefloor(parent, 32, 32, j*32+100, i*32+100);
+                                this.map[i][j] = new Stonefloor(parent, 32, 32, j * 32 + 100, i * 32 + 100);
                             }
                         }
                     }
@@ -229,77 +228,180 @@ public class Level5 extends Level {
                 karakter.add(enemies.get(i));
             }
             currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
+            if (player.isTeleport()) {
+                if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
+                        && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
+                    player.setX(portalscoord[1][0]);
+                    player.setY(portalscoord[1][1]);
+                } else if (player.getX() >= portalscoord[1][0] && player.getX() <= portalscoord[1][0] + 32
+                        && player.getY() >= portalscoord[1][1] && player.getY() <= portalscoord[1][1] + 32) {
+                    player.setX(portalscoord[0][0]);
+                    player.setY(portalscoord[0][1]);
+                }
+                player.setTeleport(false);
+            }
+            if (player.isShootPortal()) {
+                if (nextShootPortal <= time) {
+                    nextShootPortal = time + 1;
+                    if (player.isShootPortal() && player.getLastDirection() == 1) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY - 1][mapX] != 1) {
+                            mapY--;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 0) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY + 1][mapX] != 1) {
+                            mapY++;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 2) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY][mapX - 1] != 1) {
+                            mapX--;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    } else if (player.isShootPortal() && player.getLastDirection() == 3) {
+                        int mapX = player.getMapPosX();
+                        int mapY = player.getMapPosY();
+                        while (currentMap.getMaps()[mapY][mapX + 1] != 1) {
+                            mapX++;
+                        }
+                        mapX = mapX * 32 + 100;
+                        mapY = mapY * 32 + 100;
+                        Portal portal = new Portal(this, 32, 32, mapX, mapY);
+                        portal.setImage(loadImage("../assets/sprites/portal1.png"));
+                        addPortal(portal);
+                    }
+                }
+            }
+            for (int i = 0; i < portals.length; i++) {
+                if (portals[i] != null) {
+                    portals[i].draw(this);
+                    // System.out.println(portals);
+                }
+            }
 
             // Circle overlay
             int radius = 200;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth()/ 2)), 2) + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+                    double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth() / 2)), 2)
+                            + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
                     if (!player.getFlash()) {
                         if (distance >= Math.pow(radius, 2)) {
                             set(j, i, color(0, 0, 0));
                         }
                     } else {
-                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 <= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX > (player.getX()+player.getWidth()/2) + width / 2)) {
+                        if (player.getLastDirection() == 3 && ((distance >= Math.pow(radius, 2)
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) + width / 8 <= 5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2))))
+                                || j + cameraX > (player.getX() + player.getWidth() / 2) + width / 2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2) && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 >= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2)))) || j + cameraX < (player.getX()+player.getWidth()/2) - width / 2)) {
+                        } else if (player.getLastDirection() == 2 && ((distance >= Math.pow(radius, 2)
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) - width / 8 >= -5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2))))
+                                || j + cameraX < (player.getX() + player.getWidth() / 2) - width / 2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 >= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY < (player.getY()+player.getHeight()/2) - height / 1.2)) {
+                        } else if (player.getLastDirection() == 1 && ((distance >= Math.pow(radius, 2)
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) - height / 4 >= -5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2))))
+                                || i + cameraY < (player.getY() + player.getHeight() / 2) - height / 1.2)) {
                             set(j, i, color(0, 0, 0));
-                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2) && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 <= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2)))) || i + cameraY > (player.getY()+player.getHeight()/2) + height / 1.2)) {
+                        } else if (player.getLastDirection() == 0 && ((distance >= Math.pow(radius, 2)
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) + height / 4 <= 5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2))))
+                                || i + cameraY > (player.getY() + player.getHeight() / 2) + height / 1.2)) {
                             set(j, i, color(0, 0, 0));
                         }
 
-                        if (player.getLastDirection() == 3 && (j + cameraX - (player.getX()+player.getWidth()/2) + width/8 >= 5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2))) && (j + cameraX < (player.getX()+player.getWidth()/2) + width / 2) && (j + cameraX > (player.getX()+player.getWidth()/2))) {
+                        if (player.getLastDirection() == 3
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) + width / 8 >= 5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2)))
+                                && (j + cameraX < (player.getX() + player.getWidth() / 2) + width / 2)
+                                && (j + cameraX > (player.getX() + player.getWidth() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
-                        } else if (player.getLastDirection() == 2 && (j + cameraX - (player.getX()+player.getWidth()/2) - width/8 <= -5 * Math.abs(i + cameraY - (player.getY()+player.getHeight()/2))) && (j + cameraX > (player.getX()+player.getWidth()/2) - width / 2) && (j + cameraX < (player.getX()+player.getWidth()/2))) {
+                        } else if (player.getLastDirection() == 2
+                                && (j + cameraX - (player.getX() + player.getWidth() / 2) - width / 8 <= -5
+                                        * Math.abs(i + cameraY - (player.getY() + player.getHeight() / 2)))
+                                && (j + cameraX > (player.getX() + player.getWidth() / 2) - width / 2)
+                                && (j + cameraX < (player.getX() + player.getWidth() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
-                        } else if (player.getLastDirection() == 1 && (i + cameraY - (player.getY()+player.getHeight()/2) - height/4 <= -5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2))) && (i + cameraY > (player.getY()+player.getHeight()/2) - height / 1.2) && (i + cameraY < (player.getY()+player.getHeight()/2))) {
+                        } else if (player.getLastDirection() == 1
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) - height / 4 <= -5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2)))
+                                && (i + cameraY > (player.getY() + player.getHeight() / 2) - height / 1.2)
+                                && (i + cameraY < (player.getY() + player.getHeight() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
-                        } else if (player.getLastDirection() == 0 && (i + cameraY - (player.getY()+player.getHeight()/2) + height/4 >= 5 * Math.abs(j + cameraX - (player.getX()+player.getWidth()/2))) && (i + cameraY < (player.getY()+player.getHeight()/2) + height / 1.2) && (i + cameraY > (player.getY()+player.getHeight()/2))) {
+                        } else if (player.getLastDirection() == 0
+                                && (i + cameraY - (player.getY() + player.getHeight() / 2) + height / 4 >= 5
+                                        * Math.abs(j + cameraX - (player.getX() + player.getWidth() / 2)))
+                                && (i + cameraY < (player.getY() + player.getHeight() / 2) + height / 1.2)
+                                && (i + cameraY > (player.getY() + player.getHeight() / 2))) {
                             for (Enemy enemy : enemies) {
                                 if (enemy instanceof EnemyEyeball) {
-                                    if (enemy instanceof EnemyEyeball && (enemy.getX()+enemy.getWidth()/2) == j+cameraX && (enemy.getY()+enemy.getHeight()/2) == i + cameraY) {
+                                    if (enemy instanceof EnemyEyeball
+                                            && (enemy.getX() + enemy.getWidth() / 2) == j + cameraX
+                                            && (enemy.getY() + enemy.getHeight() / 2) == i + cameraY) {
                                         EnemyEyeball eyeball = (EnemyEyeball) enemy;
                                         if (eyeball.incFlashTick()) {
                                             eyeball.takeDamage(eyeball.getHealth());
-                                        } 
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                    
-                    
-                    
-                }   
+
+                }
             }
 
             if (player.getThrowGrenade()) {
@@ -310,15 +412,15 @@ public class Level5 extends Level {
                 amp.input(sound);
             }
 
-            for (int i=enemies.size()-1; i>=0; i--) {
-                if (enemies.get(i).getHealth()==0) {
+            for (int i = enemies.size() - 1; i >= 0; i--) {
+                if (enemies.get(i).getHealth() == 0) {
                     enemies.remove(i);
                 }
             }
 
             if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
                 player.setCanHide(false);
-            } 
+            }
 
             // Reset the transformations
             popMatrix();
@@ -403,7 +505,7 @@ public class Level5 extends Level {
             fill(0, 255, 0, 100);
             rect(0, 0, width, height);
             over = true;
-            mainButton.setX(width/2-50);
+            mainButton.setX(width / 2 - 50);
 
             SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_win.mp3");
             sound.play();
@@ -411,7 +513,8 @@ public class Level5 extends Level {
             amp.input(sound);
 
             int[] file = FileManager.openFile();
-            if (file[4]<time) file[4] = time;
+            if (file[4] < time)
+                file[4] = time;
             FileManager.writeToFile(file);
         }
 

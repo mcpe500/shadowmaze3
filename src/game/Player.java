@@ -25,7 +25,7 @@ public class Player extends Karakter implements Collidable {
     private boolean pickItem;
     private boolean hasGrenade;
     private boolean throwGrenade;
-    private boolean shootPortal;
+    private boolean shootPortal, teleport;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -48,6 +48,7 @@ public class Player extends Karakter implements Collidable {
         this.hasGrenade = false;
         this.throwGrenade = false;
         this.shootPortal = false;
+        this.teleport = false;
         setId(100);
     }
 
@@ -110,6 +111,8 @@ public class Player extends Karakter implements Collidable {
             }
         } else if (key == ' ') {
             this.shootPortal = true;
+        } else if (key == 't') {
+            this.teleport = true;
         }
     }
 
@@ -133,9 +136,18 @@ public class Player extends Karakter implements Collidable {
             this.shootPortal = false;
         }
     }
-    public boolean isShootPortal(){
+
+    public boolean isShootPortal() {
         return this.shootPortal;
     }
+
+    public boolean isTeleport() {
+        return this.teleport;
+    }
+    public void setTeleport(boolean teleport){
+        this.teleport = teleport;
+    }
+
     public void stopDown() {
         down = false;
     }
@@ -179,7 +191,7 @@ public class Player extends Karakter implements Collidable {
     public void runGrenade(ArrayList<Enemy> enemies) {
         this.throwGrenade = false;
         for (Enemy enemy : enemies) {
-            if (Math.abs(this.mapPosX-enemy.mapPosX) + Math.abs(this.mapPosY-enemy.mapPosY) <= 7) {
+            if (Math.abs(this.mapPosX - enemy.mapPosX) + Math.abs(this.mapPosY - enemy.mapPosY) <= 7) {
                 enemy.takeDamage(enemy.getHealth());
             }
         }
