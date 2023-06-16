@@ -2,6 +2,7 @@ package src.game;
 
 import processing.core.PApplet;
 import src.game.Interface.Movable;
+import src.util.FileManager;
 
 public abstract class Karakter implements Movable {
 
@@ -192,6 +193,11 @@ public abstract class Karakter implements Movable {
         invulTime = 100;
         if (health < 0) {
             health = 0;
+        }
+
+        if (this instanceof Player) {
+            Player p = (Player) this;
+            p.setTookDamage(true);
         }
     }
 

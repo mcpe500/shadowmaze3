@@ -241,7 +241,20 @@ public class Level1 extends Level {
             }
             text("Health : " + player.getHealth(), 50, 50);
             text("Time : " + time, width - 200, 50);
-            if (player.getHealth() <= 0 || player.isAtExit()) {
+
+            if (player.getTookDamage()) {
+                player.setTookDamage(false);
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_blood.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
+                if (player.getHealth() <= 0 || player.isAtExit()) {
+                    run = false;
+                    sound.stop();
+                }
+            }
+
+            if (player.isAtExit()) {
                 run = false;
             }
 
@@ -272,6 +285,7 @@ public class Level1 extends Level {
             over = true;
 
             SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_gameover.mp3");
+            sound.stop();
             sound.play();
             Amplitude amp = new Amplitude(this);
             amp.input(sound);

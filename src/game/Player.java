@@ -17,6 +17,7 @@ public class Player extends Karakter implements Collidable {
     private int flashCooldown;
     private boolean canHide;
     private boolean hiding;
+    private boolean tookDamage;
 
     public Player(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height);
@@ -34,6 +35,7 @@ public class Player extends Karakter implements Collidable {
         this.flashCooldown = 0;
         this.canHide = false;
         this.hiding = false;
+        this.tookDamage = false;
         setId(100);
     }
 
@@ -182,6 +184,14 @@ public class Player extends Karakter implements Collidable {
 
     public boolean isHiding() {
         return hiding;
+    }
+
+    public void setTookDamage(boolean tookDamage) {
+        this.tookDamage = tookDamage;
+    }
+
+    public boolean getTookDamage() {
+        return tookDamage;
     }
 
     public int getLastDirection() {
