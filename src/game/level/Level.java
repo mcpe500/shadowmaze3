@@ -23,4 +23,8 @@ public abstract class Level extends PApplet {
     public void settings() {
         parent.size(1280, 720);
     }
+
+        
+    
+
 }

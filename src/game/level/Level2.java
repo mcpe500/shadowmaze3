@@ -82,7 +82,6 @@ public class Level2 extends Level {
         enemies.add(enemyEyeball);
         this.currentMap = new CurrentMap(strMap);
 
-        this.currentMap = new CurrentMap(strMap);
     }
 
     public void draw() {
@@ -318,7 +317,7 @@ public class Level2 extends Level {
             rect(0, 0, width, height);
             over = true;
             int[] file = FileManager.openFile();
-            file[0] = time;
+            if (file[0]<time) file[0] = time;
             FileManager.writeToFile(file);
         }
 
