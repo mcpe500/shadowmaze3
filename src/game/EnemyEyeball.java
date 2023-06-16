@@ -6,7 +6,8 @@ import src.game.Interface.Collidable;
 
 public class EnemyEyeball extends Enemy {
     private PImage image;
-    private boolean isFlashed;
+    private int flashTick;
+    private int lastFlashTick;
 
     public EnemyEyeball(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         super(x, y, moveSpeed, health, damage, width, height, 7);
@@ -23,23 +24,22 @@ public class EnemyEyeball extends Enemy {
     @Override
     public void display(PApplet applet) {
         decreaseInvulTime();
-        processImageId();
-        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(),
-                (this.imageIdx) * this.getWidth(), 0, (this.imageIdx + 1) * this.getWidth(), this.getHeight());
-    }
-
-    @Override
-    public void onCollision(Collidable c) {
-        if (c instanceof Player && ((Player) c).getFlash()) {
-            if (((Player) c).getFlash()) {
-                System.out.println("flash1");
-                isFlashed = true;
-            }
-            System.out.println("flash2");
+        processImageId();   
+        if (this.flashTick == this.lastFlashTick) {
+            this.flashTick = 0;
+            this.lastFlashTick = 0;
+        } else {
+            this.lastFlashTick = this.flashTick;
         }
+        applet.image(image, this.getX(), this.getY(), this.getWidth(), this.getHeight(), (this.imageIdx)*this.getWidth(), 0, (this.imageIdx+1)*this.getWidth(), this.getHeight());
     }
 
-    public boolean isFlashed() {
-        return isFlashed;
+    public boolean incFlashTick() {
+        this.flashTick++;
+        if (this.flashTick>=50) {
+            return true;
+        }
+        return false;
     }
+
 }

@@ -182,6 +182,7 @@ public abstract class Karakter implements Movable {
     }
 
     public void attack(Karakter target) {
+        System.out.println(this.getId() + " " + target.id);
         if (target.getInvulTime() == 0) {
             target.takeDamage(damage);
         }
@@ -190,8 +191,8 @@ public abstract class Karakter implements Movable {
     public void takeDamage(int amount) {
         health -= amount;
         invulTime = 100;
-        if (health <= 0) {
-
+        if (health < 0) {
+            health = 0;
         }
     }
 
