@@ -30,12 +30,12 @@ public class LevelVersus extends Level {
     private int currentSecond;
     private Random random;
     private MazeGenerator mazeGenerator;
+    private int nextShootPortal;
+    private int[][] portalscoord;
 
     private int[][] map;
     private Tile[][] tileMap;
     private int width, height;
-    private int nextShootPortal;
-    private int[][] portalscoord;
 
     public LevelVersus(PApplet parent) {
         super(parent);
@@ -98,6 +98,8 @@ public class LevelVersus extends Level {
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
         gameOver = loadImage("../assets/buttons/gameover.png");
         levelClear = loadImage("../assets/buttons/level_clear.png");
+        this.strMap = new CurrentMap(map).convertMapToStr(map);
+        this.currentMap = new CurrentMap(strMap);
     }
 
     public int[][] genEmptyMap(int width, int height) {
@@ -276,6 +278,7 @@ public class LevelVersus extends Level {
             for (int i = 0; i < portals.length; i++) {
                 if (portals[i] != null) {
                     portals[i].draw(this);
+                    // System.out.println(portals);
                 }
             }
 
@@ -402,16 +405,28 @@ public class LevelVersus extends Level {
             }
             text("Health : " + player.getHealth(), 50, 50);
             text("Time : " + time, width - 200, 50);
-            if (player.getHealth() <= 0 || player.isAtExit()) {
+            if (player.getTookDamage()) {
+                player.setTookDamage(false);
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_blood.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
+                if (player.getHealth() <= 0 || player.isAtExit()) {
+                    run = false;
+                    sound.stop();
+                }
+            }
+
+            if (player.isAtExit()) {
                 run = false;
             }
 
         } else {
-            // if (player.isAtExit()) {
-            // win();
-            // } else {
-            // gameOver();
-            // }
+            if (player.isAtExit()) {
+                win();
+            } else {
+                gameOver();
+            }
         }
 
     }

@@ -22,12 +22,8 @@ public class MazeGenerator {
         initializeMaze();
         generatePaths(1, 1);
         maze = walledMaze(maze);
-        for (int i = 0; i < maze.length; i++) {
-            for (int j = 0; j < maze[i].length; j++) {
-                System.out.print(maze[i][j] + " ");
-            }
-            System.out.println();
-        }
+        maze = putBeartrap(maze);
+        maze = putLava(maze);
         maze[maze.length-2][maze[0].length-2] = 9;
         return maze;
     }
@@ -82,6 +78,41 @@ public class MazeGenerator {
         }
     }
 
+    private int[][] putBeartrap(int[][] maze) {
+        for (int i = 0; i < 10; i++) {
+            int x = random.nextInt(1, maze[0].length-2);
+            int y = random.nextInt(1, maze.length-2);
+            while (!trapValid(maze, x, y)) {
+                x = random.nextInt(1, maze[0].length-2);
+                y = random.nextInt(1, maze.length-2);
+            }
+            maze[y][x] = 2;
+        }
+        return maze;
+    }
+
+    private int[][] putLava(int[][] maze) {
+        for (int i = 0; i < 3; i++) {
+            int x = random.nextInt(1, maze[0].length-2);
+            int y = random.nextInt(1, maze.length-2);
+            while (!trapValid(maze, x, y)) {
+                x = random.nextInt(1, maze[0].length-2);
+                y = random.nextInt(1, maze.length-2);
+            }
+            maze[y][x] = 3;
+        }
+        return maze;
+    }
+
+    private boolean trapValid(int[][] maze, int x, int y) {
+        if (maze[y][x]!=1) return false;
+        int pathCount = 0;
+        if (maze[y-1][x] == 0 && maze[y+1][x] == 0) pathCount++;
+        if (maze[y][x-1] == 0 && maze[y][x+1] == 0) pathCount++;
+        if (pathCount != 1) return false;
+        return true;
+    }
+ 
     private enum Direction {
         UP(0, -2),
         RIGHT(2, 0),
