@@ -168,15 +168,15 @@ public class Player extends Karakter implements Collidable {
     public void checkFlash() {
         if (flash) {
             this.flashTick++;
-            if (this.flashTick>=50) {
+            if (this.flashTick>=80) {
                 this.flash = false;
                 this.flashCooldown = 200;
             }
         } else if (this.flashCooldown>0) {
             this.flashCooldown--;
         }
-        System.out.println("flashtick: " + this.flashTick);
-        System.out.println("flashcooldown: " + this.flashCooldown);
+        // System.out.println("flashtick: " + this.flashTick);
+        // System.out.println("flashcooldown: " + this.flashCooldown);
     }
 
     @Override
@@ -190,7 +190,7 @@ public class Player extends Karakter implements Collidable {
         } else {
             this.lastFlashTick = this.flashTick;
         }
-        
+
         applet.image(image, this.getX() - image.width / 3 + this.getWidth(),
                 this.getY() - image.height / 4 + this.getHeight(), image.width / 3, image.height / 4,
                 imageIdx * image.width / 3, lastDirection * image.height / 4, (imageIdx + 1) * image.width / 3,

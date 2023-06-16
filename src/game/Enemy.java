@@ -26,6 +26,8 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         this.imageDx = 1;
         this.tick = 0;
         this.maxImageIdx = maxImageIdx;
+        this.mapPosX = 30;
+        this.mapPosY = 30;
         // TODO Auto-generated constructor stub
     }
 

@@ -23,8 +23,8 @@ public class Beartrap extends Tile implements Collidable{
          if (c.isCollidable() && this.active) {
             if (c instanceof Player) {
                 Player p = (Player) c;
-                if (p.getX() + p.getWidth() > x && p.getX() < x + width && p.getY() + p.getHeight() > y
-                        && p.getY() < y + height) {
+                if (p.getX() + p.getWidth() > x+width/3 && p.getX() < x + width*2/3 && p.getY() + p.getHeight() > y + height/3
+                        && p.getY() < y + height*2/3) {
                     return true;
                 }
             }
