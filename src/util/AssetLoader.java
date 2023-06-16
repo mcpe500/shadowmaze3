@@ -13,6 +13,8 @@ public class AssetLoader {
     private PImage exit;
     private PImage portal1;
     private PImage portal2;
+    private PImage trapdoor; // Corrected typo: PImage instead of PImange
+
 
     public AssetLoader(PApplet pApplet) {
         parent = pApplet;
@@ -24,6 +26,7 @@ public class AssetLoader {
         exit = parent.loadImage("../assets/sprites/hole_exit.png");
         portal1 = parent.loadImage("../assets/sprites/portal1.png");
         portal2 = parent.loadImage("../assets/sprites/portal2.png");
+        trapdoor = parent.loadImage("../assets/sprites/trapdoor.png");
     }
 
     public PImage getStonefloor() {
@@ -56,5 +59,10 @@ public class AssetLoader {
 
     public PImage getPortal2() {
         return portal2;
+    }
+
+    public PImage getTrapdoor()
+    {
+        return trapdoor;
     }
 }
