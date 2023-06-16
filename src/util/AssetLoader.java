@@ -23,7 +23,7 @@ public class AssetLoader {
         lava = parent.loadImage("../assets/sprites/lava.png");
         exit = parent.loadImage("../assets/sprites/hole_exit.png");
         portal1 = parent.loadImage("../assets/sprites/portal1.png");
-        portal2 = parent.loadImage("../assets/sprites/portal.png");
+        portal2 = parent.loadImage("../assets/sprites/portal2.png");
     }
 
     public PImage getStonefloor() {
