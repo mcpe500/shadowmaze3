@@ -82,7 +82,7 @@ public class Level3 extends Level {
         enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
         enemies.add(enemyEyeball);
 
-        EnemySolid enemySolid = new EnemySolid(164, 164, 2, 100, 10, 12, 16);
+        EnemySolid enemySolid = new EnemySolid(164, 164, 2, 100, 10, 18, 24);
         enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
         enemies.add(enemySolid);
         this.currentMap = new CurrentMap(strMap);
