@@ -12,7 +12,6 @@ import src.Main;
 import src.game.*;
 import src.game.Tile.*;
 import src.util.Button;
-import src.util.FileManager;
 import src.util.MapLoader;
 import src.util.MazeGenerator;
 import src.util.ScoreManager;
@@ -103,6 +102,8 @@ public class LevelVersus extends Level {
         levelClear = loadImage("../assets/buttons/level_clear.png");
         this.strMap = new CurrentMap(map).convertMapToStr(map);
         this.currentMap = new CurrentMap(strMap);
+        putEyeball(tileMap, 5, enemies);
+        putDemon(tileMap, 5, enemies);
     }
 
     public int[][] genEmptyMap(int width, int height) {
@@ -198,6 +199,15 @@ public class LevelVersus extends Level {
                         } else if (this.tileMap[i][j] instanceof Exit) {
                             Exit exit = (Exit) this.tileMap[i][j];
                             exit.onCollision(player);
+                        } else if (this.tileMap[i][j] instanceof Trapdoor) {
+                            Trapdoor trapdoor = (Trapdoor) this.tileMap[i][j];
+                            trapdoor.onCollision(player);
+                        } else if (this.tileMap[i][j] instanceof HolyGrenade) {
+                            HolyGrenade holyGrenade = (HolyGrenade) this.tileMap[i][j];
+                            holyGrenade.onCollision(player);
+                            if (player.getHasGrenade()) {
+                                this.tileMap[i][j] = new Stonefloor(parent, 32, 32, j * 32 + 100, i * 32 + 100);
+                            }
                         }
                     }
                 }
@@ -208,7 +218,7 @@ public class LevelVersus extends Level {
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
                 enemy.display(this);
-                enemy.moveController(player, currentMap.getMaps());
+                // enemy.moveController(player, currentMap.getMaps());
             }
             ArrayList<Karakter> karakter = new ArrayList<>();
             karakter.add(player);
@@ -392,10 +402,22 @@ public class LevelVersus extends Level {
                 }
             }
 
+            if (player.getThrowGrenade()) {
+                player.runGrenade(enemies);
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_explode.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
+            }
+
             for (int i = enemies.size() - 1; i >= 0; i--) {
                 if (enemies.get(i).getHealth() == 0) {
                     enemies.remove(i);
                 }
+            }
+
+            if (!(tileMap[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
+                player.setCanHide(false);
             }
 
             // Reset the transformations
@@ -442,6 +464,40 @@ public class LevelVersus extends Level {
     @Override
     public void keyReleased() {
         player.keyReleased(key);
+    }
+
+    public void putEyeball(Tile[][] tileMap, int eyeballCount, ArrayList<Enemy> enemies) {
+        for (int i = 0; i < eyeballCount; i++) {
+            int x = random.nextInt(2, tileMap[0].length - 1);
+            int y = random.nextInt(2, tileMap.length - 1);
+            while (!validEnemyPlace(tileMap, x, y)) {
+                x = random.nextInt(2, tileMap[0].length - 1);
+                y = random.nextInt(2, tileMap.length - 1);
+            }
+
+            EnemyEyeball enemyEyeball = new EnemyEyeball(x*32+100, y*32+100, 2, 100, 10, 22, 22);
+            enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
+            enemies.add(enemyEyeball);
+        }
+    }
+
+    public void putDemon(Tile[][] tileMap, int demonCount, ArrayList<Enemy> enemies) {
+        for (int i = 0; i < demonCount; i++) {
+            int x = random.nextInt(2, tileMap[0].length - 1);
+            int y = random.nextInt(2, tileMap.length - 1);
+            while (!validEnemyPlace(tileMap, x, y)) {
+                x = random.nextInt(2, tileMap[0].length - 1);
+                y = random.nextInt(2, tileMap.length - 1);
+            }
+
+            EnemySolid enemySolid = new EnemySolid(x*32+100, y*32+100, 2, 100, 10, 18, 24);
+            enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
+            enemies.add(enemySolid);
+        }
+    }
+
+    public boolean validEnemyPlace(Tile[][] tileMap, int x, int y) {
+        return ((tileMap[y][x] instanceof Stonefloor) && !((x>=2 && x<=4) && (y>=2 && y<=4)));
     }
 
     public void gameOver() {
