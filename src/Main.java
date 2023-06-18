@@ -18,34 +18,17 @@ import processing.sound.*;
 public class Main extends PApplet {
 
     private PImage background;
-    private Button playButton;
-    private Button settingsButton;
-    private Button backButton;
-    private Button level1Button;
-    private Button level2Button;
-    private Button level3Button;
-    private Button level4Button;
-    private Button level5Button;
-    private Button playVersusButton;
+    private Button playButton, settingsButton, backButton, level1Button, level2Button, level3Button, level4Button,
+            level5Button, playVersusButton;
     private SoundFile sound;
     private Amplitude amp;
 
     private float scrollPosition = 0, scrollSpeed = 5, contentHeight = 1000, viewHeight = 400;
 
-    private final int mainmenu = 0;
-    private final int settings = 1;
-    private final int playmenu = 2;
-    private final int adventuremenu = 3;
-    private final int versusmenu = 4;
-    private final int highscoremenu = 5;
+    private final int mainmenu = 0, settings = 1, playmenu = 2, adventuremenu = 3, versusmenu = 4, highscoremenu = 5;
     private float currentVolume = 1.0f;
 
-    private final int jumlahLevel = 5;
-
-    private int currentPage;
-    private int previousPage;
-
-    private boolean startVersus;
+    private int currentPage, previousPage;
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -147,10 +130,9 @@ public class Main extends PApplet {
             displayAdventureMenu();
         } else if (currentPage == versusmenu) {
             displayVersusMenu();
-        } 
-        // else if (currentPage == highscoremenu) {
-        //     displayHighScoreMenu();
-        // }
+        } else if (currentPage == highscoremenu) {
+            displayHighScoreMenu();
+        }
     }
 
     public void stopSound() {
@@ -160,46 +142,44 @@ public class Main extends PApplet {
     }
 
     public void displaySettings() {
-    // ...
-    backButton.display(this);
-    backButton.update(mouseX, mouseY, mousePressed);
+        // ...
+        backButton.display(this);
+        backButton.update(mouseX, mouseY, mousePressed);
 
-    // Display volume slider
-    float volumeSliderX = width / 2 - 200;
-    float volumeSliderY = height / 2 - 10;
-    float volumeSliderWidth = 400;
-    float volumeSliderHeight = 20;
-    float volume = map(currentVolume, 0, 1, 0, volumeSliderWidth);
-    fill(200);
-    rect(volumeSliderX, volumeSliderY, volumeSliderWidth, volumeSliderHeight);
-    fill(0);
-    rect(volumeSliderX, volumeSliderY, volume, volumeSliderHeight);
+        // Display volume slider
+        float volumeSliderX = width / 2 - 200;
+        float volumeSliderY = height / 2 - 10;
+        float volumeSliderWidth = 400;
+        float volumeSliderHeight = 20;
+        float volume = map(currentVolume, 0, 1, 0, volumeSliderWidth);
+        fill(200);
+        rect(volumeSliderX, volumeSliderY, volumeSliderWidth, volumeSliderHeight);
+        fill(0);
+        rect(volumeSliderX, volumeSliderY, volume, volumeSliderHeight);
 
-    // Display volume percentage
-    float volumePercentage = currentVolume * 100;
-    String volumeText = "Volume menu: " + nf(volumePercentage, 0, 0) + "%";
-    textSize(20);
-    textAlign(CENTER, CENTER);
-    fill(255);
-    text(volumeText, width / 2, volumeSliderY - 30);
+        // Display volume percentage
+        float volumePercentage = currentVolume * 100;
+        String volumeText = "Volume menu: " + nf(volumePercentage, 0, 0) + "%";
+        textSize(20);
+        textAlign(CENTER, CENTER);
+        fill(255);
+        text(volumeText, width / 2, volumeSliderY - 30);
 
-    // Update currentVolume based on slider position
-    if (mousePressed && mouseX >= volumeSliderX && mouseX <= volumeSliderX + volumeSliderWidth
-            && mouseY >= volumeSliderY && mouseY <= volumeSliderY + volumeSliderHeight) {
-        float normalizedVolume = constrain(map(mouseX, volumeSliderX, volumeSliderX + volumeSliderWidth, 0, 1), 0, 1);
-        currentVolume = normalizedVolume;
-        sound.amp(currentVolume);  // Adjust the sound volume
+        // Update currentVolume based on slider position
+        if (mousePressed && mouseX >= volumeSliderX && mouseX <= volumeSliderX + volumeSliderWidth
+                && mouseY >= volumeSliderY && mouseY <= volumeSliderY + volumeSliderHeight) {
+            float normalizedVolume = constrain(map(mouseX, volumeSliderX, volumeSliderX + volumeSliderWidth, 0, 1), 0,
+                    1);
+            currentVolume = normalizedVolume;
+            sound.amp(currentVolume); // Adjust the sound volume
+        }
+
+        if (backButton.isClicked()) {
+            goToPreviousPage();
+        }
+
+        // ...
     }
-
-    if (backButton.isClicked()) {
-        goToPreviousPage();
-    }
-
-    // ...
-}
-
-    
-   
 
     public void displayGameMenu() {
         backButton.display(this);
@@ -228,29 +208,28 @@ public class Main extends PApplet {
         playVersusButton.setImage(loadImage("../assets/buttons/start_button.png"));
         playVersusButton.display(this);
         playVersusButton.update(mouseX, mouseY, mousePressed);
-        // Button highscoreButton = new Button(515, 430, 250, 100, "Highscore");
-        // highscoreButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
-        // highscoreButton.display(this);
+        Button highscoreButton = new Button(515, 430, 250, 100, "Highscore");
+        highscoreButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+        highscoreButton.display(this);
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (playVersusButton.isClicked()) {
             stopSound();
             goToVersusGame();
             playVersusButton.setEnabled(false);
-        } 
-        // else if (highscoreButton.isClicked()) {
-        //     goToHighscore();
-        // }
+        } else if (highscoreButton.isClicked()) {
+            goToHighscore();
+        }
     }
 
-    // public void displayHighScoreMenu() {
-    //     backButton.display(this);
-    //     backButton.update(mouseX, mouseY, mousePressed);
+    public void displayHighScoreMenu() {
+        backButton.display(this);
+        backButton.update(mouseX, mouseY, mousePressed);
 
-    //     if (backButton.isClicked()) {
-    //         goToPreviousPage();
-    //     }
-    // }
+        if (backButton.isClicked()) {
+            goToPreviousPage();
+        }
+    }
 
     public void goToHighscore() {
         previousPage = currentPage;
