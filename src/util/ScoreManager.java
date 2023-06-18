@@ -6,11 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
+import java.util.Comparator;
 
 public class ScoreManager {
 
-    public static PriorityQueue<Node> openFile() {
+    public static ArrayList<Node> openFile() {
         ArrayList<String> input = new ArrayList<>();
         try {
             BufferedReader in = new BufferedReader(new FileReader("../src/Highscore.txt"));
@@ -22,10 +22,21 @@ public class ScoreManager {
         } catch (IOException ex) {
             System.out.println("File not found");
             createFile();
-            return new PriorityQueue<>();
+            return new ArrayList<>();
         }
+        ArrayList<Node> output = new ArrayList<>();
+        for (String string : input) {
+            String[] temp = string.split("-");
+            output.add(new Node(Long.parseLong(temp[1]), Integer.parseInt(temp[0])));
+        }
+        return output;
+    }
 
-        return decodeFile(input);
+    public static ArrayList<Node> sort(ArrayList<Node> input, Node newNode) {
+        ArrayList<Node> sorted = new ArrayList<>(input);
+        sorted.add(newNode);
+        sorted.sort(Comparator.comparingLong(Node::getScore));
+        return sorted;
     }
 
     public static void createFile() {
@@ -37,19 +48,7 @@ public class ScoreManager {
         }
     }
 
-    public static PriorityQueue<Node> decodeFile(ArrayList<String> file) {
-        PriorityQueue<Node> output = new PriorityQueue<>();
-        for (String line : file) {
-            String[] data = line.split(",");
-            int idx = Integer.parseInt(data[0]);
-            int score = Integer.parseInt(data[1]);
-            Node node = new Node(score, idx);
-            output.add(node);
-        }
-        return output;
-    }
-
-    public static void writeToFile(PriorityQueue<Node> output) {
+    public static void writeToFile(ArrayList<Node> output) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("../src/Highscore.txt"));
             for (Node node : output) {

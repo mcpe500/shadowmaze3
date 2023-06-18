@@ -517,7 +517,7 @@ public class LevelVersus extends Level {
         mainButton.display(this);
         mainButton.update(mouseX, mouseY, mousePressed);
         if (mainButton.isClicked()) {
-            Main app = new Main(3);
+            Main app = new Main(4);
             String[] main = { "Main" };
             PApplet.runSketch(main, app);
             surface.setVisible(false);
@@ -526,8 +526,8 @@ public class LevelVersus extends Level {
         restartButton.display(this);
         restartButton.update(mouseX, mouseY, mousePressed);
         if (restartButton.isClicked()) {
-            String[] levStrings = { "Level4" };
-            PApplet.runSketch(levStrings, new Level4(parent));
+            String[] levStrings = { "Versus" };
+            PApplet.runSketch(levStrings, new LevelVersus(parent));
             surface.setVisible(false);
             restartButton.setEnabled(false);
         }
@@ -544,8 +544,8 @@ public class LevelVersus extends Level {
             Amplitude amp = new Amplitude(this);
             amp.input(sound);
 
-            PriorityQueue<Node> file = ScoreManager.openFile();
-            file.add(new Node(time, file.size()));
+            ArrayList<Node> file = ScoreManager.openFile();
+            file = ScoreManager.sort(file, new Node(time,file.size()));
             ScoreManager.writeToFile(file);
         }
 
@@ -553,7 +553,7 @@ public class LevelVersus extends Level {
         mainButton.display(this);
         mainButton.update(mouseX, mouseY, mousePressed);
         if (mainButton.isClicked()) {
-            Main app = new Main(3);
+            Main app = new Main(4);
             String[] main = { "Main" };
             PApplet.runSketch(main, app);
             surface.setVisible(false);
