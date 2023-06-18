@@ -1,6 +1,6 @@
 package src.util;
 
-public class Node {
+public class Node implements Comparable<Node> {
     private long score;
     private int idx;
 
@@ -23,5 +23,10 @@ public class Node {
 
     public void setIdx(int idx) {
         this.idx = idx;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return Long.compare(this.score, o.score);
     }
 }
