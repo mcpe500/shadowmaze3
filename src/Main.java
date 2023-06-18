@@ -96,7 +96,7 @@ public class Main extends PApplet {
             level5Button.setImage(loadImage("assets/buttons/level5.png"));
         }
 
-        playVersusButton = new Button(515, 280, 250, 100, "Play");
+        playVersusButton = new Button(200, 300, 250, 100, "Play");
 
     }
 
@@ -208,9 +208,10 @@ public class Main extends PApplet {
         playVersusButton.setImage(loadImage("../assets/buttons/start_button.png"));
         playVersusButton.display(this);
         playVersusButton.update(mouseX, mouseY, mousePressed);
-        Button highscoreButton = new Button(515, 430, 250, 100, "Highscore");
+        Button highscoreButton = new Button(800, 300, 250, 100, "Highscore");
         highscoreButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
         highscoreButton.display(this);
+        highscoreButton.update(mouseX, mouseY, mousePressed);
         if (backButton.isClicked()) {
             goToPreviousPage();
         } else if (playVersusButton.isClicked()) {
@@ -225,7 +226,7 @@ public class Main extends PApplet {
     public void displayHighScoreMenu() {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
-
+        
         if (backButton.isClicked()) {
             goToPreviousPage();
         }
