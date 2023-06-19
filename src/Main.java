@@ -2,6 +2,8 @@ package src;
 
 import src.util.Button;
 import src.util.FileManager;
+import src.util.Node;
+import src.util.ScoreManager;
 import src.game.level.Level;
 import src.game.level.Level1;
 import src.game.level.Level2;
@@ -9,6 +11,8 @@ import src.game.level.Level3;
 import src.game.level.Level4;
 import src.game.level.Level5;
 import src.game.level.LevelVersus;
+
+import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -102,11 +106,7 @@ public class Main extends PApplet {
 
     public void mouseWheel(MouseEvent event) {
         float delta = event.getCount();
-
-        // Update the scroll position based on the mouse wheel movement
         scrollPosition += delta * scrollSpeed;
-
-        // Constrain the scroll position within the valid range
         scrollPosition = constrain(scrollPosition, 0, contentHeight - viewHeight);
     }
 
@@ -123,14 +123,19 @@ public class Main extends PApplet {
                 goToSettings();
             }
         } else if (currentPage == settings) {
+            previousPage = mainmenu;
             displaySettings();
         } else if (currentPage == playmenu) {
+            previousPage = mainmenu;
             displayGameMenu();
         } else if (currentPage == adventuremenu) {
+            previousPage = playmenu;
             displayAdventureMenu();
         } else if (currentPage == versusmenu) {
+            previousPage = playmenu;
             displayVersusMenu();
         } else if (currentPage == highscoremenu) {
+            previousPage = versusmenu;
             displayHighScoreMenu();
         }
     }
@@ -226,14 +231,22 @@ public class Main extends PApplet {
     public void displayHighScoreMenu() {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
-        
+        ArrayList<Node> hs = ScoreManager.openFile();
+        for (int i = 0; i < hs.size(); i++) {
+            Node n = hs.get(i);
+            long score = n.getScore();
+            String text = String.valueOf(score);
+            textSize(20);
+            textAlign(CENTER, CENTER);
+            fill(255);
+            text(text, width / 2, 100 + i * 50);
+        }
         if (backButton.isClicked()) {
             goToPreviousPage();
         }
     }
 
     public void goToHighscore() {
-        previousPage = currentPage;
         currentPage = highscoremenu;
     }
 
