@@ -18,6 +18,7 @@ public class AssetLoader {
     private PImage portal2;
     private PImage trapdoor;
     private PImage holyGrenade;
+    private PImage explosion;
 
     public AssetLoader(PApplet pApplet) {
         parent = pApplet;
@@ -31,6 +32,7 @@ public class AssetLoader {
         portal2 = parent.loadImage("../assets/sprites/portal2.png");
         trapdoor = parent.loadImage("../assets/sprites/trapdoor.png");
         holyGrenade = parent.loadImage("../assets/sprites/Holy_grenade.png");
+        explosion = parent.loadImage("../assets/sprites/explosion.png");
     }
 
     public PImage getStonefloor() {
@@ -71,5 +73,9 @@ public class AssetLoader {
 
     public PImage getHolyGrenade() {
         return holyGrenade;
+    }
+
+    public PImage getExplosion() {
+        return explosion;
     }
 }

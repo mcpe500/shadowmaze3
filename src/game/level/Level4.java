@@ -40,6 +40,7 @@ public class Level4 extends Level {
     private boolean over;
     private int time;
     private int currentSecond;
+    private boolean lastPlayerHideState;
     private int nextShootPortal;
     private int[][] portalscoord;
 
@@ -57,6 +58,7 @@ public class Level4 extends Level {
         time = 0;
         nextShootPortal = 0;
         currentSecond = second();
+        this.lastPlayerHideState = false;
         portalscoord = new int[2][2];
     }
 
@@ -131,6 +133,10 @@ public class Level4 extends Level {
             portalscoord[1][1] = portal.getY();
             portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the new second portal
         }
+        SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_portalshot.mp3");
+        sound.play();
+        Amplitude amp = new Amplitude(this);
+        amp.input(sound);
     }
 
     public void draw() {
@@ -175,28 +181,23 @@ public class Level4 extends Level {
                 }
             }
 
-            player.display(this);
-            player.playerController(this);
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy enemy = enemies.get(i);
-                enemy.display(this);
-                enemy.moveController(player, currentMap.getMaps());
-            }
-            ArrayList<Karakter> karakter = new ArrayList<>();
-            karakter.add(player);
-            for (int i = 0; i < enemies.size(); i++) {
-                karakter.add(enemies.get(i));
-            }
-            currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
             if (player.isTeleport()) {
                 if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
                         && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
                     player.setX(portalscoord[1][0]);
                     player.setY(portalscoord[1][1]);
-                }else if(player.getX() >= portalscoord[1][0] && player.getX() <= portalscoord[1][0] + 32
+                    SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_teleport.mp3");
+                    sound.play();
+                    Amplitude amp = new Amplitude(this);
+                    amp.input(sound);
+                } else if (player.getX() >= portalscoord[1][0] && player.getX() <= portalscoord[1][0] + 32
                         && player.getY() >= portalscoord[1][1] && player.getY() <= portalscoord[1][1] + 32){
                     player.setX(portalscoord[0][0]);
                     player.setY(portalscoord[0][1]);
+                    SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_teleport.mp3");
+                    sound.play();
+                    Amplitude amp = new Amplitude(this);
+                    amp.input(sound);
                 }
                 player.setTeleport(false);
             }
@@ -256,6 +257,21 @@ public class Level4 extends Level {
                     // System.out.println(portals);
                 }
             }
+
+            player.display(this);
+            player.playerController(this);
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy enemy = enemies.get(i);
+                enemy.display(this);
+                enemy.moveController(player, currentMap.getMaps());
+            }
+            ArrayList<Karakter> karakter = new ArrayList<>();
+            karakter.add(player);
+            for (int i = 0; i < enemies.size(); i++) {
+                karakter.add(enemies.get(i));
+            }
+            currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
+            
             // Circle overlay
             int radius = 200;
             for (int i = 0; i < height; i++) {
@@ -367,6 +383,14 @@ public class Level4 extends Level {
                 if (enemies.get(i).getHealth() == 0) {
                     enemies.remove(i);
                 }
+            }
+
+            if(this.lastPlayerHideState != player.isHiding()) {
+                this.lastPlayerHideState = player.isHiding();
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_trapdoor.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
             }
 
             if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {

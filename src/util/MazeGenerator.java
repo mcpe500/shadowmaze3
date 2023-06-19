@@ -29,7 +29,7 @@ public class MazeGenerator {
         maze = putBeartrap(maze, 10);
         maze = putLava(maze, 3);
         maze = putTrapdoor(maze, 3);
-        maze = putGrenade(maze, 1);
+        maze = putGrenade(maze, 2);
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze[i].length; j++) {
                 System.out.print(maze[i][j] + " ");
@@ -100,11 +100,11 @@ public class MazeGenerator {
 
     private int[][] putBeartrap(int[][] maze, int beartrapCount) {
         for (int i = 0; i < beartrapCount; i++) {
-            int x = random.nextInt(2, maze[0].length - 1);
-            int y = random.nextInt(2, maze.length - 1);
+            int x = random.nextInt(2, maze[0].length - 2);
+            int y = random.nextInt(2, maze.length - 2);
             while (!validTrap(maze, x, y)) {
-                x = random.nextInt(2, maze[0].length - 1);
-                y = random.nextInt(2, maze.length - 1);
+                x = random.nextInt(2, maze[0].length - 2);
+                y = random.nextInt(2, maze.length - 2);
             }
             maze[y][x] = 2;
         }
@@ -113,11 +113,11 @@ public class MazeGenerator {
 
     private int[][] putLava(int[][] maze, int lavaCount) {
         for (int i = 0; i < lavaCount; i++) {
-            int x = random.nextInt(2, maze[0].length - 1);
-            int y = random.nextInt(2, maze.length - 1);
+            int x = random.nextInt(2, maze[0].length - 2);
+            int y = random.nextInt(2, maze.length - 2);
             while (!validTrap(maze, x, y)) {
-                x = random.nextInt(2, maze[0].length - 1);
-                y = random.nextInt(2, maze.length - 1);
+                x = random.nextInt(2, maze[0].length - 2);
+                y = random.nextInt(2, maze.length - 2);
             }
             maze[y][x] = 3;
         }
@@ -126,11 +126,11 @@ public class MazeGenerator {
 
     private int[][] putTrapdoor(int[][] maze, int trapdoorCount) {
         for (int i = 0; i < trapdoorCount; i++) {
-            int x = random.nextInt(2, maze[0].length - 1);
-            int y = random.nextInt(2, maze.length - 1);
+            int x = random.nextInt(2, maze[0].length - 2);
+            int y = random.nextInt(2, maze.length - 2);
             while (!validHelp(maze, x, y)) {
-                x = random.nextInt(2, maze[0].length - 1);
-                y = random.nextInt(2, maze.length - 1);
+                x = random.nextInt(2, maze[0].length - 2);
+                y = random.nextInt(2, maze.length - 2);
             }
             maze[y][x] = 4;
         }
@@ -139,11 +139,11 @@ public class MazeGenerator {
 
     private int[][] putGrenade(int[][] maze, int grenadeCount) {
         for (int i = 0; i < grenadeCount; i++) {
-            int x = random.nextInt(2, maze[0].length - 1);
-            int y = random.nextInt(2, maze.length - 1);
+            int x = random.nextInt(2, maze[0].length - 2);
+            int y = random.nextInt(2, maze.length - 2);
             while (!validHelp(maze, x, y)) {
-                x = random.nextInt(2, maze[0].length - 1);
-                y = random.nextInt(2, maze.length - 1);
+                x = random.nextInt(2, maze[0].length - 2);
+                y = random.nextInt(2, maze.length - 2);
             }
             maze[y][x] = 5;
         }        

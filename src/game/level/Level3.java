@@ -39,6 +39,7 @@ public class Level3 extends Level {
     private boolean over;
     private int time;
     private int currentSecond;
+    private boolean lastPlayerHideState;
 
     public Level3(PApplet parent) {
         super(parent);
@@ -53,6 +54,7 @@ public class Level3 extends Level {
         over = false;
         time = 0;
         currentSecond = second();
+        this.lastPlayerHideState = false;
     }
 
     @Override
@@ -270,6 +272,14 @@ public class Level3 extends Level {
                 if (enemies.get(i).getHealth() == 0) {
                     enemies.remove(i);
                 }
+            }
+
+            if(this.lastPlayerHideState != player.isHiding()) {
+                this.lastPlayerHideState = player.isHiding();
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_trapdoor.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
             }
 
             if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
