@@ -2,27 +2,27 @@ package src.util;
 
 public class Node implements Comparable<Node> {
     private long score;
-    private int idx;
+    private String indentifier;
 
-    public Node(long score, int idx) {
+    public Node(long score, String idx) {
         this.score = score;
-        this.idx = idx;
+        this.indentifier = idx;
     }
 
     public long getScore() {
         return score;
     }
 
-    public int getIdx() {
-        return idx;
+    public String getIndentifier() {
+        return indentifier;
     }
 
     public void setScore(long score) {
         this.score = score;
     }
 
-    public void setIdx(int idx) {
-        this.idx = idx;
+    public void setIndentifier(String idx) {
+        this.indentifier = idx;
     }
 
     @Override

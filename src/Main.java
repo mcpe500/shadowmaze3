@@ -23,7 +23,7 @@ public class Main extends PApplet {
 
     private PImage background;
     private Button playButton, settingsButton, backButton, level1Button, level2Button, level3Button, level4Button,
-            level5Button, playVersusButton;
+            level5Button, playVersusButton, nextButton, prevButton;
     private SoundFile sound;
     private Amplitude amp;
 
@@ -75,6 +75,8 @@ public class Main extends PApplet {
         level3Button = new Button(500, 400, 150, 80, "Level 3");
         level4Button = new Button(700, 400, 150, 80, "Level 4");
         level5Button = new Button(900, 400, 150, 80, "Level 5");
+        nextButton = new Button(515, 280, 250, 100, "Next");
+        prevButton = new Button(50, 280, 250, 100, "Previous");
         if (file[1] == 0) {
             level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
             level2Button.setEnabled(false);
@@ -228,21 +230,69 @@ public class Main extends PApplet {
         }
     }
 
+    int currentHistoryPage = 1; // Track the current page number
+    int itemsPerPage = 8; // Number of items to display per page
+
+    int prevButtonClickTime = 0;
+    int nextButtonClickTime = 0;
+
     public void displayHighScoreMenu() {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
         ArrayList<Node> hs = ScoreManager.openFile();
-        for (int i = 0; i < hs.size(); i++) {
+
+        // Calculate the total number of pages
+        int totalPages = (int) Math.ceil((double) hs.size() / itemsPerPage);
+
+        // Calculate the starting and ending indexes for the current page
+        int startIndex = (currentHistoryPage - 1) * itemsPerPage;
+        int endIndex = min(startIndex + itemsPerPage, hs.size());
+
+        for (int i = startIndex; i < endIndex; i++) {
             Node n = hs.get(i);
             long score = n.getScore();
-            String text = String.valueOf(score);
+            String text = n.getIndentifier() + " - " + String.valueOf(score);
             textSize(20);
             textAlign(CENTER, CENTER);
             fill(255);
-            text(text, width / 2, 100 + i * 50);
+            text(text, width / 2, 100 + (i - startIndex) * 50);
         }
+
+        // Initialize the buttons
+        nextButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+        prevButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+
+        // Draw the buttons
+        nextButton.display(this);
+        prevButton.display(this);
+
+        // Update the buttons
+        nextButton.update(mouseX, mouseY, mousePressed);
+        prevButton.update(mouseX, mouseY, mousePressed);
+        if (nextButton.isClicked() && (millis() - nextButtonClickTime) > 500) {
+            nextButtonClickTime = millis();
+            nextPage(totalPages);
+        }
+
+        if (prevButton.isClicked() && (millis() - prevButtonClickTime) > 500) {
+            prevButtonClickTime = millis();
+            goToPreviousHistoryPage();
+        }
+
         if (backButton.isClicked()) {
             goToPreviousPage();
+        }
+    }
+
+    public void nextPage(int totalPages) {
+        if (currentHistoryPage < totalPages) {
+            currentHistoryPage++;
+        }
+    }
+
+    public void goToPreviousHistoryPage() {
+        if (currentHistoryPage > 1) {
+            currentHistoryPage--;
         }
     }
 

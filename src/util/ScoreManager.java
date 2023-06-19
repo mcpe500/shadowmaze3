@@ -27,7 +27,7 @@ public class ScoreManager {
         ArrayList<Node> output = new ArrayList<>();
         for (String string : input) {
             String[] temp = string.split("-");
-            output.add(new Node(Long.parseLong(temp[1]), Integer.parseInt(temp[0])));
+            output.add(new Node(Long.parseLong(temp[1]), ""));
         }
         return output;
     }
@@ -52,7 +52,7 @@ public class ScoreManager {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("../src/Highscore.txt"));
             for (Node node : output) {
-                writer.write(node.getIdx() + "-" + node.getScore());
+                writer.write(node.getIndentifier() + "-" + node.getScore());
                 writer.newLine();
             }
             writer.close();
