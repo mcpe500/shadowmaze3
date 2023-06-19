@@ -9,6 +9,7 @@ import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
 import src.game.Tile.Exit;
+import src.game.Tile.Explosion;
 import src.game.Tile.HolyGrenade;
 import src.game.Tile.Lava;
 import src.game.Tile.Portal;
@@ -16,7 +17,6 @@ import src.game.Tile.Stonefloor;
 import src.game.Tile.Tile;
 import src.game.Tile.Trapdoor;
 import src.game.Tile.Wall;
-import src.util.AssetLoader;
 import src.util.Button;
 import src.util.FileManager;
 import src.util.MapLoader;
@@ -43,6 +43,8 @@ public class Level5 extends Level {
     private boolean over;
     private int time;
     private int currentSecond;
+    private boolean lastPlayerHideState;
+    private ArrayList<Explosion> explodeTile;
     private int nextShootPortal;
     private int[][] portalscoord;
 
@@ -59,6 +61,8 @@ public class Level5 extends Level {
         time = 0;
         portalscoord = new int[2][2];
         currentSecond = second();
+        this.lastPlayerHideState = false;
+        this.explodeTile = new ArrayList<>();
         nextShootPortal = 0;
     }
 
@@ -192,6 +196,10 @@ public class Level5 extends Level {
             portalscoord[1][1] = portal.getY();
             portals[1].setImage(loadImage("../assets/sprites/portal2.png")); // Set the image for the new second portal
         }
+        SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_portalshot.mp3");
+        sound.play();
+        Amplitude amp = new Amplitude(this);
+        amp.input(sound);
     }
 
     public void draw() {
@@ -234,7 +242,7 @@ public class Level5 extends Level {
                         } else if (this.map[i][j] instanceof HolyGrenade) {
                             HolyGrenade holyGrenade = (HolyGrenade) this.map[i][j];
                             holyGrenade.onCollision(player);
-                            if (player.getHasGrenade()) {
+                            if (holyGrenade.beenPickedUp()) {
                                 this.map[i][j] = new Stonefloor(parent, 32, 32, j * 32 + 100, i * 32 + 100);
                             }
                         }
@@ -242,19 +250,6 @@ public class Level5 extends Level {
                 }
             }
 
-            player.display(this);
-            player.playerController(this);
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy enemy = enemies.get(i);
-                enemy.display(this);
-                enemy.moveController(player, currentMap.getMaps());
-            }
-            ArrayList<Karakter> karakter = new ArrayList<>();
-            karakter.add(player);
-            for (int i = 0; i < enemies.size(); i++) {
-                karakter.add(enemies.get(i));
-            }
-            currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
             if (player.isTeleport()) {
                 if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
                         && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
@@ -323,6 +318,30 @@ public class Level5 extends Level {
                     // System.out.println(portals);
                 }
             }
+
+            player.display(this);
+            player.playerController(this);
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy enemy = enemies.get(i);
+                enemy.display(this);
+                enemy.moveController(player, currentMap.getMaps());
+            }
+            ArrayList<Karakter> karakter = new ArrayList<>();
+            karakter.add(player);
+            for (int i = 0; i < enemies.size(); i++) {
+                karakter.add(enemies.get(i));
+            }
+            currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
+
+            if (player.getThrowGrenade()) {
+                player.runGrenade(enemies);
+                this.explodeTile = putExplodeTile(map, player);
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_explode.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
+            }
+            checkExplodeTile(explodeTile);
 
             // Circle overlay
             int radius = 200;
@@ -431,18 +450,18 @@ public class Level5 extends Level {
                 }
             }
 
-            if (player.getThrowGrenade()) {
-                player.runGrenade(enemies);
-                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_explode.mp3");
-                sound.play();
-                Amplitude amp = new Amplitude(this);
-                amp.input(sound);
-            }
-
             for (int i = enemies.size() - 1; i >= 0; i--) {
                 if (enemies.get(i).getHealth() == 0) {
                     enemies.remove(i);
                 }
+            }
+
+            if(this.lastPlayerHideState != player.isHiding()) {
+                this.lastPlayerHideState = player.isHiding();
+                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_trapdoor.mp3");
+                sound.play();
+                Amplitude amp = new Amplitude(this);
+                amp.input(sound);
             }
 
             if (!(map[player.getMapPosY()][player.getMapPosX()] instanceof Trapdoor) && player.getCanHide()) {
@@ -493,6 +512,35 @@ public class Level5 extends Level {
     @Override
     public void keyReleased() {
         player.keyReleased(key);
+    }
+
+    public ArrayList<Explosion> putExplodeTile(Tile[][] tileMap, Player player) {
+        int minX = Math.max(2, player.getMapPosX()-5);
+        int maxX = Math.min(tileMap[0].length-2, player.getMapPosX()+5);
+        int minY = Math.max(2, player.getMapPosY()-5);
+        int maxY = Math.min(tileMap.length-2, player.getMapPosY()+5);
+        ArrayList<Explosion> explodeTile = new ArrayList<>();
+
+        for (int i = minY; i <= maxY; i++) {
+            for (int j = minX; j <= maxX; j++) {
+                if (Math.abs(player.getMapPosX() - j) + Math.abs(player.getMapPosY() - i) <= 5) {
+                    explodeTile.add(new Explosion(this, 32, 32, j*32+100, i*32+100));
+                }
+            }   
+        }
+
+        return explodeTile;
+    }
+
+    public void checkExplodeTile(ArrayList<Explosion> explodeTile) {
+        for (int i = explodeTile.size()-1; i>=0; i--) {
+            explodeTile.get(i).decExplodeTime();
+            if (explodeTile.get(i).getExplodeTime()!=0) {
+                explodeTile.get(i).draw(this);
+            } else {
+                explodeTile.remove(i);
+            }
+        }
     }
 
     public void gameOver() {

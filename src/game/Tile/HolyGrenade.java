@@ -6,9 +6,11 @@ import src.game.Interface.Collidable;
 import src.util.AssetLoader;
 
 public class HolyGrenade extends Tile implements Collidable {
+    private boolean pickedUp;
 
     public HolyGrenade(PApplet parent, float width, float height, int x, int y) {
         super(parent, width, height, new AssetLoader(parent).getHolyGrenade(), x, y);
+        this.pickedUp = false;
     }
 
     @Override
@@ -37,8 +39,13 @@ public class HolyGrenade extends Tile implements Collidable {
                 Player p = (Player) c;
                 if (p.isPickingItem()) {
                     p.setHasGrenade(true);
+                    this.pickedUp = true;
                 }
             }
         }
+    }
+
+    public boolean beenPickedUp() {
+        return this.pickedUp;
     }
 }
