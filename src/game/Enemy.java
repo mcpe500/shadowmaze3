@@ -159,7 +159,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         
         // down
         tempY = getMapPosY()+1;
-        while (tempY<map.length && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())) {
+        while (tempY<map.length-1 && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())) {
             tempY++;
         }
         if (map[tempY][tempX] == 100) return 2;
@@ -174,7 +174,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
 
         // right
         tempX = getMapPosX();
-        while (tempX<map[0].length && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())){
+        while (tempX<map[0].length-1 && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())){
             tempX++;
         }
         if (map[tempY][tempX] == 100) return 1;

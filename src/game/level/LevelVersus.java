@@ -226,10 +226,18 @@ public class LevelVersus extends Level {
                         && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
                     player.setX(portalscoord[1][0]);
                     player.setY(portalscoord[1][1]);
+                    SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_teleport.mp3");
+                    sound.play();
+                    Amplitude amp = new Amplitude(this);
+                    amp.input(sound);
                 } else if (player.getX() >= portalscoord[1][0] && player.getX() <= portalscoord[1][0] + 32
                         && player.getY() >= portalscoord[1][1] && player.getY() <= portalscoord[1][1] + 32) {
                     player.setX(portalscoord[0][0]);
                     player.setY(portalscoord[0][1]);
+                    SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_teleport.mp3");
+                    sound.play();
+                    Amplitude amp = new Amplitude(this);
+                    amp.input(sound);
                 }
                 player.setTeleport(false);
             }
