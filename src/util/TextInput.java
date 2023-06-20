@@ -5,7 +5,8 @@ package src.util;
     private float x, y, width, height;
     private String text;
     private boolean focused;
-     public TextInput(PApplet parent, float x, float y, float width, float height) {
+
+    public TextInput(PApplet parent, float x, float y, float width, float height) {
         this.parent = parent;
         this.x = x;
         this.y = y;
@@ -14,7 +15,8 @@ package src.util;
         this.text = "";
         this.focused = false;
     }
-     public void update() {
+    
+    public void update() {
         if (parent.mousePressed) {
             if (parent.mouseX >= x && parent.mouseX <= x + width && parent.mouseY >= y && parent.mouseY <= y + height) {
                 focused = true;
@@ -23,12 +25,13 @@ package src.util;
             }
         }
     }
-     public void display() {
+    
+    public void display() {
         parent.fill(255);
         parent.rect(x, y, width, height);
-         parent.fill(0);
-        parent.textAlign(PApplet.LEFT, PApplet.CENTER);
-        parent.text(text, x + 5, y + height / 2);
+        parent.fill(0);
+        parent.textAlign(PApplet.CENTER, PApplet.CENTER);
+        parent.text(text, x + width/2, y + height / 2);
          if (focused) {
             parent.stroke(0);
             parent.line(x, y + height, x + width, y + height);
@@ -43,7 +46,8 @@ package src.util;
             }
         }
     }
-     public String getText() {
+    
+    public String getText() {
         return text;
     }
  }

@@ -344,7 +344,7 @@ public class Level2 extends Level {
             amp.input(sound);
 
             int[] file = FileManager.openFile();
-            if (file[1]<time) file[1] = time;
+            if (time<file[1]) file[1] = time;
             FileManager.writeToFile(file);
         }
 

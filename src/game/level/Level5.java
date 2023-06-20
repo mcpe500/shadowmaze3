@@ -596,7 +596,7 @@ public class Level5 extends Level {
             amp.input(sound);
 
             int[] file = FileManager.openFile();
-            if (file[4] < time)
+            if (time<file[4])
                 file[4] = time;
             FileManager.writeToFile(file);
         }

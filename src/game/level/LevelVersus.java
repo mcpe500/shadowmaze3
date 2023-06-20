@@ -42,6 +42,10 @@
         private Tile[][] tileMap;
         private int width, height;
 
+        private TextInput textInput;
+        private boolean confirmInput;
+        private Button confirmButton;
+
         public LevelVersus(PApplet parent) {
             super(parent);
             width = 1280;
@@ -60,6 +64,10 @@
             mazeGenerator = new MazeGenerator(width / 32 - 2, height / 32 - 2);
             portalscoord = new int[2][2];
             nextShootPortal = 0;
+            this.textInput = new TextInput(this, width/2-150, height/2+20, 300, 40);
+            this.confirmButton = new Button(width / 2 - 50, height / 2+100, 100, 50, "Confirm");
+            
+            this.confirmInput = false;
         }
 
         @Override
@@ -107,6 +115,8 @@
 
             mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
             restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
+            confirmButton.setImage(loadImage("../assets/buttons/restart_button.png"));
+
             gameOver = loadImage("../assets/buttons/gameover.png");
             levelClear = loadImage("../assets/buttons/level_clear.png");
             this.strMap = new CurrentMap(map).convertMapToStr(map);
@@ -477,7 +487,11 @@
 
             } else {
                 if (player.isAtExit()) {
-                    win();
+                    if (!confirmInput) {
+                        userInput();
+                    } else {
+                        win();
+                    }
                 } else {
                     gameOver();
                 }
@@ -488,6 +502,7 @@
         @Override
         public void keyPressed() {
             player.keyPressed(key);
+            textInput.keyPressed();
         }
 
         @Override
@@ -591,7 +606,7 @@
             }
         }
 
-        public void win() {
+        public void userInput() {
             if (!over) {
                 fill(0, 255, 0, 100);
                 rect(0, 0, width, height);
@@ -601,11 +616,83 @@
                 sound.play();
                 Amplitude amp = new Amplitude(this);
                 amp.input(sound);
-
-                ArrayList<Node> file = ScoreManager.openFile();
-                file = ScoreManager.sort(file, new Node(time, ""));
-                ScoreManager.writeToFile(file);
             }
+            image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);
+            textAlign(CENTER, CENTER);
+            fill(255);
+            text("Input your name:", width/2, height/2-30);
+
+            textInput.update();
+            textInput.display();
+            confirmButton.display(this);
+            confirmButton.update(mouseX, mouseY, mousePressed);
+            if (confirmButton.isClicked()) {
+                this.confirmInput = true;
+                ArrayList<Node> file = ScoreManager.openFile();
+                file = ScoreManager.sort(file, new Node(time, textInput.getText()));
+                ScoreManager.writeToFile(file);
+                this.over = false;
+            }
+        }
+
+        public void win() {
+            if (!over) {
+                fill(0);
+                rect(0, 0, width, height);
+                float cameraX = player.getX() - width / 2;
+                float cameraY = player.getY() - height / 2;
+                cameraX = constrain(cameraX, 50, tileMap[0].length * 32 - 1100);
+                cameraY = constrain(cameraY, 50, tileMap.length * 32 - 550);
+
+                pushMatrix();
+                translate(-cameraX, -cameraY);
+
+                background(0);
+                for (int i = 0; i < this.tileMap.length; i++) {
+                    for (int j = 0; j < this.tileMap[i].length; j++) {
+                        if (this.tileMap[i][j] != null) {
+                            this.tileMap[i][j].draw(this);
+                        }
+                    }
+                }
+                for (int i = 0; i < portals.length; i++) {
+                    if (portals[i] != null) {
+                        portals[i].draw(this);
+                    }
+                }
+                player.display(this);
+
+                for (Enemy enemy : enemies) {
+                    enemy.display(this);
+                }
+
+                int radius = 200;
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        double distance = Math.pow((j + cameraX - (player.getX() + player.getWidth() / 2)), 2)
+                                + Math.pow((i + cameraY - (player.getY() + player.getHeight() / 2)), 2);
+                        if (!player.getFlash()) {
+                            if (distance >= Math.pow(radius, 2)) {
+                                set(j, i, color(0, 0, 0));
+                            }
+                        }
+                    }
+                }
+                popMatrix();
+
+                fill(255);
+                textSize(32);
+                textAlign(LEFT, LEFT);
+                text("Health : " + player.getHealth(), 50, 50);
+                text("Time : " + time, width - 200, 50);
+
+                fill(0, 255, 0, 100);
+                rect(0, 0, width, height);
+                
+                
+                over = true;
+            }
+            
 
             image(levelClear, width / 2 - gameOver.width / 2, height / 2 - 200);
             mainButton.display(this);

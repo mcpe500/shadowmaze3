@@ -489,7 +489,7 @@ public class Level4 extends Level {
             amp.input(sound);
 
             int[] file = FileManager.openFile();
-            if (file[3] < time)
+            if (time<file[3])
                 file[3] = time;
             FileManager.writeToFile(file);
         }

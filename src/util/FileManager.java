@@ -25,7 +25,7 @@ public class FileManager {
     }
 
     public static int[] decodeFile(ArrayList<String> file) {
-        int[] output = new int[]{0,0,0,0,0,0};
+        int[] output = new int[]{99999,99999,99999,99999,99999};
         for (int i=0; i<file.size(); i++) {
             output[i] = Integer.parseInt(file.get(i));
         }
