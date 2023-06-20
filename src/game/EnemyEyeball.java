@@ -2,7 +2,6 @@ package src.game;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import src.game.Interface.Collidable;
 
 public class EnemyEyeball extends Enemy {
     private PImage image;

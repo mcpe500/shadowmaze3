@@ -1,7 +1,6 @@
     package src.game.level;
 
     import java.util.ArrayList;
-    import java.util.PriorityQueue;
     import java.util.Random;
 
     import processing.core.PApplet;
@@ -103,8 +102,6 @@
 
         @Override
         public void setup() {
-            int sizeX = 40;
-            int sizeY = 40;
             map = mazeGenerator.generateMaze();
             // map = genEmptyMap(sizeX, sizeY);
             // randomMap(1, 1, map);
@@ -226,6 +223,10 @@
                                 holyGrenade.onCollision(player);
                                 if (holyGrenade.beenPickedUp()) {
                                     this.tileMap[i][j] = new Stonefloor(parent, 32, 32, j * 32 + 100, i * 32 + 100);
+                                    SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_pickup.mp3");
+                                    sound.play();
+                                    Amplitude amp = new Amplitude(this);
+                                    amp.input(sound);
                                 }
                             }
                         }

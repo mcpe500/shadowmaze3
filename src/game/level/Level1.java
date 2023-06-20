@@ -4,7 +4,6 @@ import src.Main;
 import src.game.CurrentMap;
 import src.game.Enemy;
 import src.game.EnemyEyeball;
-import src.game.EnemySolid;
 import src.game.Karakter;
 import src.game.Player;
 import src.game.Tile.Beartrap;
@@ -66,7 +65,7 @@ public class Level1 extends Level {
         this.map = MapLoader.tileMap(parent, strMap, 32, 100, 100);
         mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
         restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
-        nextButton.setImage(loadImage("../assets/buttons/next_button.png"));
+        nextButton.setImage(loadImage("../assets/buttons/nextLevel_button.png"));
         gameOver = loadImage("../assets/buttons/gameover.png");
         levelClear = loadImage("../assets/buttons/level_clear.png");
         player.setImage(loadImage("../assets/sprites/player.png"));

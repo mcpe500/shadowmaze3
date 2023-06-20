@@ -244,6 +244,10 @@ public class Level5 extends Level {
                             holyGrenade.onCollision(player);
                             if (holyGrenade.beenPickedUp()) {
                                 this.map[i][j] = new Stonefloor(parent, 32, 32, j * 32 + 100, i * 32 + 100);
+                                SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_pickup.mp3");
+                                sound.play();
+                                Amplitude amp = new Amplitude(this);
+                                amp.input(sound);
                             }
                         }
                     }

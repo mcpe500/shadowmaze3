@@ -4,7 +4,6 @@ import java.util.Random;
 
 import src.game.Interface.Collidable;
 import src.game.Interface.Pathfinding;
-import src.game.Tile.Tile;
 
 public abstract class Enemy extends Karakter implements Collidable, Pathfinding {
     protected Random random;

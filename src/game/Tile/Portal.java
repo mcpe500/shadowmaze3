@@ -2,9 +2,7 @@ package src.game.Tile;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import src.game.Player;
 import src.game.Interface.Collidable;
-import src.util.AssetLoader;
 
 public class Portal extends Tile implements Collidable {
     public Portal(PApplet parent, float width, float height, int x, int y) {

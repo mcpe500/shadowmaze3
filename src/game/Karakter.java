@@ -2,7 +2,6 @@ package src.game;
 
 import processing.core.PApplet;
 import src.game.Interface.Movable;
-import src.util.FileManager;
 
 public abstract class Karakter implements Movable {
 

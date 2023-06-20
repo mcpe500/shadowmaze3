@@ -1,12 +1,10 @@
 package src.game;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import src.game.Interface.Collidable;
-import src.game.Tile.Portal;
 
 public class Player extends Karakter implements Collidable {
     private boolean up, down, left, right, flash;

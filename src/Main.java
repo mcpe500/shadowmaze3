@@ -4,7 +4,6 @@ import src.util.Button;
 import src.util.FileManager;
 import src.util.Node;
 import src.util.ScoreManager;
-import src.game.level.Level;
 import src.game.level.Level1;
 import src.game.level.Level2;
 import src.game.level.Level3;
@@ -77,8 +76,8 @@ public class Main extends PApplet {
         level5Button = new Button(900, 400, 150, 80, "Level 5");
         nextButton = new Button(900, 280, 250, 100, "Next");
         prevButton = new Button(100, 280, 250, 100, "Previous");
-        nextButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
-        prevButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+        nextButton.setImage(loadImage("../assets/buttons/next_button.png"));
+        prevButton.setImage(loadImage("../assets/buttons/prev_button.png"));
         if (file[1] == 99999) {
             level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
             level2Button.setEnabled(false);

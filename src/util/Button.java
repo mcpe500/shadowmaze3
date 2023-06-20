@@ -97,4 +97,8 @@ public class Button {
     public void setX(int x) {
         this.x = x;
     }
+
+    public String getLabel() {
+        return this.label;
+    }
 }

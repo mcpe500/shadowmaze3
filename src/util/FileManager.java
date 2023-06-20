@@ -17,6 +17,7 @@ public class FileManager {
             while((line=in.readLine())!=null) {
                 input.add(line);
             }
+            in.close();
         } catch (IOException ex) {
             System.out.println("File not found");
         }

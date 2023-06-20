@@ -2,8 +2,6 @@ package src.util;
 
 import processing.core.PImage;
 
-import com.jsyn.unitgen.PinkNoise;
-
 import processing.core.PApplet;
 
 public class AssetLoader {
