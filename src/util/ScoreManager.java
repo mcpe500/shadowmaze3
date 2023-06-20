@@ -27,7 +27,7 @@ public class ScoreManager {
         ArrayList<Node> output = new ArrayList<>();
         for (String string : input) {
             String[] temp = string.split("-");
-            output.add(new Node(Long.parseLong(temp[1]), ""));
+            output.add(new Node(Long.parseLong(temp[1]), temp[0]));
         }
         return output;
     }

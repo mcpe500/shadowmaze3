@@ -15,6 +15,7 @@ import src.util.Button;
 import src.util.MapLoader;
 import src.util.MazeGenerator;
 import src.util.ScoreManager;
+import src.util.TextInput;
 import src.util.Node;
 
 public class LevelVersus extends Level {
@@ -436,7 +437,7 @@ public class LevelVersus extends Level {
                 }
             }
 
-            if(this.lastPlayerHideState != player.isHiding()) {
+            if (this.lastPlayerHideState != player.isHiding()) {
                 this.lastPlayerHideState = player.isHiding();
                 SoundFile sound = new SoundFile(this, "../assets/sounds/sfx_trapdoor.mp3");
                 sound.play();
@@ -503,7 +504,7 @@ public class LevelVersus extends Level {
                 y = random.nextInt(2, tileMap.length - 2);
             }
 
-            EnemyEyeball enemyEyeball = new EnemyEyeball(x*32+100, y*32+100, 2, 100, 10, 22, 22);
+            EnemyEyeball enemyEyeball = new EnemyEyeball(x * 32 + 100, y * 32 + 100, 2, 100, 10, 22, 22);
             enemyEyeball.setImage(loadImage("../assets/sprites/eyeball.png"));
             enemies.add(enemyEyeball);
         }
@@ -518,38 +519,38 @@ public class LevelVersus extends Level {
                 y = random.nextInt(2, tileMap.length - 2);
             }
 
-            EnemySolid enemySolid = new EnemySolid(x*32+100, y*32+100, 2, 100, 10, 18, 24);
+            EnemySolid enemySolid = new EnemySolid(x * 32 + 100, y * 32 + 100, 2, 100, 10, 18, 24);
             enemySolid.setImage(loadImage("../assets/sprites/demon.png"));
             enemies.add(enemySolid);
         }
     }
 
     public boolean validEnemyPlace(Tile[][] tileMap, int x, int y) {
-        return ((tileMap[y][x] instanceof Stonefloor) && !((x>=2 && x<=4) && (y>=2 && y<=4)));
+        return ((tileMap[y][x] instanceof Stonefloor) && !((x >= 2 && x <= 4) && (y >= 2 && y <= 4)));
     }
 
     public ArrayList<Explosion> putExplodeTile(Tile[][] tileMap, Player player) {
-        int minX = Math.max(2, player.getMapPosX()-5);
-        int maxX = Math.min(tileMap[0].length-2, player.getMapPosX()+5);
-        int minY = Math.max(2, player.getMapPosY()-5);
-        int maxY = Math.min(tileMap.length-2, player.getMapPosY()+5);
+        int minX = Math.max(2, player.getMapPosX() - 5);
+        int maxX = Math.min(tileMap[0].length - 2, player.getMapPosX() + 5);
+        int minY = Math.max(2, player.getMapPosY() - 5);
+        int maxY = Math.min(tileMap.length - 2, player.getMapPosY() + 5);
         ArrayList<Explosion> explodeTile = new ArrayList<>();
 
         for (int i = minY; i <= maxY; i++) {
             for (int j = minX; j <= maxX; j++) {
                 if (Math.abs(player.getMapPosX() - j) + Math.abs(player.getMapPosY() - i) <= 5) {
-                    explodeTile.add(new Explosion(this, 32, 32, j*32+100, i*32+100));
+                    explodeTile.add(new Explosion(this, 32, 32, j * 32 + 100, i * 32 + 100));
                 }
-            }   
+            }
         }
 
         return explodeTile;
     }
 
     public void checkExplodeTile(ArrayList<Explosion> explodeTile) {
-        for (int i = explodeTile.size()-1; i>=0; i--) {
+        for (int i = explodeTile.size() - 1; i >= 0; i--) {
             explodeTile.get(i).decExplodeTime();
-            if (explodeTile.get(i).getExplodeTime()!=0) {
+            if (explodeTile.get(i).getExplodeTime() != 0) {
                 explodeTile.get(i).draw(this);
             } else {
                 explodeTile.remove(i);
@@ -602,7 +603,7 @@ public class LevelVersus extends Level {
             amp.input(sound);
 
             ArrayList<Node> file = ScoreManager.openFile();
-            file = ScoreManager.sort(file, new Node(time,file.size()));
+            file = ScoreManager.sort(file, new Node(time, ""));
             ScoreManager.writeToFile(file);
         }
 
