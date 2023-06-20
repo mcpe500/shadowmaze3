@@ -504,7 +504,7 @@
         public void keyReleased() {
             player.keyReleased(key);
             if (key == 'h') {
-                showHelp = true;
+                showHelp = false;
             }
         }
 
