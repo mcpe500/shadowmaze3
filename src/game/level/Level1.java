@@ -91,7 +91,45 @@ public class Level1 extends Level {
     }
 
     public void draw() {
-        if (run) {
+        // Show overlay help screen
+        if (showHelp) {
+            fill(0);
+            rect(0, 0, width, height);
+            fill(255);
+            textSize(25);
+            String helpText1 = "\tHelp\n" + 
+                                "Objective:\n" + 
+                                "- Escape the labyrinth alive through\n   a hole somewhere in the labyrinth\n\n" + 
+
+                                "Controls:\n" + 
+                                "W -> Up\n" +
+                                "A -> Left\n" +
+                                "S -> Down\n" +
+                                "D -> Right\n" +
+                                "H -> Show help\n" +
+                                "F -> Flashlight\n\n" +
+
+                                "Health:\n" +
+                                "- Starts at 100\n" +
+                                "- Will decrease when being attacked\n   by enemies or caught by traps\n\n";
+
+            String helpText2 =  "Time\n" +
+                                "- Starts when entering a level\n" +
+                                "- Stops when the level is cleared\n" +
+                                "- Check out the best time for a level in the Save.txt file\n\n" +
+
+                                "Flashlight:\n" +
+                                " - Hold 'F' to shine your flashlight\n" +
+                                "- If held too long, the flashlight will burn out and enter a cooldown phase\n" +
+                                "- During the cooldown phase, the flashlight will be unusable\n" +
+                                "- After a few seconds, the cooldown phase will be over and the flashlight\n   will be usable again\n\n" +
+
+                                "Eyeball:\n" +
+                                "- Deals 10 damage to the player\n" +
+                                "- Can be killed by using flashlight on them for a few seconds to blind them \n";
+            text(helpText1, 50, 50);
+            text(helpText2, width/2-150, 85);
+        } else if (run) {
             // Calculate the camera position to center the player on the screen
             float cameraX = player.getX() - width / 2;
             float cameraY = player.getY() - height / 2;
@@ -282,22 +320,6 @@ public class Level1 extends Level {
             if (player.isAtExit()) {
                 run = false;
             }
-            // Show overlah help screen
-            if (showHelp) {
-                fill(255, 60);
-                rect(-2000, -2000, 10000, 10000);
-                fill(0);
-                String helpText = "\tHelp\n" + 
-                "W -> Up\n" + 
-                "A -> Left\n" + 
-                "S -> Down\n" + 
-                "D -> Right\n" + 
-                "F -> Flashlight\n" +
-                "If you shine your flashlight \nfor a few seconds the enemies will die\n";
-                text(helpText, 440,200);
-            } else {
-                fill(255);
-            }
 
         } else {
             if (player.isAtExit()) {
@@ -313,7 +335,7 @@ public class Level1 extends Level {
     public void keyPressed() {
         player.keyPressed(key);
         if (key == 'h') {
-            showHelp = true;
+            if (run) showHelp = true;
         }
     }
 

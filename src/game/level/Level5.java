@@ -44,6 +44,7 @@ public class Level5 extends Level {
     private int time;
     private int currentSecond;
     private boolean lastPlayerHideState;
+    private boolean showHelp;
     private ArrayList<Explosion> explodeTile;
     private int nextShootPortal;
     private int[][] portalscoord;
@@ -62,6 +63,7 @@ public class Level5 extends Level {
         portalscoord = new int[2][2];
         currentSecond = second();
         this.lastPlayerHideState = false;
+        this.showHelp = false;
         this.explodeTile = new ArrayList<>();
         nextShootPortal = 0;
     }
@@ -203,7 +205,35 @@ public class Level5 extends Level {
     }
 
     public void draw() {
-        if (run) {
+        if (showHelp) {
+            fill(0);
+            rect(0, 0, width, height);
+            fill(255);
+            textSize(25);
+            String helpText1 = "\tHelp\n" + 
+                                "Objective:\n" + 
+                                "- Escape the labyrinth alive through a hole somewhere in the labyrinth\n\n" + 
+
+                                "Controls:\n" + 
+                                "W -> Up\n" +
+                                "A -> Left\n" +
+                                "S -> Down\n" +
+                                "D -> Right\n" +
+                                "H -> Show help\n" +
+                                "F -> Flashlight\n" +
+                                "E -> Hide\n" +
+                                "Space -> Shoot portal\n" +
+                                "T -> Teleport\n" +
+                                "P -> Pick Up item\n" +
+                                "Q -> Throw grenade";
+
+            String helpText2 = "Grenade:\n" +
+                                "- Press 'P' near the item to pick the grenade up\n" +
+                                "- If the player has one, press 'Q' to throw the grenade on the ground\n" +
+                                "- Kills every enemy within 5 tile distance from the player\n\n";
+            text(helpText1, 100, 50);
+            text(helpText2, 450, 215);
+        } else if (run) {
             // Calculate the camera position to center the player on the screen
             float cameraX = player.getX() - width / 2;
             float cameraY = player.getY() - height / 2;
@@ -519,11 +549,17 @@ public class Level5 extends Level {
     @Override
     public void keyPressed() {
         player.keyPressed(key);
+        if (key == 'h') {
+            if (run) showHelp = true;
+        }
     }
 
     @Override
     public void keyReleased() {
         player.keyReleased(key);
+        if (key == 'h') {
+            showHelp = false;
+        }
     }
 
     public ArrayList<Explosion> putExplodeTile(Tile[][] tileMap, Player player) {

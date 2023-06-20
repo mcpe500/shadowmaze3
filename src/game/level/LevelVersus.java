@@ -31,6 +31,7 @@
         private int time;
         private int currentSecond;
         private boolean lastPlayerHideState;
+        private boolean showHelp;
         private ArrayList<Explosion> explodeTile;
         private Random random;
         private MazeGenerator mazeGenerator;
@@ -58,6 +59,7 @@
             time = 0;
             currentSecond = second();
             this.lastPlayerHideState = false;
+            this.showHelp = false;
             this.explodeTile = new ArrayList<>();
             random = new Random();
             mazeGenerator = new MazeGenerator(width / 32 - 2, height / 32 - 2);
@@ -147,42 +149,31 @@
             return nMap;
         }
 
-        // public void randomMap(int startX, int startY, int[][] intMap) {
-        // int sizeX = intMap[0].length;
-        // int sizeY = intMap.length;
-        // intMap[startY][startX] = 0;
-        // int[][] possibleMove = { { 0, 2 }, { 2, 0 }, { 0, -2 }, { -2, 0 } };
-        // shuffle(possibleMove);
-        // for (int i = 0; i < possibleMove.length; i++) {
-        // int x1 = possibleMove[i][0];
-        // int y1 = possibleMove[i][1];
-        // int lx1 = startX + x1;
-        // int ly1 = startY + y1;
-        // int mx1 = startX + x1 / 2;
-        // int my1 = startY + y1 / 2;
-        // if (lx1 >= 0 && lx1 < sizeX && ly1 >= 0 && ly1 < sizeY) {
-        // if (intMap[ly1][lx1] == 1 && intMap[my1][mx1] == 1) {
-        // intMap[ly1][lx1] = 0;
-        // intMap[my1][mx1] = 0;
-        // randomMap(lx1, ly1, intMap);
-        // }
-        // }
-        // }
-        // }
-
-        // public void shuffle(int[][] shf) {
-        // Random random = new Random();
-        // for (int i = shf.length - 1; i > 0; i--) {
-        // int j = random.nextInt(i + 1);
-        // int[] temp = shf[i];
-        // shf[i] = shf[j];
-        // shf[j] = temp;
-        // }
-        // }
-
         @Override
         public void draw() {
-            if (run) {
+            if (showHelp) {
+                fill(0);
+                rect(0, 0, width, height);
+                fill(255);
+                textSize(25);
+                String helpText = "\tHelp\n" + 
+                                "Objective:\n" + 
+                                "- Escape the labyrinth alive through a hole somewhere in the labyrinth\n\n" + 
+
+                                "Controls:\n" + 
+                                "W -> Up\n" +
+                                "A -> Left\n" +
+                                "S -> Down\n" +
+                                "D -> Right\n" +
+                                "H -> Show help\n" +
+                                "F -> Flashlight\n" +
+                                "E -> Hide\n" +
+                                "Space -> Shoot portal\n" +
+                                "T -> Teleport\n" +
+                                "P -> Pick Up item\n" +
+                                "Q -> Throw grenade\n\n";
+                text(helpText, 100, 50);
+            } else if (run) {
                 // Calculate the camera position to center the player on the screen
                 float cameraX = player.getX() - width / 2;
                 float cameraY = player.getY() - height / 2;
@@ -504,11 +495,17 @@
         public void keyPressed() {
             player.keyPressed(key);
             textInput.keyPressed();
+            if (key == 'h') {
+                if (run) showHelp = true;
+            }
         }
 
         @Override
         public void keyReleased() {
             player.keyReleased(key);
+            if (key == 'h') {
+                showHelp = true;
+            }
         }
 
         public void putEyeball(Tile[][] tileMap, int eyeballCount, ArrayList<Enemy> enemies) {

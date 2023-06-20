@@ -14,7 +14,6 @@ public abstract class Karakter implements Movable {
     protected int mapPosX;
     protected int mapPosY;
     protected int[][] mapPos;
-    protected int[][][] nextMove;
 
     public Karakter(int x, int y, int moveSpeed, int health, int damage, int width, int height) {
         this.x = x;
@@ -25,7 +24,6 @@ public abstract class Karakter implements Movable {
         this.width = width;
         this.height = height;
         this.mapPos = new int[4][2]; // [topleft - topright - botleft - botright][x - y]
-        this.nextMove = new int[4][2][2]; // [up - down - left - right][left - right / up - down][x - y]
     }
 
     public int getMapPosX() {
@@ -46,10 +44,6 @@ public abstract class Karakter implements Movable {
 
     public void setMapPos(int[][] mapPos) {
         this.mapPos = mapPos;
-    }
-
-    public void setNextMove(int[][][] nextMove) {
-        this.nextMove = nextMove;
     }
 
     public int getId() {
@@ -129,56 +123,24 @@ public abstract class Karakter implements Movable {
         return mapPos[0][1] + 1 < maps.length - 1
                 && (maps[mapPos[0][1] + 1][mapPos[0][0]] == 0 || maps[mapPos[0][1] + 1][mapPos[0][0]] == id)
                 && (maps[mapPos[1][1] + 1][mapPos[1][0]] == 0 || maps[mapPos[1][1] + 1][mapPos[1][0]] == id);
-        // System.out.println("down");
-        // System.out.println((maps[nextMove[1][0][1]][nextMove[1][0][0]] == 0 ||
-        // maps[nextMove[1][0][1]][nextMove[1][0][0]] == id));
-        // System.out.println((maps[nextMove[1][1][1]][nextMove[1][1][0]] == 0 ||
-        // maps[nextMove[1][1][1]][nextMove[1][1][0]] == id));
-        // return nextMove[1][0][1] < maps.length-1 &&
-        // (maps[nextMove[1][0][1]][nextMove[1][0][0]] == 0 ||
-        // maps[nextMove[1][0][1]][nextMove[1][0][0]] == id) &&
-        // (maps[nextMove[1][1][1]][nextMove[1][1][0]] == 0 ||
-        // maps[nextMove[1][1][1]][nextMove[1][1][0]] == id);
     }
 
     public boolean canMoveUp(int[][] maps) {
         return mapPos[2][1] - 1 > 0
                 && (maps[mapPos[2][1] - 1][mapPos[2][0]] == 0 || maps[mapPos[2][1] - 1][mapPos[2][0]] == id)
                 && (maps[mapPos[3][1] - 1][mapPos[3][0]] == 0 || maps[mapPos[3][1] - 1][mapPos[3][0]] == id);
-        // return nextMove[0][0][1] > 0 && (maps[nextMove[0][0][1]][nextMove[0][0][0]]
-        // == 0 || maps[nextMove[0][0][1]][nextMove[0][0][0]] == id) &&
-        // (maps[nextMove[0][1][1]][nextMove[0][1][0]] == 0 ||
-        // maps[nextMove[0][1][1]][nextMove[0][1][0]] == id);
     }
 
     public boolean canMoveLeft(int[][] maps) {
         return mapPos[1][0] - 1 > 0
                 && (maps[mapPos[1][1]][mapPos[1][0] - 1] == 0 || maps[mapPos[1][1]][mapPos[1][0] - 1] == id)
                 && (maps[mapPos[3][1]][mapPos[3][0] - 1] == 0 || maps[mapPos[3][1]][mapPos[3][0] - 1] == id);
-        // return nextMove[2][0][0] > 0 && (maps[nextMove[2][0][1]][nextMove[2][0][0]]
-        // == 0 || maps[nextMove[2][0][1]][nextMove[2][0][0]] == id) &&
-        // (maps[nextMove[2][1][1]][nextMove[2][1][0]] == 0 ||
-        // maps[nextMove[2][1][1]][nextMove[2][1][0]] == id);
     }
 
     public boolean canMoveRight(int[][] maps) {
-        // for (int i = 0; i < maps.length; i++) {
-        // for (int j = 0; j < maps[i].length; j++) {
-        // System.out.print(maps[i][j] + "\t");
-        // }
-        // System.out.println();
-        // }
-        // System.out.println(mapPosX<maps[0].length-1);
-        // System.out.println(maps[mapPosY][mapPosX + 1] == 0);
-        // System.out.println(maps[mapPosY][mapPosX + 1]);
         return mapPos[0][1] + 1 < maps[0].length - 1
                 && (maps[mapPos[0][1]][mapPos[0][0] + 1] == 0 || maps[mapPos[0][1]][mapPos[0][0] + 1] == id)
                 && (maps[mapPos[2][1]][mapPos[2][0] + 1] == 0 || maps[mapPos[2][1]][mapPos[2][0] + 1] == id);
-        // return nextMove[3][0][0] < maps[0].length-1 &&
-        // (maps[nextMove[3][0][1]][nextMove[3][0][0]] == 0 ||
-        // maps[nextMove[3][0][1]][nextMove[3][0][0]] == id) &&
-        // (maps[nextMove[3][1][1]][nextMove[3][1][0]] == 0 ||
-        // maps[nextMove[3][1][1]][nextMove[3][1][0]] == id);
     }
 
     public void attack(Karakter target) {

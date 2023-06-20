@@ -37,6 +37,7 @@ public class Level2 extends Level {
     private boolean over;
     private int time;
     private int currentSecond;
+    private boolean showHelp;
 
     public Level2(PApplet parent) {
         super(parent);
@@ -51,6 +52,7 @@ public class Level2 extends Level {
         over = false;
         time = 0;
         currentSecond = second();
+        this.showHelp = false;
     }
 
     @Override
@@ -87,7 +89,30 @@ public class Level2 extends Level {
     }
 
     public void draw() {
-        if (run) {
+        if (showHelp) {
+            fill(0);
+            rect(0, 0, width, height);
+            fill(255);
+            textSize(24);
+            String helpText = "\tHelp\n" + 
+                                "Objective:\n" + 
+                                "- Escape the labyrinth alive through a hole somewhere in the labyrinth\n\n" + 
+
+                                "Controls:\n" + 
+                                "W -> Up\n" +
+                                "A -> Left\n" +
+                                "S -> Down\n" +
+                                "D -> Right\n" +
+                                "H -> Show help\n" +
+                                "F -> Flashlight\n\n" +
+
+                                "Beartrap:\n" +
+                                "- Deals 5 damage to the player when stepped on\n\n" +
+
+                                "Lava:\n" +
+                                "- Instantly kills the player when the player falls into it";
+            text(helpText, 100, 50);
+        } else if (run) {
             // Calculate the camera position to center the player on the screen
             float cameraX = player.getX() - width / 2;
             float cameraY = player.getY() - height / 2;
@@ -292,11 +317,17 @@ public class Level2 extends Level {
     @Override
     public void keyPressed() {
         player.keyPressed(key);
+        if (key == 'h') {
+            if (run) showHelp = true;
+        }
     }
 
     @Override
     public void keyReleased() {
         player.keyReleased(key);
+        if (key == 'h') {
+            showHelp = false;
+        }
     }
 
     public void gameOver() {
