@@ -158,7 +158,7 @@ public abstract class Enemy extends Karakter implements Collidable, Pathfinding 
         if (map[tempY][tempX] == 100) return 0;
         
         // down
-        tempY = getMapPosY()+1;
+        tempY = getMapPosY();
         while (tempY<map.length-1 && (map[tempY][tempX] == 0 || map[tempY][tempX] == getId())) {
             tempY++;
         }

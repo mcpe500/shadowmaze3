@@ -115,7 +115,7 @@
 
             mainButton.setImage(loadImage("../assets/buttons/main_button.png"));
             restartButton.setImage(loadImage("../assets/buttons/restart_button.png"));
-            confirmButton.setImage(loadImage("../assets/buttons/restart_button.png"));
+            confirmButton.setImage(loadImage("../assets/buttons/confirm_button.png"));
 
             gameOver = loadImage("../assets/buttons/gameover.png");
             levelClear = loadImage("../assets/buttons/level_clear.png");
@@ -309,20 +309,20 @@
                     }
                 }
 
-                player.display(this);
-                player.playerController(this);
-                for (int i = 0; i < enemies.size(); i++) {
-                    Enemy enemy = enemies.get(i);
-                    enemy.display(this);
-                    // enemy.moveController(player, currentMap.getMaps());
-                }
                 ArrayList<Karakter> karakter = new ArrayList<>();
                 karakter.add(player);
                 for (int i = 0; i < enemies.size(); i++) {
                     karakter.add(enemies.get(i));
                 }
                 currentMap.updateMap(karakter, 100, 100, 32, this.strMap);
-
+                player.display(this);
+                player.playerController(this);
+                for (int i = 0; i < enemies.size(); i++) {
+                    Enemy enemy = enemies.get(i);
+                    enemy.display(this);
+                    enemy.moveController(player, currentMap.getMaps());
+                }
+                
                 if (player.getThrowGrenade()) {
                     player.runGrenade(enemies);
                     this.explodeTile = putExplodeTile(tileMap, player);
@@ -626,7 +626,7 @@
             textInput.display();
             confirmButton.display(this);
             confirmButton.update(mouseX, mouseY, mousePressed);
-            if (confirmButton.isClicked()) {
+            if (confirmButton.isClicked() && !textInput.getText().isEmpty()) {
                 this.confirmInput = true;
                 ArrayList<Node> file = ScoreManager.openFile();
                 file = ScoreManager.sort(file, new Node(time, textInput.getText()));
@@ -689,7 +689,6 @@
                 fill(0, 255, 0, 100);
                 rect(0, 0, width, height);
                 
-                
                 over = true;
             }
             
@@ -707,7 +706,7 @@
             restartButton.display(this);
             restartButton.update(mouseX, mouseY, mousePressed);
             if (restartButton.isClicked()) {
-                String[] levStrings = { "Versus" };
+                String[] levStrings = { "Challenge" };
                 PApplet.runSketch(levStrings, new LevelVersus(parent));
                 surface.setVisible(false);
                 restartButton.setEnabled(false);
