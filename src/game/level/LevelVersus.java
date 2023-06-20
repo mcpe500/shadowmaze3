@@ -109,7 +109,7 @@
             // randomMap(1, 1, map);
             // map = newMap(map);
             tileMap = MapLoader.tileMap(parent, map, 32, 100, 100);
-            player = new Player(170, 170, 10, 100, 10, 32, 32);
+            player = new Player(170, 170, 5, 100, 10, 22, 22);
             player.setImage(loadImage("../assets/sprites/player.png"));
 
             mainButton.setImage(loadImage("../assets/buttons/main_button.png"));

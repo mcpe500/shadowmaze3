@@ -302,6 +302,9 @@ public class Level1 extends Level {
                 time++;
                 currentSecond = second();
             }
+            if (time<=10) {
+                text("Press 'H' for help", width/2-50, 100);
+            }
             text("Health : " + player.getHealth(), 50, 50);
             text("Time : " + time, width - 200, 50);
 

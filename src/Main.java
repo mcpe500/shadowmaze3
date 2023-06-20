@@ -78,25 +78,25 @@ public class Main extends PApplet {
         prevButton = new Button(100, 280, 250, 100, "Previous");
         nextButton.setImage(loadImage("../assets/buttons/next_button.png"));
         prevButton.setImage(loadImage("../assets/buttons/prev_button.png"));
-        if (file[1] == 99999) {
+        if (file[0] == 99999) {
             level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
             level2Button.setEnabled(false);
         } else {
             level2Button.setImage(loadImage("assets/buttons/level2.png"));
         }
-        if (file[2] == 99999) {
+        if (file[1] == 99999) {
             level3Button.setImage(loadImage("assets/buttons/level3_locked.png"));
             level3Button.setEnabled(false);
         } else {
             level3Button.setImage(loadImage("assets/buttons/level3.png"));
         }
-        if (file[3] == 99999) {
+        if (file[2] == 99999) {
             level4Button.setImage(loadImage("assets/buttons/level4_locked.png"));
             level4Button.setEnabled(false);
         } else {
             level4Button.setImage(loadImage("assets/buttons/level4.png"));
         }
-        if (file[4] == 99999) {
+        if (file[3] == 99999) {
             level5Button.setImage(loadImage("assets/buttons/level5_locked.png"));
             level5Button.setEnabled(false);
         } else {
