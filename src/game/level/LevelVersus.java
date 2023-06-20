@@ -224,7 +224,7 @@
                     }
                 }
 
-                if (player.isTeleport()) {
+                if (player.isTeleport() && portals[1]!=null) {
                     if (player.getX() >= portalscoord[0][0] && player.getX() <= portalscoord[0][0] + 32
                             && player.getY() >= portalscoord[0][1] && player.getY() <= portalscoord[0][1] + 32) {
                         player.setX(portalscoord[1][0]);
