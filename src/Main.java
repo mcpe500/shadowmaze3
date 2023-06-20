@@ -75,8 +75,10 @@ public class Main extends PApplet {
         level3Button = new Button(500, 400, 150, 80, "Level 3");
         level4Button = new Button(700, 400, 150, 80, "Level 4");
         level5Button = new Button(900, 400, 150, 80, "Level 5");
-        nextButton = new Button(515, 280, 250, 100, "Next");
-        prevButton = new Button(50, 280, 250, 100, "Previous");
+        nextButton = new Button(900, 280, 250, 100, "Next");
+        prevButton = new Button(100, 280, 250, 100, "Previous");
+        nextButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
+        prevButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
         if (file[1] == 0) {
             level2Button.setImage(loadImage("assets/buttons/level2_locked.png"));
             level2Button.setEnabled(false);
@@ -163,29 +165,23 @@ public class Main extends PApplet {
         rect(volumeSliderX, volumeSliderY, volumeSliderWidth, volumeSliderHeight);
         fill(0);
         rect(volumeSliderX, volumeSliderY, volume, volumeSliderHeight);
-
-        // Display volume percentage
         float volumePercentage = currentVolume * 100;
         String volumeText = "Volume menu: " + nf(volumePercentage, 0, 0) + "%";
         textSize(20);
         textAlign(CENTER, CENTER);
         fill(255);
         text(volumeText, width / 2, volumeSliderY - 30);
-
-        // Update currentVolume based on slider position
         if (mousePressed && mouseX >= volumeSliderX && mouseX <= volumeSliderX + volumeSliderWidth
                 && mouseY >= volumeSliderY && mouseY <= volumeSliderY + volumeSliderHeight) {
             float normalizedVolume = constrain(map(mouseX, volumeSliderX, volumeSliderX + volumeSliderWidth, 0, 1), 0,
                     1);
             currentVolume = normalizedVolume;
-            sound.amp(currentVolume); // Adjust the sound volume
+            sound.amp(currentVolume);
         }
 
         if (backButton.isClicked()) {
             goToPreviousPage();
         }
-
-        // ...
     }
 
     public void displayGameMenu() {
@@ -230,8 +226,8 @@ public class Main extends PApplet {
         }
     }
 
-    int currentHistoryPage = 1; // Track the current page number
-    int itemsPerPage = 8; // Number of items to display per page
+    int currentHistoryPage = 1; 
+    int itemsPerPage = 10;
 
     int prevButtonClickTime = 0;
     int nextButtonClickTime = 0;
@@ -240,11 +236,7 @@ public class Main extends PApplet {
         backButton.display(this);
         backButton.update(mouseX, mouseY, mousePressed);
         ArrayList<Node> hs = ScoreManager.openFile();
-
-        // Calculate the total number of pages
         int totalPages = (int) Math.ceil((double) hs.size() / itemsPerPage);
-
-        // Calculate the starting and ending indexes for the current page
         int startIndex = (currentHistoryPage - 1) * itemsPerPage;
         int endIndex = min(startIndex + itemsPerPage, hs.size());
 
@@ -259,8 +251,6 @@ public class Main extends PApplet {
         }
 
         // Initialize the buttons
-        nextButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
-        prevButton.setImage(loadImage("../assets/buttons/highscore_button.png"));
 
         // Draw the buttons
         nextButton.display(this);
