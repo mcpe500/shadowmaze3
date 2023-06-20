@@ -38,7 +38,7 @@ public class HolyGrenade extends Tile implements Collidable {
             if (c instanceof Player) {
                 Player p = (Player) c;
                 if (p.isPickingItem()) {
-                    p.setHasGrenade(true);
+                    p.incGrenadeCount();;
                     this.pickedUp = true;
                 }
             }

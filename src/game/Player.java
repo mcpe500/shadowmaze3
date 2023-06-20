@@ -23,7 +23,7 @@ public class Player extends Karakter implements Collidable {
     private boolean hiding;
     private boolean tookDamage;
     private boolean pickItem;
-    private boolean hasGrenade;
+    private int grenadeCount;
     private boolean throwGrenade;
     private boolean shootPortal, teleport;
 
@@ -45,7 +45,7 @@ public class Player extends Karakter implements Collidable {
         this.hiding = false;
         this.tookDamage = false;
         this.pickItem = false;
-        this.hasGrenade = false;
+        this.grenadeCount = 0;
         this.throwGrenade = false;
         this.shootPortal = false;
         this.teleport = false;
@@ -105,8 +105,8 @@ public class Player extends Karakter implements Collidable {
         } else if (key == 'p') {
             this.pickItem = true;
         } else if (key == 'q') {
-            if (this.hasGrenade) {
-                this.hasGrenade = false;
+            if (this.grenadeCount > 0) {
+                this.grenadeCount--;
                 this.throwGrenade = true;
             }
         } else if (key == ' ') {
@@ -176,12 +176,12 @@ public class Player extends Karakter implements Collidable {
         return this.pickItem;
     }
 
-    public void setHasGrenade(boolean hasGrenade) {
-        this.hasGrenade = hasGrenade;
+    public void incGrenadeCount() {
+        this.grenadeCount++;
     }
 
-    public boolean getHasGrenade() {
-        return this.hasGrenade;
+    public int getGrenadeCount() {
+        return this.grenadeCount;
     }
 
     public boolean getThrowGrenade() {
